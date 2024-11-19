@@ -14,7 +14,10 @@ router.get('/about', aboutController.getAbout);
 router.get('/contact', contactController.getContact);
 router.get('/list/:id', bookController.getBookById);
 router.get('/list', listController.getList);
+
 router.get('/signin', signinController.getSignin);
+router.post('/signin', signinController.postSignin);
 router.get('/signup', signupController.getSignup);
+router.post('/signup', signupController.postSignup);
 
 module.exports = router;

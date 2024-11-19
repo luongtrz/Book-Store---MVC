@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const session = require('express-session');
 const applyCorsMiddleware = require('./middlewares/corsMiddleware');
 const applyHelmetMiddleware = require('./middlewares/helmetMiddleware');
 const homeRoutes = require('./routes/homeRoutes');
@@ -31,6 +32,13 @@ app.set('views', path.join(__dirname, 'views'));
 applyCorsMiddleware(app);
 applyHelmetMiddleware(app);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'luongtrz',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes

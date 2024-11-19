@@ -1,17 +1,40 @@
 // components/users/services/userService.js
 const User = require('../../models/User');
-
-const registerUser = async (userData) => {
-  const user = new User(userData);
-  await user.save();
-  return user;
-};
+const bcrypt = require('bcrypt');
 
 const findUserByEmail = async (email) => {
-  return await User.findOne({ email });
+    try {
+        return await User.findOne({ email });
+    } catch (error) {
+        throw new Error('Error finding user by email');
+    }
+};
+
+const createUser = async (fullName, email, password) => {
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({
+            fullName,
+            email,
+            password: hashedPassword
+        });
+        await user.save();
+        return user;
+    } catch (error) {
+        throw new Error('Error creating user');
+    }
+};
+
+const validatePassword = async (password, hashedPassword) => {
+    try {
+        return await bcrypt.compare(password, hashedPassword);
+    } catch (error) {
+        throw new Error('Error validating password');
+    }
 };
 
 module.exports = {
-  registerUser,
-  findUserByEmail
+    findUserByEmail,
+    createUser,
+    validatePassword
 };
