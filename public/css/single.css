@@ -1,0 +1,16 @@
+#book-image {
+  width: 350px;
+  height: 500px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+#now-icon, #tomorrow-icon, #freeship-icon {
+  width: 36px;
+  height: auto;
+}
+
+#order-icon {
+  width: 24px;
+  height: auto;
+}
