@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const path = require('path');
 const session = require('express-session');
 const applyCorsMiddleware = require('./middlewares/corsMiddleware');
@@ -41,15 +42,39 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
 app.use('/', homeRoutes);
 
-app.use('/books', bookRoutes);
 app.use('/api/users', userRoutes);
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
 
-module.exports = app;
+
+// Cấu hình CSP với Helmet
+app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "'sha256-5+YTmTcBwCYdJ8Jetbr6kyjGp0Ry/H7ptpoun6CrSwQ='"],
+        styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+        // Các directive khác
+      }
+    }
+  }));
+  
+  // Cấu hình static files
+  app.use(express.static(path.join(__dirname, 'public')));
+  
+  // Cấu hình body parser để xử lý JSON
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  
+  // Sử dụng các routes
+  app.use('/books', bookRoutes);
+  
+  // Khởi động server
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+  
+  module.exports = app;

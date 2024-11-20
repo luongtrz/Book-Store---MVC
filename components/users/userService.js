@@ -12,10 +12,11 @@ const findUserByEmail = async (email) => {
 
 const createUser = async (fullName, email, password) => {
     try {
+        const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
             fullName,
             email,
-            password
+            password: hashedPassword
         });
         await user.save();
         return user;
