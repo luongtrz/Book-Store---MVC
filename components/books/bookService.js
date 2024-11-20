@@ -28,8 +28,22 @@ const getGenres = async () => {
   }
 };
 
+const getRelatedBooks = async (genre, bookId) => {
+  try {
+    const books = await Book.aggregate([
+      { $match: { genre: genre, _id: { $ne: bookId } } },
+      { $sample: { size: 4 } }
+    ]);
+    return books;
+  }
+  catch (error) {
+    throw new Error('Error fetching related books');
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookById,
-  getGenres
+  getGenres,
+  getRelatedBooks
 };
