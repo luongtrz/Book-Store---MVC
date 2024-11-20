@@ -7,6 +7,7 @@ const homeRoutes = require('./routes/homeRoutes');
 const bookRoutes = require('./components/books/bookRoutes');
 const userRoutes = require('./components/users/userRoutes');
 const connectDB = require('./config/database');
+const configureViewEngine = require('./config/viewEngine');
 
 const app = express();
 
@@ -14,32 +15,21 @@ const app = express();
 connectDB();
 
 // Set the view engine to Handlebars
-const { engine } = require('express-handlebars');
-app.engine('hbs', engine({
-    extname: 'hbs',
-    defaultLayout: 'main',
-    layoutsDir: path.join(__dirname, 'views/layouts'),
-    partialsDir: path.join(__dirname, 'views/partials'),
-    runtimeOptions: {
-        allowProtoPropertiesByDefault: true,
-        allowProtoMethodsByDefault: true,
-    }
-}));
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
+configureViewEngine(app);
 
 // Middleware
 applyCorsMiddleware(app);
 applyHelmetMiddleware(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-    secret: 'luongtrz',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
-}));
+
+const sessionMiddleware = require('./middlewares/sessionMiddleware');
+app.use(sessionMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Routes set user email
+const setUserEmail = require('./middlewares/setUserEmail');
+app.use(setUserEmail);
 
 app.use('/', homeRoutes);
 
