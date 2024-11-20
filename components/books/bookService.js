@@ -25,10 +25,19 @@ const getAllBooks = async (genre, author, price, purchaseCount) => {
 
 const getBookById = async (id) => {
   try {
-    const book = await Book.findOne({ id });
+    const book = await Book.findOne({ id: id});
     return book;
   } catch (error) {
     throw new Error('Error fetching book');
+  }
+};
+
+const getRelatedBooks = async (genre, excludeId) => {
+  try {
+    const relatedBooks = await Book.find({ genre, _id: { $ne: excludeId } }).limit(5);
+    return relatedBooks;
+  } catch (error) {
+    throw new Error('Error fetching related books');
   }
 };
 
@@ -116,15 +125,7 @@ const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searc
 module.exports = {
   getAllBooks,
   getBookById,
-  getGenres,
-  getAuthors,
-  getPrices,
-  filterBooks,
-  searchAndFilterBooks // Thêm hàm searchAndFilterBooks vào exports
-};
-module.exports = {
-  getAllBooks,
-  getBookById,
+  getRelatedBooks,
   getGenres,
   getAuthors,
   getPrices,
