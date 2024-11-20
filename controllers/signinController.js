@@ -9,7 +9,7 @@ exports.postSignin = async (req, res) => {
     try {
         const user = await userServices.findUserByEmail(email);
         if (!user) {
-            return res.status(400).render('signin', { title: 'Sign In Page', error: 'Invalid email or password' });
+            return res.status(400).render('signin', { title: 'Sign In Page', error: 'Invalid email' });
         }
 
         const isMatch = await userServices.validatePassword(password, user.password);
@@ -17,9 +17,10 @@ exports.postSignin = async (req, res) => {
             return res.status(400).render('signin', { title: 'Sign In Page', error: 'Invalid email or password' });
         }
 
-        // Lưu thông tin người dùng trong session
+        // Save user information in session
         req.session.userId = user._id;
-        res.render('signin', { title: 'Sign In Page', success: 'Login successful!' });
+        req.session.userEmail = user.email;
+        res.redirect('/home');
     } catch (error) {
         res.status(500).send('Server error');
     }

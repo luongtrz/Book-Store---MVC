@@ -42,3 +42,16 @@ updateTotalPrice(1, bookPrice);
 // Khởi tạo sự kiện cho các nút tăng/giảm số lượng
 initializeQuantityControls(bookPrice);
 
+// Lấy tất cả các thẻ có class 'related-title'
+const titles = document.querySelectorAll('.related-title');
+
+// Duyệt qua từng thẻ và kiểm tra độ dài
+titles.forEach((title) => {
+  const text = title.textContent.trim(); // Lấy nội dung văn bản
+  if (text.length > 15) {
+    title.textContent = text.slice(0, 15) + '...'; // Cắt còn 15 ký tự và thêm '...'
+  }
+});
+
+
+

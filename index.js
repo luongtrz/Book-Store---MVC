@@ -42,6 +42,10 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
+app.use((req, res, next) => {
+    res.locals.userEmail = req.session.userEmail;
+    next();
+});
 app.use('/', homeRoutes);
 app.use('/books', bookRoutes);
 app.use('/api/users', userRoutes);

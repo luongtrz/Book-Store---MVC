@@ -152,13 +152,32 @@
 
                 </ul>
             </div>
-
-
-
         </div>
         </div>
-
-        <script src="../scripts/single.js"></script>
+        <!-- related products -->
+        <div class="bg-white border-2 my-4 rounded-xl p-4 w-full pb-5" id="related-books">
+            <p class="font-bold text-black">Sản phẩm liên quan cùng thể loại</p>
+            <div class="flex overflow-x-auto gap-4 scroll-container">
+                {{#each relatedBooks}}
+                <div class="flex-shrink-0 snap-center">
+                    <a href="/list/{{this.id}}">
+                        <div class="card w-1/6">
+                            <img class="max-h-[150px] min-w-[150px] w-full object-cover rounded-md card-sub-img" src="{{this.image}}" alt="{{this.title}}" />
+                            <div class="card-content mt-2">
+                                <h3 class="text-lg font-medium wrap related-title">
+                                    <a class="wrap" href="/list/{{this.id}}">
+                                        {{this.title}}
+                                    </a>
+                                </h3>
+                                <b class="text-red-500 block">Prices: {{this.price}} VND</b>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <script src="/scripts/single.js"></script>
     </body>
 </section>
 

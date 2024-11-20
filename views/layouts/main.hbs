@@ -145,6 +145,14 @@
             <li class="nav-item">
               <a href="/contact" class="nav-link text-lg">Contact</a>
             </li>
+            {{#if userEmail}}
+            <li class="nav-item lg:hidden">
+              <div class="nav-link text-l">{{userEmail}}</div>
+            </li>
+            <li class="nav-item lg:hidden">
+              <a href="/logout" class="nav-link text-lg">Log out</a>
+            </li>
+            {{else}}
             <li class="nav-item mt-3.5 lg:hidden">
               <a class="btn btn-white btn-sm border-border text-lg" href="/signin"
                 >Sign In</a
@@ -153,12 +161,21 @@
                 >Sign Up Now</a
               >
             </li>
+            {{/if}}
           </ul>
+          {{#if userEmail}}
+          <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex">
+            <a class="btn btn-white btn-sm text-lg">{{userEmail}}</a>
+            <span class="mx-3 text-lg"> </span>
+            <a class="btn btn-white btn-sm text-lg" href="/logout">Log out</a>
+          </div>
+          {{else}}
           <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex">
             <a class="btn btn-white btn-sm text-lg" href="/signin">Sign In</a>
             <span class="mx-3 text-lg">or</span>
             <a class="btn btn-white btn-sm text-lg" href="/signup">Sign Up Now</a>
           </div>
+          {{/if}}
         </nav>
     </header>
 
@@ -284,8 +301,5 @@
       <!-- jQuery -->
       <!-- <script src="plugins/jquery/jquery.min.js"></script> -->
       <!-- Swiper JS -->
-      
-      <!-- Main Script -->
-      
 </body>
 </html>
