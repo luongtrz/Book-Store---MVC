@@ -8,12 +8,14 @@ const signinController = require('../controllers/signinController');
 const signupController = require('../controllers/signupController');
 const singleController = require('../controllers/singleController');
 const logoutController = require('../controllers/logoutController');
+const bookController = require('../components/books/bookController');
 
 router.get('/home', homeController.getHome);
 router.get('/', homeController.getHome);
 router.get('/about', aboutController.getAbout);
 router.get('/contact', contactController.getContact);
-router.get('/list/:id', singleController.getBook);
+
+router.get('/list/:id', bookController.getBookById);
 router.get('/list', listController.getList);
 
 router.get('/signin', signinController.getSignin);
