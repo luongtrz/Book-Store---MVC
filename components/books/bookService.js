@@ -32,7 +32,7 @@ const getRelatedBooks = async (genre, bookId) => {
   try {
     const books = await Book.aggregate([
       { $match: { genre: genre, _id: { $ne: bookId } } },
-      { $sample: { size: 4 } }
+      { $sample: { size: 6 } }
     ]);
     return books;
   }
