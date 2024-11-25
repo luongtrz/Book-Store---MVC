@@ -1,0 +1,140 @@
+<section class="">
+  <div class="container max-w-full">
+    <div class="row">
+      <div class="min-h-[980px] bg-white py-10 lg:col-6 lg:py-[114px]">
+        <div class="mx-auto w-full max-w-[480px]">
+          
+          <h1 class="mb-4 text-center text-4xl">Sign Up</h1>
+          
+          <div class="flex signin-options mt-10">
+            <a 
+              class="flex items-center justify-center btn btn-outline-white w-full text-dark border border-gray-300 rounded-lg py-2 px-4 hover:bg-gray-100 transition"
+              href="/auth/google"
+            >
+              <img 
+                src="/images/icon-google.png" 
+                alt="Google Logo" 
+                class="w-5 h-5 mr-2"
+                style="width: 20px; height: 20px;"
+              />
+              Log In With Google
+            </a>
+          </div>
+
+          <div
+            class="relative my-8 text-center after:absolute after:left-0 after:top-1/2 after:z-[0] after:w-full after:border-b after:border-border after:content-['']"
+          >
+            <span class="relative z-[1] inline-block bg-white px-2"
+              >Or Sign Up With Email</span
+            >
+          </div>
+
+          {{#if error}}
+            <p class="text-xl m-3" style="color: red;">{{error}}</p>
+          {{/if}}
+
+          {{#if success}}
+            <p class="text-xl m-3 flex" style="color: green;">{{success}}</p>
+           
+          {{/if}}
+
+          <form action="" method="POST" id="signupForm">
+            <div class="form-group">
+              <label for="name" class="form-label" id="">Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                class="form-control"
+                name="fullName"
+                placeholder="Your Full Name"
+                required
+              />
+            </div>
+            <div class="form-group mt-4">
+              <label for="email" class="form-label">Email Adrdess</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                name="email"
+                placeholder="Your Email Address"
+                required
+              />
+            </div>
+            <div class="form-group mt-4">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                name="password"
+                placeholder="Your Password"
+                required
+              />
+            </div>
+            <input
+              class="btn btn-primary mt-10 block w-full"
+              type="submit"
+              value="Sign Up"
+            />
+          </form>
+          
+          <!-- thông báo đăng kí -->
+          <div id="notification" class="notification" style="display: none;">
+            <span id="notification-message"></span>
+            <!--  -->
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="auth-banner bg-gradient flex flex-col items-center justify-center py-16 lg:col-6"
+      >
+        <img
+          class="absolute top-0 left-0 h-full w-full"
+          src="images/login-banner-bg.svg"
+          alt=""
+        />
+        <div class="w-full text-center">
+          <h2 class="h3 text-white">
+            Develop thinking ability, <br />
+            filter content, increase concentration.
+          </h2>
+          <div class="swiper auth-banner-carousel pt-16">
+            <div class="swiper-wrapper pb-16">
+              <div class="swiper-slide">
+                <img
+                  width="667"
+                  height="557"
+                  class="mx-auto"
+                  src="images/nhung-cau-noi-hay-ve-sach-1.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="swiper-slide">
+                <img
+                  width="667"
+                  height="557"
+                  class="mx-auto"
+                  src="images/nhung-cau-noi-hay-ve-sach-2.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="swiper-slide">
+                <img
+                  width="667"
+                  height="557"
+                  class="mx-auto"
+                  src="images/nhung-cau-noi-hay-ve-sach-3.jpg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="pagination"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/signup.js"></script>
+</section>

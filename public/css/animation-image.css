@@ -1,0 +1,17 @@
+.animated-image {
+    width: 100%;
+    max-width: 90%;
+    animation: zoomInOut 1s infinite, colorChange 3s infinite;
+}
+
+@keyframes zoomInOut {
+    70% {
+        transform: scale(1);
+    }
+    85% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
