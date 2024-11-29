@@ -2,7 +2,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const userService = require('../components/users/userService'); // Import the user service
+const userService = require('../components/users/userService');
 
 // Passport Local Strategy
 passport.use(new LocalStrategy(
@@ -23,6 +23,7 @@ passport.use(new LocalStrategy(
     }
   }
 ));
+
 
 // Passport Google Strategy
 passport.use(new GoogleStrategy({

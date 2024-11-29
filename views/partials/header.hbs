@@ -38,7 +38,7 @@
             </li>
             {{#if userEmail}}
             <li class="nav-item lg:hidden">
-                <div class="nav-link text-l">{{userEmail}}</div>
+                <div class="nav-link text-l">{{ userEmail}}</div>
             </li>
             <li class="nav-item lg:hidden">
                 <a href="/logout" class="nav-link text-lg">Log out</a>
@@ -51,8 +51,15 @@
             {{/if}}
         </ul>
         {{#if userEmail}}
-        <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex">
-            <a class="btn btn-white btn-sm text-lg">{{userEmail}}</a>
+        <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex relative">
+            <div class="relative group">
+                <a class="btn btn-white btn-sm text-lg cursor-pointer">Hi! {{userEmail}}</a>
+                <div
+                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/order">Order</a>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/profile">Profile</a>
+                </div>
+            </div>
             <span class="mx-3 text-lg"> </span>
             <a class="btn btn-white btn-sm text-lg" href="/logout">Log out</a>
         </div>

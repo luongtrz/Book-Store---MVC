@@ -2,14 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
-const passport = require('./config/passportConfig'); // Import the configured passport
+const passport = require('./config/passportConfig');
 const applyCorsMiddleware = require('./middlewares/corsMiddleware');
 const applyHelmetMiddleware = require('./middlewares/helmetMiddleware');
 const sessionMiddleware = require('./middlewares/sessionMiddleware');
 const homeRoutes = require('./routes/homeRoutes');
 const bookRoutes = require('./components/books/bookRoutes');
 const userRoutes = require('./components/users/userRoutes');
-const authRoutes = require('./routes/authRoutes'); // Import the authentication routes
+const authRoutes = require('./routes/authRoutes');
 const connectDB = require('./config/database');
 const configureViewEngine = require('./config/viewEngine');
 
@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(sessionMiddleware);
+app.use(express.urlencoded({ extended: false }));
 
 // Initialize Passport
 app.use(passport.initialize());
