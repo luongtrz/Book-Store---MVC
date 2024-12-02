@@ -25,7 +25,7 @@ exports.login = (req, res, next) => {
     })(req, res, next);
 };
 
-exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
+exports.googleAuth = passport.authenticate('google', { scope: ['cart','profile', 'email'] });
 
 exports.googleAuthCallback = (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/users/login' }, (err, user) => {

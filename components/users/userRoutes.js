@@ -19,4 +19,9 @@ router.get('/logout', userController.logout);
 
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 
+router.get('/cart', ensureAuthenticated, userController.CartUser);
+router.post('/cart/add', ensureAuthenticated, userController.addToCart);
+router.post('/cart/update', ensureAuthenticated, userController.updateCart);
+router.post('/cart/remove', ensureAuthenticated, userController.removeFromCart);
+
 module.exports = router;

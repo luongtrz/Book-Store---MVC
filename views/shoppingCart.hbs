@@ -1,0 +1,41 @@
+<h1>Shopping Cart</h1>
+<!-- floating assets -->
+<img class="floating-bubble-1 absolute right-0 top-0 -z-[1]" src="images/floating-bubble-1.svg" alt="" />
+<img class="floating-bubble-2 absolute left-0 top-[387px] -z-[1]" src="images/floating-bubble-2.svg" alt="" />
+<img class="floating-bubble-3 absolute right-0 top-[605px] -z-[1]" src="images/floating-bubble-3.svg" alt="" />
+<!-- ./end floating assets -->
+
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each cartItems}}
+        <tr>
+            <td>{{this.productName}}</td>
+            <td>
+                <form action="/cart/update" method="POST">
+                    <input type="hidden" name="productId" value="{{this.productId}}">
+                    <input type="number" name="quantity" value="{{this.quantity}}" min="1">
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+            <td>{{this.price}}</td>
+            <td>{{this.total}}</td>
+            <td>
+                <form action="/cart/remove" method="POST">
+                    <input type="hidden" name="productId" value="{{this.productId}}">
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<h2>Total Price: {{totalPrice}}</h2>

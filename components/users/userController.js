@@ -4,6 +4,9 @@ exports.profileUser = async (req, res) => {
   res.render('profile', { title: 'Profile Page' });
 }
 
+exports.CartUser = async (req, res) => {
+  res.render('shoppingCart', { title: 'Cart Page' });
+}
 exports.getSignup = (req, res) => {
   res.render('signup', { title: 'Sign Up Page' });
 };
@@ -37,4 +40,37 @@ exports.logout = (req, res) => {
           res.redirect('/users/login');
       });
   });
+};
+
+exports.addToCart = async (req, res) => {
+    const { productId, quantity } = req.body;
+    try {
+        await userServices.addToCart(req.user.id, productId, quantity);
+        res.redirect('/cart');
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        res.status(500).send('Server error');
+    }
+};
+
+exports.updateCart = async (req, res) => {
+    const { productId, quantity } = req.body;
+    try {
+        await userServices.updateCart(req.user.id, productId, quantity);
+        res.redirect('/cart');
+    } catch (error) {
+        console.error('Error updating cart:', error);
+        res.status(500).send('Server error');
+    }
+};
+
+exports.removeFromCart = async (req, res) => {
+    const { productId } = req.body;
+    try {
+        await userServices.removeFromCart(req.user.id, productId);
+        res.redirect('/cart');
+    } catch (error) {
+        console.error('Error removing from cart:', error);
+        res.status(500).send('Server error');
+    }
 };

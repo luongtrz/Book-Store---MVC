@@ -1,80 +1,3 @@
-// // components/users/services/userService.js
-// const User = require('../../models/User');
-// const bcrypt = require('bcrypt');
-
-// const findUserByEmail = async (email) => {
-//     try {
-//         return await User.findOne({ email });
-//     } catch (error) {
-//         throw new Error('Error finding user by email');
-//     }
-// };
-
-// const findUserByGoogleId = async (googleId) => {
-//     try {
-//       return await User.findOne({ googleId });
-//     } catch (error) {
-//       throw new Error('Error finding user by Google ID');
-//     }
-// };
-
-// const createUser = async (fullName, email, password) => {
-//     try {
-//         const user = new User({
-//             username: fullName,
-//             email,
-//             password
-//         });
-//         await user.save();
-//         return user;
-//     } catch (error) {
-//         throw new Error('Error creating user');
-//     }
-// };
-
-// const createUserWithGoogle = async (fullName, email, googleId) => {
-//     try {
-//         const user = new User({
-//             username: fullName,
-//             email,
-//             googleId
-//         });
-//         await user.save();
-//         return user;
-//     } catch (error) {
-//         console.error('Error details:', error);
-//         throw new Error('Error creating user with Google');
-//     }
-// };
-
-// const findUserById = async (id) => {
-//     try {
-//       return await User.findById(id);
-//     } catch (error) {
-//       throw new Error('Error finding user by ID');
-//     }
-// };
-
-
-// const validatePassword = async (password, hashedPassword) => {
-//     try {
-//         return await bcrypt.compare(password, hashedPassword);
-//     } catch (error) {
-//         throw new Error('Error validating password');
-//     }
-// };
-
-// module.exports = {
-//     findUserByEmail,
-//     findUserByGoogleId,
-//     findUserById,
-//     createUser,
-//     createUserWithGoogle,
-//     validatePassword
-// };
-
-
-// components/users/services/userService.js
 const User = require('../../models/User');
 const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
@@ -138,11 +61,44 @@ const validatePassword = async (password, hashedPassword) => {
     }
 };
 
+const addToCart = async (userId, productId, quantity) => {
+    try {
+        const user = await User.findByPk(userId);
+        // Logic to add product to user's cart
+        // ...
+    } catch (error) {
+        throw new Error('Error adding to cart');
+    }
+};
+
+const updateCart = async (userId, productId, quantity) => {
+    try {
+        const user = await User.findByPk(userId);
+        // Logic to update product quantity in user's cart
+        // ...
+    } catch (error) {
+        throw new Error('Error updating cart');
+    }
+};
+
+const removeFromCart = async (userId, productId) => {
+    try {
+        const user = await User.findByPk(userId);
+        // Logic to remove product from user's cart
+        // ...
+    } catch (error) {
+        throw new Error('Error removing from cart');
+    }
+};
+
 module.exports = {
     findUserByEmail,
     findUserByGoogleId,
     findUserById,
     createUser,
     createUserWithGoogle,
-    validatePassword
+    validatePassword,
+    addToCart,
+    updateCart,
+    removeFromCart
 };
