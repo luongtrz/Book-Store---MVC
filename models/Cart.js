@@ -8,18 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     user_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id',
-      },
     },
     book_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'books',
-        key: 'id',
-      },
     },
     amount: {
       type: DataTypes.INTEGER,
@@ -36,8 +28,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Cart.associate = (models) => {
-    Cart.belongsTo(models.User, { foreignKey: 'user_id' });
-    Cart.belongsTo(models.Book, { foreignKey: 'book_id' });
+    Cart.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+    Cart.belongsTo(models.Book, {
+      foreignKey: 'book_id',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
   };
 
   return Cart;
