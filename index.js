@@ -13,10 +13,15 @@ const userRoutes = require('./components/users/userRoutes');
 const configureViewEngine = require('./config/viewEngine');
 const sequelize = require('./config/postgreDB');
 
+const db = require('./models/model.index');
+
+
 const app = express();
 
 // // Connect to MongoDB
 // connectDB();
+
+
 
 //Connect to PostgreSQL
 sequelize.authenticate()
@@ -25,7 +30,16 @@ sequelize.authenticate()
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
-  });
+});
+
+// Sync the models with the database
+db.sequelize.sync()
+  .then(() => {
+    console.log('Database synchronized');
+  })
+  .catch(err => {
+    console.error('Error syncing database:', err);
+});
 // Set the view engine to Handlebars
 configureViewEngine(app);
 
@@ -56,7 +70,7 @@ app.use('/books', bookRoutes);
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server is running on port http://localhost:${PORT}`);
 });
 
 module.exports = app;

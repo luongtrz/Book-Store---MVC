@@ -1,4 +1,5 @@
 const bookService = require('../../books/bookService');
+const userService = require('../../users/userService');
 
 exports.getBook = async (req, res) => {
   try {
@@ -6,7 +7,12 @@ exports.getBook = async (req, res) => {
     if (book) {
       console.log('book.id:', book.id);
       const relatedBooks = await bookService.getRelatedBooks(book.genre, book.id);
-      res.render('singleBook', { book, relatedBooks });
+      
+      let contact = null;
+      if (req.user) {
+        contact = await userService.findContactByUserId(req.user.id);
+      }
+      res.render('singleBook', { book, relatedBooks,contact });
     } else {
       res.status(404).send('Book not found');
     }

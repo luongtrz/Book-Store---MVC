@@ -18,5 +18,6 @@ router.post('/signup', userController.postSignup);
 router.get('/logout', userController.logout);
 
 router.get('/profile', ensureAuthenticated, userController.profileUser);
+router.post('/profile', ensureAuthenticated, userController.postProfileUser);
 
 module.exports = router;

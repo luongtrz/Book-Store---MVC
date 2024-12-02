@@ -71,8 +71,14 @@
                 <p class="font-bold text-black">Thông tin vận chuyển</p>
 
                 <div class="flex justify-between border-b-2 ">
-                    <p id="book-delivery">Giao đến 227 Nguyễn Văn cừ, P.4, Q.5, Thành phố Hồ Chí Minh</p>
-                    <button class="p-1 font-bold text-blue-500" id="change-des">Đổi ngay</button>
+                    {{#if contact}}
+                        <p id="book-delivery">Giao đến <b class="text-red-500">{{contact.address}}</b></p>
+                    {{else}}
+                        <p id="book-delivery"><b class="text-red-500">Đăng nhập để chọn địa chỉ của bạn</b></p>
+                    {{/if}}
+                    <a href="/users/profile">
+                        <button class="p-1 font-bold text-blue-500" id="change-des">Đổi ngay</button>
+                    </a>
                 </div>
 
                 <div class="py-2 border-b-2">

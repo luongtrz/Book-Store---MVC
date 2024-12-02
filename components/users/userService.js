@@ -75,7 +75,8 @@
 
 
 // components/users/services/userService.js
-const User = require('../../models/User');
+const { User } = require('../../models/model.index')
+const { Contact } = require('../../models/model.index')
 const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 
@@ -130,6 +131,13 @@ const findUserById = async (id) => {
     }
 };
 
+const findContactByUserId = async (userId) => {
+    try {
+        return await Contact.findOne({ where: { user_id: userId } });
+    } catch (error) {
+        throw new Error('Error finding contact by user ID');
+    }
+}
 const validatePassword = async (password, hashedPassword) => {
     try {
         return await bcrypt.compare(password, hashedPassword);
@@ -138,11 +146,37 @@ const validatePassword = async (password, hashedPassword) => {
     }
 };
 
+const updateUserProfile = async (userId, name) => {
+    try {
+        await User.update({ username: name }, { where: { id: userId } });
+    } catch (error) {
+        throw new Error('Error updating user profile');
+    }
+};
+
+const updateUserContact = async (userId, address, phone) => {
+    try {
+      const contact = await Contact.findOne({ where: { user_id: userId } });
+      if (contact) {
+        // Update existing contact
+        await Contact.update({ address, phone }, { where: { user_id: userId } });
+      } else {
+        // Create new contact
+        await Contact.create({ user_id: userId, address, phone });
+      }
+    } catch (error) {
+      throw new Error('Error updating user contact');
+    }
+  };
+
 module.exports = {
     findUserByEmail,
     findUserByGoogleId,
     findUserById,
+    findContactByUserId,
     createUser,
     createUserWithGoogle,
-    validatePassword
+    validatePassword,
+    updateUserProfile,
+    updateUserContact
 };

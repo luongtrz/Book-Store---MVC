@@ -1,11 +1,27 @@
 const userServices = require('./userService');
 
 exports.profileUser = async (req, res) => {
-  res.render('profile', { title: 'Profile Page' });
+  const user = await userServices.findUserById(req.user.id);
+  const contact = await userServices.findContactByUserId(req.user.id);
+  console.log('user', user);
+  console.log('contact', contact);
+  res.render('profile', { title: 'Profile Page', user, contact });
 }
 
 exports.getSignup = (req, res) => {
   res.render('signup', { title: 'Sign Up Page' });
+};
+
+exports.postProfileUser = async (req, res) => {
+  const { name, address, phone } = req.body;
+  try {
+    await userServices.updateUserProfile(req.user.id, name);
+    await userServices.updateUserContact(req.user.id, address, phone);
+    res.redirect('/');
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).send('Server error');
+  }
 };
 
 exports.postSignup = async (req, res) => {

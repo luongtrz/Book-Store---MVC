@@ -144,7 +144,8 @@
 // };
 
 // components/books/bookService.js
-const Book = require('../../models/Book');
+const {Book} = require('../../models/model.index')
+const {Contact} = require('../../models/model.index')
 const { Sequelize } = require('sequelize');
 
 const getAllBooks = async (genre, author, price, purchaseCount) => {
@@ -172,6 +173,7 @@ const getAllBooks = async (genre, author, price, purchaseCount) => {
 const getBookByTitleId = async (title_id) => {
   try {
     const book = await Book.findOne({ where: { title_id } });
+    //console.log('book services:', book);
     return book;
   } catch (error) {
     throw new Error('Error fetching book by title_id');

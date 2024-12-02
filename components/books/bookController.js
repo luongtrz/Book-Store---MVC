@@ -13,6 +13,7 @@ const getBooks = async (req, res) => {
 const getBookById = async (req, res) => {
   try {
     const book = await bookService.getBookByTitleId(req.params.id);
+    console.log(book);
     if (book) {
       res.render('singleBook', { book });
     } else {
