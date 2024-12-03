@@ -1,0 +1,221 @@
+<style>
+    .warning {
+        background-color: #ffe6e6;
+        color: #d9534f;
+        padding: 10px;
+        border: 1px solid #d9534f;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .quantity-selector {
+        width: 60px; 
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+
+<section class="font-sans">
+    <div class="container mx-auto p-8 border border-gray-300 rounded-lg shadow-lg mb-40" style="width: 800px;">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold my-10">Book Order Form</h1>
+        </div>
+        <div class="warning">
+            <p>⚠️ You haven’t finished configuring this payment integration. Go to <strong>Payment Settings</strong> to configure your payment details and products.</p>
+        </div>
+        <div class="product-list space-y-4">
+            <div class="product-item flex items-center justify-between border-b pb-4">
+                <input type="checkbox" class="mr-4">
+                <img src="lost_in_time.jpg" alt="Lost in Time" class="w-12 h-12 mr-4">
+                <div class="product-details flex-grow">
+                    <p class="font-bold">Lost in Time</p>
+                    <p>Written By Mabel S Damon</p>
+                    <div class="flex items-center mt-2">
+                        <label for="quantity-lost_in_time" class="mr-2">Quantity:</label>
+                        <select id="quantity-lost_in_time" class="quantity-selector p-2 border rounded">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="product-price font-bold">$5.00</div>
+            </div>
+            <div class="product-item flex items-center justify-between border-b pb-4">
+                <input type="checkbox" class="mr-4">
+                <img src="green_me.jpg" alt="Green Me" class="w-12 h-12 mr-4">
+                <div class="product-details flex-grow">
+                    <p class="font-bold">Green Me</p>
+                    <p>Written By Jenifer M Fernandez</p>
+                    <div class="flex items-center mt-2">
+                        <label for="quantity-green_me" class="mr-2">Quantity:</label>
+                        <select id="quantity-green_me" class="quantity-selector p-2 border rounded">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="product-price font-bold">$6.00</div>
+            </div>
+            <div class="product-item flex items-center justify-between border-b pb-4">
+                <input type="checkbox" class="mr-4">
+                <img src="remember_me.jpg" alt="Remember Me Only Today" class="w-12 h-12 mr-4">
+                <div class="product-details flex-grow">
+                    <p class="font-bold">Remember Me Only Today</p>
+                    <p>Written By Jenifer M Fernandez</p>
+                    <div class="flex items-center mt-2">
+                        <label for="quantity-remember_me" class="mr-2">Quantity:</label>
+                        <select id="quantity-remember_me" class="quantity-selector p-2 border rounded">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="product-price font-bold">$6.50</div>
+            </div>
+            <div class="product-item flex items-center justify-between border-b pb-4">
+                <input type="checkbox" class="mr-4">
+                <img src="journey_in_desert.jpg" alt="Journey in Desert" class="w-12 h-12 mr-4">
+                <div class="product-details flex-grow">
+                    <p class="font-bold">Journey in Desert</p>
+                    <p>Written By Jenifer M Fernandez</p>
+                    <div class="flex items-center mt-2">
+                        <label for="quantity-journey_in_desert" class="mr-2">Quantity:</label>
+                        <select id="quantity-journey_in_desert" class="quantity-selector p-2 border rounded">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="product-price font-bold">$4.50</div>
+            </div>
+            <div class="product-item flex items-center justify-between border-b pb-4">
+                <input type="checkbox" class="mr-4">
+                <img src="closed_eyes.jpg" alt="Closed Eyes" class="w-12 h-12 mr-4">
+                <div class="product-details flex-grow">
+                    <p class="font-bold">Closed Eyes</p>
+                    <p>Written By Frank P Davis</p>
+                    <div class="flex items-center mt-2">
+                        <label for="quantity-closed_eyes" class="mr-2">Quantity:</label>
+                        <select id="quantity-closed_eyes" class="quantity-selector p-2 border rounded">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="product-price font-bold">$6.00</div>
+            </div>
+        </div>
+        <div class="coupon mt-8">
+            <label for="coupon-code" class="block mb-2">Coupon Code:</label>
+            <input type="text" id="coupon-code" class="w-full p-2 border rounded">
+            <button type="button" class="mt-2 w-full p-2 bg-blue-500 text-white rounded">Apply</button>
+        </div>
+        <div class="total text-right font-bold mt-4">
+            Total: $0.00
+        </div>
+        <form class="mt-8">
+            <div class="mb-4 flex space-x-4">
+                <div class="w-1/2">
+                    <label for="firstName" class="block mb-2">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name" class="w-full p-2 border rounded mb-2">
+                </div>
+                <div class="w-1/2">
+                    <label for="lastName" class="block mb-2">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" class="w-full p-2 border rounded">
+                </div>
+            </div>
+            <div class="mb-4 flex space-x-4">
+                <div class="w-1/2">
+                    <label for="email" class="block mb-2">Email</label>
+                    <input type="email" id="email" name="email" placeholder="example@example.com" class="w-full p-2 border rounded">
+                </div>
+                <div class="w-1/2">
+                    <label for="phoneNumber" class="block mb-2">Phone Number</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(000) 000-0000" class="w-full p-2 border rounded">
+                    <small class="block mt-2 text-gray-600">Please enter a valid phone number.</small>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="streetAddress" class="block mb-2">Billing Address</label>
+                <input type="text" id="streetAddress" name="streetAddress" placeholder="Street Address" class="w-full p-2 border rounded mb-2">
+                <input type="text" id="streetAddress2" name="streetAddress2" placeholder="Street Address Line 2" class="w-full p-2 border rounded mb-2">
+                <div class="flex space-x-4">
+                    <div class="w-1/2">
+                        <input type="text" id="city" name="city" placeholder="City" class="w-full p-2 border rounded mb-2">
+                    </div>
+                    <div class="w-1/2">
+                        <input type="text" id="state" name="state" placeholder="State / Province" class="w-full p-2 border rounded mb-2">
+                    </div>
+                </div>
+                <label for="postal" class="block mb-2">Postal / Zip Code</label>
+                <input type="text" id="postal" name="postal" class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-4">
+                <label for="notes" class="block mb-2">Notes</label>
+                <textarea id="notes" name="notes" placeholder="Type here..." class="w-full p-2 border rounded"></textarea>
+            </div>
+            <div class="payment-methods mb-4">
+                <label class="block mb-2">Payment Methods</label>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="card" name="payment" value="card" class="mr-2" onchange="togglePaymentDetails()">
+                    <label for="card">Debit or Credit Card</label>
+                </div>
+                <div id="card-details" class="hidden">
+                    <label for="card-number" class="block mb-2">Card Number</label>
+                    <input type="text" id="card-number" name="card-number" placeholder="XXXX-XXXX-XXXX-XXXX" class="w-full p-2 border rounded mb-2">
+                    
+                    <label for="expiry-date" class="block mb-2">Expiry Date</label>
+                    <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" class="w-full p-2 border rounded mb-2">
+                    
+                    <label for="cvv" class="block mb-2">CVV</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="123" class="w-full p-2 border rounded mb-2">
+                </div>
+                <div class="flex items-center">
+                    <input type="radio" id="paypal" name="payment" value="paypal" class="mr-2" onchange="togglePaymentDetails()">
+                    <label for="paypal">PayPal</label>
+                </div>
+                <div id="paypal-details" class="hidden">
+                    <label for="paypal-email" class="block mb-2">PayPal Email</label>
+                    <input type="email" id="paypal-email" name="paypal-email" placeholder="example@paypal.com" class="w-full p-2 border rounded">
+                </div>
+            </div>
+            <hr class="mb-10 mt-4">
+            <button type="submit" class="w-full p-2 bg-green-500 text-white rounded" style="background-color: green;">Submit Order</button>
+        </form>
+    </div>
+</section>
+<script>
+    function togglePaymentDetails() {
+        const cardDetails = document.getElementById('card-details');
+        const paypalDetails = document.getElementById('paypal-details');
+
+        const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+
+        if (selectedPayment === 'card') {
+            cardDetails.classList.remove('hidden');
+            paypalDetails.classList.add('hidden');
+        } else if (selectedPayment === 'paypal') {
+            paypalDetails.classList.remove('hidden');
+            cardDetails.classList.add('hidden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        togglePaymentDetails();
+    });
+</script>

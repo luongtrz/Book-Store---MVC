@@ -20,4 +20,6 @@ router.get('/logout', userController.logout);
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 router.post('/profile', ensureAuthenticated, userController.postProfileUser);
 
+router.get('/order', ensureAuthenticated, userController.getOrderPage);
+
 module.exports = router;

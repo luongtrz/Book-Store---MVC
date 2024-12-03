@@ -54,3 +54,7 @@ exports.logout = (req, res) => {
       });
   });
 };
+
+exports.getOrderPage = (req, res) => {
+  res.render('order', { title: 'Order Page' });
+};
