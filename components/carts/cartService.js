@@ -52,10 +52,15 @@ exports.addToCart = async (userId, bookId, amount) => {
   }
 };
 
-exports.updateCartItem = async (cartItemId, amount) => {
+exports.updateCartItem = async (bookId, userId, amount) => {
   try {
-    const cartItem = await Cart.findByPk(cartItemId);
-    const book = await Book.findByPk(cartItem.book_id);
+    const cartItem = await Cart.findOne({
+      where: { user_id: userId, book_id: bookId },
+    });
+    if (!cartItem) {
+      throw new Error('Cart item not found');
+    }
+    const book = await Book.findByPk(bookId);
     const total = book.price * amount;
 
     await cartItem.update({ amount, total });

@@ -21,13 +21,13 @@
           <ul class="flex justify-between">
             <li class="container-product text-gray-600">
               <div class="flex items-center space-x-4">
-                <span>Sản Phẩm</span>
+                <span>Book</span>
               </div>
             </li>
-            <li class="text-gray-600 -ml-10">Đơn Giá</li>
-            <li class="text-gray-600 -ml-10">Số Lượng</li>
-            <li class="text-gray-600 -ml-10">Số Tiền</li>
-            <li class="text-gray-600 -ml-10">Thao Tác</li>
+            <li class="text-gray-600 -ml-10">Price</li>
+            <li class="text-gray-600 -ml-10">Amount</li>
+            <li class="text-gray-600 -ml-10">Total</li>
+            <li class="text-gray-600 -ml-10">Delete</li>
           </ul>
         </nav>
       </div>
@@ -55,9 +55,10 @@
             </li>
             <li class="text-gray-600 -ml-10">
               <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <input type="number" value="{{this.amount}}" min="1" style="width: 70px; height: 41.5px;" class="text-center border rounded">
-                </div>
+                <form action="/users/cart/update/{{this.Book.id}}" method="POST" class="flex items-center">
+                  <input type="number" name="amount" value="{{this.amount}}" min="1" id="text-amount" style="width: 70px; height: 41.5px;" class="text-center border rounded">
+                  <button class="text-primary font-medium px-2" id="btn-update">Update</button> 
+                </form>
               </div>
             </li>
             <li class="text-gray-600 -ml-8 flex items-center">
@@ -65,7 +66,7 @@
             </li>
             <li class="text-gray-600 -ml-10 flex items-center" style="padding-right: 15px">
               <form action="/users/cart/remove/{{this.Book.id}}" method="POST">
-                <button type="submit" class="text-red-500">Xóa</button>
+                <button type="submit" class="text-red-500">Delete</button>
               </form>
             </li>
           </ul>
@@ -85,4 +86,5 @@
       </div>
     </header>
   </div>
+  <script src="/scripts/cart.js"></script>
 </section>

@@ -55,9 +55,31 @@ exports.getOrderHistory = async (userId) => {
       order: [['date_order', 'DESC']],
     });
 
-    return orders;
+    const formattedOrders = orders.map(order => {
+      const utcDate = new Date(order.date_order);
+
+      // Convert to VN UTC+7 timezone
+      const vietnamDate = new Date(utcDate.getTime() + 7 * 60 * 60 * 1000); // +7 giờ (GMT+7)
+
+      // Format datetime dd/MM
+      const formattedDate = vietnamDate.toLocaleString('vi-VN', {
+        hour: '2-digit',
+        minute: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+      });
+
+      return {
+        ...order.dataValues,
+        date_order: formattedDate,
+      };
+    });
+
+    return formattedOrders;
   } catch (error) {
     console.error('Error fetching order history:', error);
     throw new Error('Error fetching order history');
   }
 };
+
+

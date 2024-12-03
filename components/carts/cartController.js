@@ -20,13 +20,16 @@ exports.addToCart = async (req, res) => {
   }
 };
 
+
 exports.updateCartItem = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id: bookId } = req.params; // Extract bookId from params
+    const userId = req.user.id; // Extract userId from req.user
     const { amount } = req.body;
-    await cartService.updateCartItem(id, amount);
-    return res.status(200).send({ message: 'Đã thêm vào giỏ hàng thành công' });
+    await cartService.updateCartItem(bookId, userId, amount);
+    res.redirect('/users/cart'); 
   } catch (error) {
+    console.error('Error updating cart item in controller:', error);
     res.status(500).send('Error updating cart item in controller');
   }
 };
