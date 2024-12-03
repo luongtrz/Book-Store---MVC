@@ -39,17 +39,13 @@
                     </div>
 
                     <div class="flex justify-center p-2">
-                        <button class="border bg-red-500 text-white p-2 rounded-xl w-4/5" id="buy-now"
-                            onclick="window.location.href='signin.html'">
+                        <button class="border bg-red-500 text-white p-2 rounded-xl w-4/5" id="buy-now">
                             Mua ngay</button>
                     </div>
 
                     <div class="flex justify-center p-2">
-                        <button class="border text-blue-500 p-2 rounded-xl w-4/5" id="buy-now">Thêm vào giỏ
+                        <button class="border text-blue-500 p-2 rounded-xl w-4/5" id="add-cart">Thêm vào giỏ
                             hàng</button>
-                    </div>
-                    <div class="flex justify-center p-2">
-                        <button class="border text-blue-500 p-2 rounded-xl w-4/5" id="buy-now">Mua trả sau</button>
                     </div>
                 </div>
             </div>
@@ -65,6 +61,8 @@
                     <p id="book-sold">Đã bán {{book.sold}} cuốn</p>
                 </div>
             </div>
+
+            <input type="hidden" id="book-id" value="{{book.id}}">
 
             <!-- delivery -->
             <div class="bg-white border-2 my-4 rounded-xl p-4 pb-2">

@@ -55,6 +55,37 @@ window.addEventListener('load', () => {
   });
 });
 
+async function addToCart() {
+  try {
+    const bookId = document.getElementById('book-id').value;
+    const amount = document.getElementById('quantity').value;
+
+    console.log(bookId + " bookId");
+    console.log(amount + " amount");
+
+    const response = await fetch('/users/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ book_id: bookId, amount }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Response Error:', errorText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    alert('Added to cart');
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    alert('Error adding to cart');
+  }
+};
+
+document.getElementById('add-cart').addEventListener('click', addToCart);
+
 
 
 

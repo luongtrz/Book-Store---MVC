@@ -8,6 +8,18 @@ exports.profileUser = async (req, res) => {
   res.render('profile', { title: 'Profile Page', user, contact });
 }
 
+exports.orderUser = async (req, res) => {
+  try {
+    const user = (req.user.id);
+    const orderItem = await userServices.findBookByUserId(user);
+    console.log('book', book);
+    res.render('order', { title: 'Order Page',  orderItem});
+  }
+  catch (error) {
+    console.error('Error during order:', error);
+    res.status(500).send('Server error');
+  }
+}
 exports.getSignup = (req, res) => {
   res.render('signup', { title: 'Sign Up Page' });
 };

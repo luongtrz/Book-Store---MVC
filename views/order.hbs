@@ -1,0 +1,38 @@
+<section class="page-hero py-16 bg-gray-100">
+  <div class="container mx-auto mt-4">
+    <div class="w-full max-w-4xl mx-auto p-8 rounded-lg bg-white shadow-lg">
+      <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Order Summary</h1>
+      
+      {{#if orderItems.length}}
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th class="py-2">Book</th>
+              <th class="py-2">Quantity</th>
+              <th class="py-2">Price</th>
+              <th class="py-2">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each orderItems}}
+              <tr>
+                <td class="py-2">{{this.book.title}}</td>
+                <td class="py-2">{{this.amount}}</td>
+                <td class="py-2">{{this.book.price}} VND</td>
+                <td class="py-2">{{this.total}} VND</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <div class="mt-6 text-right">
+          <p class="text-xl font-bold">Total: {{orderTotal}} VND</p>
+          <form action="/users/order" method="POST">
+            <button type="submit" class="btn btn-primary mt-4">Place Order</button>
+          </form>
+        </div>
+      {{else}}
+        <p class="text-center text-gray-500">Your order is empty.</p>
+      {{/if}}
+    </div>
+  </div>
+</section>
