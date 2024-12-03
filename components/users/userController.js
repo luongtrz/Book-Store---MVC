@@ -8,6 +8,12 @@ exports.profileUser = async (req, res) => {
   res.render('profile', { title: 'Profile Page', user, contact });
 }
 
+
+exports.CartUser = async (req, res) => {
+  res.render('shoppingCart', { title: 'Cart Page' });
+}
+
+
 exports.getSignup = (req, res) => {
   res.render('signup', { title: 'Sign Up Page' });
 };

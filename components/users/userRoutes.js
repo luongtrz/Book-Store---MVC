@@ -19,5 +19,5 @@ router.get('/logout', userController.logout);
 
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 router.post('/profile', ensureAuthenticated, userController.postProfileUser);
-
+router.get('/cart', ensureAuthenticated, userController.CartUser);
 module.exports = router;
