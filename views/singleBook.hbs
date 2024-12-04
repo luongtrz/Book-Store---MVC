@@ -164,12 +164,12 @@
             <div class="flex overflow-x-auto gap-4 scroll-container">
                 {{#each relatedBooks}}
                 <div class="flex-shrink-0 snap-center">
-                    <a href="/list/{{this.id}}">
+                    <a href="/list/{{this.title_id}}">
                         <div class="card">
                             <img class="max-h-[150px] min-w-[150px] w-full object-cover rounded-md card-sub-img" src="{{this.image}}" alt="{{this.title}}" />
                             <div class="card-content mt-2">
                                 <h3 class="text-lg font-medium wrap related-title">
-                                    <a class="wrap" href="/list/{{this.id}}">
+                                    <a class="wrap" href="/list/{{this.title_id}}">
                                         {{this.title}}
                                     </a>
                                 </h3>

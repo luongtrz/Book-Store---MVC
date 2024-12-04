@@ -14,11 +14,6 @@
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold my-10">Book Payment</h1>
         </div>
-        <div class="warning">
-            <p>⚠️ You haven’t finished configuring this contact integration. Go to <a
-                    href="/users/profile"><strong>Profile Settings</strong></a> to configure your payment details and
-                products.</p>
-        </div>
         <div class="product-list space-y-4">
             {{#each cartItems}}
             <div class="product-item flex items-center justify-between border-b pb-4">
@@ -34,35 +29,43 @@
             </div>
             {{/each}}
         </div>
-        <div class="total text-right font-bold mt-4">
+        <div class="total text-right text-red-500 font-bold mt-4">
             Total: {{cartTotal}} VND
         </div>
+
         <form action="/users/payment/submit" method="POST" class="mt-8">
             <div class="mb-4 flex space-x-4">
                 <div class="w-full">
                     <label for="name" class="block mb-2">Name</label>
-                    <input disabled type="text" id="name" name="name" placeholder="Full Name" value="{{user.username}}"
+                    <input readonly type="text" id="name" name="name" placeholder="Full Name" value="{{user.username}}"
                         class="w-full p-2 border rounded mb-2">
                 </div>
             </div>
             <div class="mb-4 flex space-x-4">
                 <div class="w-1/2">
                     <label for="email" class="block mb-2">Email</label>
-                    <input disabled type="email" id="email" name="email" placeholder="example@example.com"
+                    <input readonly type="email" id="email" name="email" placeholder="example@example.com"
                         value="{{user.email}}" class="w-full p-2 border rounded">
                 </div>
                 <div class="w-1/2">
                     <label for="phoneNumber" class="block mb-2">Phone Number</label>
-                    <input disabled type="tel" id="phoneNumber" name="phoneNumber" placeholder="(000) 000-0000"
+                    <input readonly type="tel" id="phoneNumber" name="phoneNumber" placeholder="(000) 000-0000"
                         value="{{contact.phone}}" class="w-full p-2 border rounded">
-                    <small class="block mt-2 text-gray-600">Please enter a valid phone number.</small>
+                    <small class="block mt-2 text-gray-600">Please check or update a valid phone number.</small>
                 </div>
             </div>
             <div class="mb-4">
                 <label for="streetAddress" class="block mb-2">Address</label>
-                <input disabled type="text" id="streetAddress" name="streetAddress" placeholder="Your Full Address"
+                <input readonly type="text" id="streetAddress" name="streetAddress" placeholder="Your Full Address"
                     value="{{contact.address}}" class="w-full p-2 border rounded mb-2">
             </div>
+
+            <div id="warning-message" class="warning mt-10" style="display: none;">
+            <p>⚠️ You haven’t finished configuring this contact integration. Go to <a
+                    href="/users/profile"><strong>Profile Settings</strong></a> to configure your payment details and
+                products.</p>
+            </div>
+
             <div class="payment-methods mb-4">
                 <label class="block mb-2">Payment Methods</label>
                 <div class="flex items-center mb-2">
@@ -94,28 +97,9 @@
                 </div>
             </div>
             <hr class="mb-10 mt-4">
-            <button type="submit" class="w-full p-2 bg-green-500 text-white rounded"
+            <button type="submit" id="submit-order" class="w-full p-2 bg-green-500 text-white rounded"
                 style="background-color: green;">Submit Order</button>
         </form>
     </div>
+    <script src="/scripts/payment.js"></script>
 </section>
-<script>
-    function togglePaymentDetails() {
-        const cardDetails = document.getElementById('card-details');
-        const paypalDetails = document.getElementById('paypal-details');
-
-        const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
-
-        if (selectedPayment === 'card') {
-            cardDetails.classList.remove('hidden');
-            paypalDetails.classList.add('hidden');
-        } else if (selectedPayment === 'paypal') {
-            paypalDetails.classList.remove('hidden');
-            cardDetails.classList.add('hidden');
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        togglePaymentDetails();
-    });
-</script>

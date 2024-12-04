@@ -4,8 +4,11 @@
       <ul class="breadcrumb inline-flex h-8 items-center justify-center space-x-2 rounded-3xl bg-theme-light px-4 py-2">
         <li class="leading-none text-dark">
           <a class="inline-flex items-center text-primary" href="#">
-            <svg class="mr-1.5" width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.1769 15.0588H10.3533V9.41178H5.64744V15.0588H2.82391V6.58825H1.88274V16H14.118V6.58825H13.1769V15.0588ZM6.58862 15.0588V10.353H9.41215V15.0588H6.58862ZM15.8084 6.09225L15.2512 6.85178L8.00038 1.52472L0.749559 6.8499L0.192383 6.09131L8.00038 0.357666L15.8084 6.09225Z" fill="black" />
+            <svg class="mr-1.5" width="15" height="15" viewBox="0 0 16 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M13.1769 15.0588H10.3533V9.41178H5.64744V15.0588H2.82391V6.58825H1.88274V16H14.118V6.58825H13.1769V15.0588ZM6.58862 15.0588V10.353H9.41215V15.0588H6.58862ZM15.8084 6.09225L15.2512 6.85178L8.00038 1.52472L0.749559 6.8499L0.192383 6.09131L8.00038 0.357666L15.8084 6.09225Z"
+                fill="black" />
             </svg>
             <span class="text-sm leading-none">Home</span>
           </a>
@@ -42,7 +45,8 @@
               <div class="flex items-center space-x-4">
                 <div class="mr-4 flex space-x-3 items-center">
                   <div>
-                    <img src="{{this.Book.image}}" alt="{{this.Book.title}}" class="w-20 h-20 object-cover rounded-lg shadow-md">
+                    <img src="{{this.Book.image}}" alt="{{this.Book.title}}"
+                      class="w-20 h-20 object-cover rounded-lg shadow-md">
                   </div>
                   <div class="container-inforbook">
                     <h3 class="text-lg font-medium">{{this.Book.title}}</h3>
@@ -56,8 +60,9 @@
             <li class="text-gray-600 -ml-10">
               <div class="flex items-center justify-between">
                 <form action="/users/cart/update/{{this.Book.id}}" method="POST" class="flex items-center">
-                  <input type="number" name="amount" value="{{this.amount}}" min="1" id="text-amount" style="width: 70px; height: 41.5px;" class="text-center border rounded">
-                  <button class="text-primary font-medium px-2" id="btn-update">Update</button> 
+                  <input type="number" name="amount" value="{{this.amount}}" min="1" id="text-amount"
+                    style="width: 70px; height: 41.5px;" class="text-center border rounded">
+                  <button class="text-primary font-medium px-2" id="btn-update">Update</button>
                 </form>
               </div>
             </li>
@@ -78,9 +83,15 @@
     <header class="bg-white shadow-md mt-8">
       <div class="container mx-auto py-4 justify-between items-center">
         <nav class="w-full">
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center justify-between space-x-4">
             <span class="text-lg font-medium">Total Payment ({{cartItems.length}} Products): {{cartTotal}} VND</span>
-            <a href="/users/payment" class="justify-end bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark">Thanh Toán</a>
+            <div>
+              <a href="/list"
+                class="justify-end bg-red-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark mx-4">Shopping
+                more book</a>
+              <a href="/users/payment"
+                class="justify-end bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark">Payment</a>
+            </div>
           </div>
         </nav>
       </div>
