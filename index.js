@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('pg');
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
