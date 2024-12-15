@@ -7,6 +7,7 @@ function setupSortDialog() {
   document.getElementById('sort-filter').addEventListener('change', function() {
     const sortDialog = document.getElementById('sort-dialog');
     sortDialog.classList.remove('hidden');
+    sortDialog.classList.add('flex');
   });
 
   document.getElementById('sort-asc').addEventListener('click', function() {
@@ -22,7 +23,9 @@ function sortBooks(order) {
   const sortField = document.getElementById('sort-filter').value;
   // Implement sorting logic here
   // Hide the dialog after sorting
-  document.getElementById('sort-dialog').classList.add('hidden');
+  const sortDialog = document.getElementById('sort-dialog');
+  sortDialog.classList.add('hidden');
+  sortDialog.classList.remove('flex');
   // Fetch books with sorting
   fetchBooks(1, sortField, order); // Reset to first page with sorting
 }
