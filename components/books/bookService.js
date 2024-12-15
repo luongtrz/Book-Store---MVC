@@ -256,7 +256,7 @@ const searchBooks = async (searchText) => {
   }
 };
 
-const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText, page, limit }) => {
+const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText, page, limit, sortField, sortOrder }) => {
   const filters = {};
 
   if (genre && genre !== '') filters.genre = genre;
@@ -278,7 +278,9 @@ const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searc
   }
 
   const offset = (page - 1) * limit;
-  const books = await Book.findAll({ where: filters, offset, limit });
+  const order = sortField ? [[sortField, sortOrder]] : [];
+
+  const books = await Book.findAll({ where: filters, offset, limit, order });
   const totalBooks = await Book.count({ where: filters });
   const totalPages = Math.ceil(totalBooks / limit);
 

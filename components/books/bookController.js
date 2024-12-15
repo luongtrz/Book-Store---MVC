@@ -106,8 +106,8 @@ const searchBooks = async (req, res) => {
 
 const searchAndFilterBooks = async (req, res) => {
   try {
-    const { genre, author, purchaseCount, price, searchText, page = 1, limit = 4 } = req.body;
-    const { books, totalPages } = await bookService.searchAndFilterBooks({ genre, author, purchaseCount, price, searchText, page, limit });
+    const { genre, author, purchaseCount, price, searchText, page = 1, limit = 4, sortField, sortOrder } = req.body;
+    const { books, totalPages } = await bookService.searchAndFilterBooks({ genre, author, purchaseCount, price, searchText, page, limit, sortField, sortOrder });
     res.json({ books, totalPages });
   } catch (error) {
     console.error('Error searching and filtering books:', error);

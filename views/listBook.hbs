@@ -98,6 +98,18 @@
       </select>
     </li>
   </ul>
+
+  <ul class="filter-list" id="sort">
+    <li class="nav-item">
+      <select id="sort-filter" class="form-control px-2">
+        <option value="">Sắp xếp</option>
+        <option value="price">Theo Giá</option>
+        <option value="pages">Theo Số Trang</option>
+        <option value="sold">Theo lượt bán</option>
+      </select>
+    </li>
+  </ul>
+
   <ul class="filter-list" id="confirm-button">
     <div class="py-4">
       <button class="btn btn-primary" id="search-button">Confirm</button>
@@ -160,5 +172,15 @@
       <!-- Pagination controls -->
     </div>
   </div>
+
+  <!-- Dialog for sorting options -->
+  <div id="sort-dialog" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-4 rounded-lg">
+      <h2 class="text-lg mb-4">Chọn thứ tự sắp xếp</h2>
+      <button id="sort-asc" class="btn btn-primary mb-2">Tăng dần</button>
+      <button id="sort-desc" class="btn btn-primary">Giảm dần</button>
+    </div>
+  </div>
+
   <script src="/scripts/listbook.js"></script>
 </section>
