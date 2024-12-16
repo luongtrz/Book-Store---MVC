@@ -66,3 +66,22 @@ exports.logout = (req, res) => {
       });
   });
 };
+
+exports.getForgotPassword = (req, res) => {
+  res.render('forgotPassword', { title: 'Forgot Password' });
+};
+
+exports.postForgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await userServices.findUserByEmail(email);
+    if (!user) {
+      return res.status(400).render('forgotPassword', { error: 'Email not found' });
+    }
+    // Implement password reset logic here (e.g., send email with reset link)
+    res.render('forgotPassword', { success: 'Password reset link sent to your email' });
+  } catch (error) {
+    console.error('Error during password reset:', error);
+    res.status(500).send('Server error');
+  }
+};
