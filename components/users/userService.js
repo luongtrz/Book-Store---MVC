@@ -1,79 +1,3 @@
-// // components/users/services/userService.js
-// const User = require('../../models/User');
-// const bcrypt = require('bcrypt');
-
-// const findUserByEmail = async (email) => {
-//     try {
-//         return await User.findOne({ email });
-//     } catch (error) {
-//         throw new Error('Error finding user by email');
-//     }
-// };
-
-// const findUserByGoogleId = async (googleId) => {
-//     try {
-//       return await User.findOne({ googleId });
-//     } catch (error) {
-//       throw new Error('Error finding user by Google ID');
-//     }
-// };
-
-// const createUser = async (fullName, email, password) => {
-//     try {
-//         const user = new User({
-//             username: fullName,
-//             email,
-//             password
-//         });
-//         await user.save();
-//         return user;
-//     } catch (error) {
-//         throw new Error('Error creating user');
-//     }
-// };
-
-// const createUserWithGoogle = async (fullName, email, googleId) => {
-//     try {
-//         const user = new User({
-//             username: fullName,
-//             email,
-//             googleId
-//         });
-//         await user.save();
-//         return user;
-//     } catch (error) {
-//         console.error('Error details:', error);
-//         throw new Error('Error creating user with Google');
-//     }
-// };
-
-// const findUserById = async (id) => {
-//     try {
-//       return await User.findById(id);
-//     } catch (error) {
-//       throw new Error('Error finding user by ID');
-//     }
-// };
-
-
-// const validatePassword = async (password, hashedPassword) => {
-//     try {
-//         return await bcrypt.compare(password, hashedPassword);
-//     } catch (error) {
-//         throw new Error('Error validating password');
-//     }
-// };
-
-// module.exports = {
-//     findUserByEmail,
-//     findUserByGoogleId,
-//     findUserById,
-//     createUser,
-//     createUserWithGoogle,
-//     validatePassword
-// };
-
-
 // components/users/services/userService.js
 const { User } = require('../../models/model.index')
 const { Contact } = require('../../models/model.index')
@@ -168,6 +92,35 @@ const updateUserContact = async (userId, address, phone) => {
       throw new Error('Error updating user contact');
     }
   };
+  
+  const saveOtp = async (userId, otp) => {
+    try {
+        // Cập nhật trường `otp` của user với `userId`
+        await User.update({ otp }, { where: { id: userId } });
+    } catch (error) {
+        console.error('Error saving OTP:', error);
+        throw new Error('Failed to save OTP for the user');
+    }
+};
+
+
+const findUserByOtp = async (otp) => {
+    try {
+        return await User.findUserByOtp(otp);
+    } catch (error) {
+        throw new Error('Error finding user by OTP');
+    }
+};
+
+const updateUserPassword = async (userId, password) => {
+    try {
+        const user = await User.findByPk(userId);
+        user.password = password;
+        await user.save();
+    } catch (error) {
+        throw new Error('Error updating user password');
+    }
+};
 
 module.exports = {
     findUserByEmail,
@@ -178,5 +131,8 @@ module.exports = {
     createUserWithGoogle,
     validatePassword,
     updateUserProfile,
-    updateUserContact
+    updateUserContact,
+    saveOtp,
+    findUserByOtp,
+    updateUserPassword
 };
