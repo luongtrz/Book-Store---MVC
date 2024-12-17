@@ -1,6 +1,4 @@
 const userServices = require('./userService');
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.profileUser = async (req, res) => {
   const user = await userServices.findUserById(req.user.id);
@@ -81,53 +79,6 @@ exports.postForgotPassword = async (req, res) => {
     }
     // Implement password reset logic here (e.g., send email with reset link)
     res.render('forgotPassword', { success: 'Password reset link sent to your email' });
-  } catch (error) {
-    console.error('Error during password reset:', error);
-    res.status(500).send('Server error');
-  }
-};
-
-exports.getVerifyOtp = (req, res) => {
-  res.render('verifyOtp', { title: 'Verify OTP' });
-};
-
-exports.postVerifyOtp = async (req, res) => {
-  const { otp } = req.body;
-  try {
-    const user = await userServices.findUserByOtp(otp);
-    if (!user) {
-      return res.status(400).render('verifyOtp', { error: 'Invalid OTP' });
-    }
-
-    // OTP is valid, redirect to reset password page
-    req.session.userId = user.id;
-    res.redirect('/reset-password');
-  } catch (error) {
-    console.error('Error during OTP verification:', error);
-    res.status(500).send('Server error');
-  }
-};
-
-exports.getResetPassword = (req, res) => {
-  res.render('resetPassword', { title: 'Reset Password' });
-};
-
-exports.postResetPassword = async (req, res) => {
-  const { password, confirmPassword } = req.body;
-  if (password !== confirmPassword) {
-    return res.status(400).render('resetPassword', { error: 'Passwords do not match' });
-  }
-
-  try {
-    const userId = req.session.userId;
-    if (!userId) {
-      return res.status(400).render('resetPassword', { error: 'Invalid session' });
-    }
-
-    // Update user password
-    await userServices.updateUserPassword(userId, password);
-
-    res.render('resetPassword', { success: 'Password reset successfully' });
   } catch (error) {
     console.error('Error during password reset:', error);
     res.status(500).send('Server error');

@@ -23,11 +23,6 @@ router.get('/logout', userController.logout);
 router.get('/forgot-password', userController.getForgotPassword);
 router.post('/forgot-password', userController.postForgotPassword);
 
-router.get('/verify-otp', userController.getVerifyOtp);
-router.post('/verify-otp', userController.postVerifyOtp);
-
-router.get('/reset-password', userController.getResetPassword);
-router.post('/reset-password', userController.postResetPassword);
 
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 router.post('/profile', ensureAuthenticated, userController.postProfileUser);
