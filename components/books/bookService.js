@@ -1,152 +1,8 @@
-// // components/books/bookService.js
-// const Book = require('../../models/Book');
-
-// const getAllBooks = async (genre, author, price, purchaseCount) => {
-//   try {
-//     const filters = {};
-
-//     if (genre) filters.genre = genre;
-//     if (author) filters.author = author;
-//     if (purchaseCount) {
-//       const [minSold, maxSold] = purchaseCount.split('-').map(Number);
-//       filters.sold = { $gte: minSold, $lte: maxSold || Infinity };
-//     }
-//     if (price) {
-//       const [minPrice, maxPrice] = price.split('-').map(Number);
-//       filters.price = { $gte: minPrice, $lte: maxPrice || Infinity };
-//     }
-
-//     const books = await Book.find(filters);
-//     return books;
-//   } catch (error) {
-//     throw new Error('Error fetching books');
-//   }
-// };
-
-// const getBookById = async (id) => {
-//   try {
-//     const book = await Book.findOne({ id: id});
-//     return book;
-//   } catch (error) {
-//     throw new Error('Error fetching book');
-//   }
-// };
-
-// const getRelatedBooks = async (genre, excludeId) => {
-//   try {
-//     const relatedBooks = await Book.find({ genre, _id: { $ne: excludeId } }).limit(5);
-//     return relatedBooks;
-//   } catch (error) {
-//     throw new Error('Error fetching related books');
-//   }
-// };
-
-// const getGenres = async () => {
-//   try {
-//     const genres = await Book.distinct('genre');
-//     return genres;
-//   } catch (error) {
-//     throw new Error('Error fetching genres');
-//   }
-// };
-
-// const getAuthors = async () => {
-//   try {
-//     const authors = await Book.distinct('author');
-//     return authors;
-//   } catch (error) {
-//     throw new Error('Error fetching authors');
-//   }
-// };
-
-// const getPrices = async () => {
-//   try {
-//     const prices = await Book.distinct('price');
-//     return prices;
-//   } catch (error) {
-//     throw new Error('Error fetching prices');
-//   }
-// };
-
-
-
-// const filterBooks = async (filters) => {
-//   try {
-//     const books = await Book.find(filters);
-//     return books;
-//   } catch (error) {
-//     throw new Error('Error filtering books');
-//   }
-// };
-
-// const searchBooks = async (searchText) => {
-//   try {
-//     const searchTerms = searchText.split(' ').map(term => new RegExp(term, 'i'));
-//     const books = await Book.find({
-//       $or: [
-//         { title: { $in: searchTerms } },
-//         { description: { $in: searchTerms } }
-//       ]
-//     });
-//     return books;
-//   } catch (error) {
-//     throw new Error('Error searching books');
-//   }
-// };
-
-// const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText, page, limit }) => {
-//   const filters = {};
-
-//   if (genre && genre !== '') filters.genre = genre;
-//   if (author && author !== '') filters.author = author;
-  
-//   if (purchaseCount && purchaseCount !== '') {
-//     const [minSold, maxSold] = purchaseCount.split('-').map(Number);
-//     filters.sold = { 
-//       $gte: minSold, 
-//       $lte: maxSold || Infinity 
-//     };
-//   }
-
-//   if (price && price !== '') {
-//     const [minPrice, maxPrice] = price.split('-').map(Number);
-//     filters.price = {
-//       $gte: minPrice,
-//       $lte: maxPrice || Infinity
-//     };
-//   }
-
-//   if (searchText && searchText !== '') {
-//     filters.$or = [
-//       { title: { $regex: searchText, $options: 'i' } },
-//       { description: { $regex: searchText, $options: 'i' } }
-//     ];
-//   }
-
-//   const skip = (page - 1) * limit;
-//   const books = await Book.find(filters).skip(skip).limit(limit);
-//   const totalBooks = await Book.countDocuments(filters);
-//   const totalPages = Math.ceil(totalBooks / limit);
-
-//   return { books, totalPages };
-// };
-
-// module.exports = {
-//   getAllBooks,
-//   getBookById,
-//   getRelatedBooks,
-//   getGenres,
-//   getAuthors,
-//   getPrices,
-//   filterBooks,
-//   searchBooks,
-//   searchAndFilterBooks
-// };
-
 // components/books/bookService.js
 const {Book} = require('../../models/model.index')
 const {Contact} = require('../../models/model.index')
 const { Sequelize } = require('sequelize');
+const { Review } = require('../../models/model.index');
 
 const getAllBooks = async (genre, author, price, purchaseCount) => {
   try {
@@ -285,6 +141,32 @@ const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searc
   return { books, totalPages };
 };
 
+const getReviewsByBookId = async (bookId, page, limit) => {
+  try {
+    const offset = (page - 1) * limit;
+    const reviews = await Review.findAndCountAll({
+      where: { book_id: bookId },
+      offset,
+      limit,
+      include: [{ model: User, attributes: ['username'] }]
+    });
+    const totalPages = Math.ceil(reviews.count / limit);
+    return { reviews: reviews.rows, totalPages };
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    throw new Error('Error fetching reviews');
+  }
+};
+
+const addReview = async (bookId, userId, comment, rating) => {
+  try {
+    const review = await Review.create({ book_id: bookId, user_id: userId, comment, rating });
+    return review;
+  } catch (error) {
+    throw new Error('Error adding review');
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookByTitleId,
@@ -294,5 +176,7 @@ module.exports = {
   getPrices,
   filterBooks,
   searchBooks,
-  searchAndFilterBooks
+  searchAndFilterBooks,
+  getReviewsByBookId,
+  addReview,
 };

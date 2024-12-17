@@ -1,4 +1,5 @@
 const userServices = require('./userService');
+const passport = require('passport');
 
 exports.profileUser = async (req, res) => {
   const user = await userServices.findUserById(req.user.id);
@@ -20,6 +21,17 @@ exports.orderUser = async (req, res) => {
     res.status(500).send('Server error');
   }
 }
+
+exports.reviewUser = async (req, res) => {
+  try {
+    const user = await userServices.findUserById(req.user.id);
+    res.json({ userId: user.id });
+  } catch (error) {
+    console.error('Error fetching user for review:', error);
+    res.status(500).json({ error: 'Error fetching user for review' });
+  }
+};
+
 exports.getSignup = (req, res) => {
   res.render('signup', { title: 'Sign Up Page' });
 };

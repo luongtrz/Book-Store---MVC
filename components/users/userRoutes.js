@@ -22,7 +22,7 @@ router.get('/logout', userController.logout);
 
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 router.post('/profile', ensureAuthenticated, userController.postProfileUser);
-
+router.get('/review-user', ensureAuthenticated, userController.reviewUser);
 
 router.use('/order', ensureAuthenticated, orderRoute);
 router.use('/cart', ensureAuthenticated, cartRoute);

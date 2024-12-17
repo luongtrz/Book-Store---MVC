@@ -62,8 +62,6 @@
                 </div>
             </div>
 
-            <input type="hidden" id="book-id" value="{{book.id}}">
-
             <!-- delivery -->
             <div class="bg-white border-2 my-4 rounded-xl p-4 pb-2">
                 <p class="font-bold text-black">Thông tin vận chuyển</p>
@@ -156,8 +154,7 @@
 
                 </ul>
             </div>
-        </div>
-        </div>
+
         <!-- related products -->
         <div class="bg-white border-2 my-4 rounded-xl p-4 w-full pb-5" id="related-books">
             <p class="font-bold text-black">Sản phẩm liên quan cùng thể loại</p>
@@ -181,7 +178,50 @@
                 {{/each}}
             </div>
         </div>
+
+        <!-- reviews section -->
+        <input type="hidden" id="book-id" value="{{book.id}}">
+        <input type="hidden" id="user-id" value="">
+        <div class="bg-white border-2 my-4 rounded-xl p-4" id="reviews-section">
+            <p class="font-bold text-black">Đánh giá sản phẩm</p>
+            <div class="add-review" style="display: none;">
+                <h3>Thêm đánh giá</h3>
+                <textarea class="w-full mt-2 p-2 border rounded" id="review-comment" placeholder="Viết đánh giá của bạn..."></textarea>
+                <div class="star-rating flex gap-1 mt-2">
+                    <input type="radio" id="star-5" name="rating" value="5" />
+                    <label for="star-5">&#9733;</label>
+
+                    <input type="radio" id="star-4" name="rating" value="4" />
+                    <label for="star-4">&#9733;</label>
+
+                    <input type="radio" id="star-3" name="rating" value="3" />
+                    <label for="star-3">&#9733;</label>
+
+                    <input type="radio" id="star-2" name="rating" value="2" />
+                    <label for="star-2">&#9733;</label>
+
+                    <input type="radio" id="star-1" name="rating" value="1" />
+                    <label for="star-1">&#9733;</label>
+                </div>
+                <button class="border bg-red-500 text-white p-2 rounded-xl w-full mt-2" id="submit-review">Gửi đánh giá</button>
+            </div>
+            <p class="text-red-500" id="login-prompt" style="display: none;">Bạn cần <a href="/login" class="text-blue-500">đăng nhập</a> để thêm đánh giá.</p>
+            <div id="reviews-container" class="mt-4">
+                {{#each reviews}}
+                <div class="review p-2 border-b">
+                    <p><strong>{{this.User.username}}</strong>: {{this.comment}}</p>
+                    <p>Rating: {{this.rating}}</p>
+                </div>
+                {{/each}}
+            </div>
+            <div id="pagination-controls" class="flex justify-between mt-4">
+                <button id="prev-page" class="p-2 border rounded" disabled>Previous</button>
+                <span id="current-page">1</span>
+                <button id="next-page" class="p-2 border rounded">Next</button>
+            </div>
+        </div>
         <script src="/scripts/single.js"></script>
+        <script src="/scripts/fetchUserId.js"></script>
     </body>
 </section>
 
