@@ -31,4 +31,8 @@ router.use('/order', ensureAuthenticated, orderRoute);
 router.use('/cart', ensureAuthenticated, cartRoute);
 router.use('/payment', ensureAuthenticated, paymentRoute);
 
+
+router.get('/reset', authController.getResetPassword);
+router.post('/reset', authController.postResetPassword);
+
 module.exports = router;

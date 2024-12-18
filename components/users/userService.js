@@ -112,15 +112,26 @@ const findUserByOtp = async (otp) => {
     }
 };
 
-const updateUserPassword = async (userId, password) => {
+const updateUserPassword = async (email, newPassword) => {
     try {
-        const user = await User.findByPk(userId);
-        user.password = password;
-        await user.save();
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      console.log('Old password (hashed):', user.password);
+      user.password = newPassword; // Trigger `beforeUpdate`
+      await user.save();
+      console.log('New password (hashed):', user.password);
+      console.log(`Password updated successfully for user: ${email}`);
     } catch (error) {
-        throw new Error('Error updating user password');
+      console.error(`Error updating password for email ${email}:`, error);
+      throw new Error('Error updating user password');
     }
-};
+  };
+  
+  
+
+
 
 module.exports = {
     findUserByEmail,
