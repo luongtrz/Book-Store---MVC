@@ -20,8 +20,8 @@ router.get('/signup', userController.getSignup);
 router.post('/signup', userController.postSignup);
 router.get('/logout', userController.logout);
 
-router.get('/forgot-password', userController.getForgotPassword);
-router.post('/forgot-password', userController.postForgotPassword);
+router.get('/forgot-password', authController.getForgotPassword);
+router.post('/forgot-password', authController.postForgotPassword);
 
 
 router.get('/profile', ensureAuthenticated, userController.profileUser);
