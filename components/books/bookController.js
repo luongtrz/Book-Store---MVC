@@ -1,6 +1,15 @@
 // components/books/bookController.js
 const bookService = require('./bookService');
 
+const allBook = async (req, res) => {
+  try {
+    const books = await bookService.allBooks();
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching books' });
+  }
+}
+
 const getBooks = async (req, res) => {
   try {
     const books = await bookService.getAllBooks();
@@ -116,6 +125,7 @@ const searchAndFilterBooks = async (req, res) => {
 };
 
 module.exports = {
+  allBook,
   getBooks,
   getBookById,
   getGenres,

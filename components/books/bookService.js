@@ -148,6 +148,16 @@ const {Book} = require('../../models/model.index')
 const {Contact} = require('../../models/model.index')
 const { Sequelize } = require('sequelize');
 
+const allBooks = async (req, res) => {
+  try {
+    const books = await Book.findAll();
+    return books;
+  } catch (error) {
+    console.error('Error fetching books:', error);
+    res.status(500).json({ error: 'Error fetching books' });
+  }
+};
+
 const getAllBooks = async (genre, author, price, purchaseCount) => {
   try {
     const filters = {};
@@ -286,6 +296,7 @@ const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searc
 };
 
 module.exports = {
+  allBooks,
   getAllBooks,
   getBookByTitleId,
   getRelatedBooks,

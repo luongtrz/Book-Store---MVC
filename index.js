@@ -63,9 +63,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 const setUserEmail = require('./middlewares/setUserEmail');
 app.use(setUserEmail);
 
-app.use('/', homeRoutes);
 app.use('/users', userRoutes);
 app.use('/books', bookRoutes);
+app.use('/', homeRoutes);
 
 
 // Start the server
