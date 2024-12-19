@@ -1,8 +1,6 @@
 // components/books/bookService.js
-const {Book} = require('../../models/model.index')
-const {Contact} = require('../../models/model.index')
+const { Book, Review, User } = require('../../models/model.index');
 const { Sequelize } = require('sequelize');
-const { Review } = require('../../models/model.index');
 
 const getAllBooks = async (genre, author, price, purchaseCount) => {
   try {
@@ -151,7 +149,8 @@ const getReviewsByBookId = async (bookId, page, limit) => {
       include: [{ model: User, attributes: ['username'] }]
     });
     const totalPages = Math.ceil(reviews.count / limit);
-    return { reviews: reviews.rows, totalPages };
+    const averageRating = reviews.rows.reduce((acc, review) => acc + review.rating, 0) / reviews.count;
+    return { reviews: reviews.rows, totalPages, averageRating };
   } catch (error) {
     console.error('Error fetching reviews:', error);
     throw new Error('Error fetching reviews');
@@ -163,6 +162,7 @@ const addReview = async (bookId, userId, comment, rating) => {
     const review = await Review.create({ book_id: bookId, user_id: userId, comment, rating });
     return review;
   } catch (error) {
+    console.error('Error adding review:', error);
     throw new Error('Error adding review');
   }
 };

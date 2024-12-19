@@ -15,8 +15,8 @@ const getBookById = async (req, res) => {
     const book = await bookService.getBookByTitleId(req.params.id);
     console.log(book);
     if (book) {
-      const { reviews, totalPages } = await bookService.getReviewsByBookId(req.params.id, 1, 5);
-      res.render('singleBook', { book, reviews, totalPages, userId: req.user ? req.user.id : null });
+      const { reviews, totalPages, averageRating } = await bookService.getReviewsByBookId(req.params.id, 1, 5);
+      res.render('singleBook', { book, reviews, totalPages, averageRating, userId: req.user ? req.user.id : null });
     } else {
       res.status(404).send('Book not found');
     }
@@ -119,12 +119,12 @@ const searchAndFilterBooks = async (req, res) => {
 const getReviews = async (req, res) => {
   try {
     const { page = 1, limit = 5 } = req.query;
-    const { reviews, totalPages } = await bookService.getReviewsByBookId(req.params.id, page, limit);
+    const { reviews, totalPages, averageRating } = await bookService.getReviewsByBookId(req.params.id, page, limit);
     if (!reviews) {
       console.error('No reviews found');
       return res.status(404).json({ error: 'No reviews found' });
     }
-    res.json({ reviews, totalPages });
+    res.json({ reviews, totalPages, averageRating });
   } catch (error) {
     console.error('Error fetching reviews:', error);
     res.status(500).json({ error: 'Error fetching reviews', details: error.message });
@@ -133,11 +133,11 @@ const getReviews = async (req, res) => {
 
 const addReview = async (req, res) => {
   try {
-    const { comment, rating } = req.body;
-    const userId = req.session.userId; // Ensure userId is extracted from the logged-in user
+    const { comment, rating, userId } = req.body;
     const review = await bookService.addReview(req.params.id, userId, comment, rating);
     res.json(review);
   } catch (error) {
+    console.error('Error adding review:', error);
     res.status(500).json({ error: 'Error adding review' });
   }
 };

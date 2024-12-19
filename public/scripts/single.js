@@ -2,7 +2,7 @@ let bookPrice = document.getElementById("book-price").innerText;
 bookPrice = parseInt(bookPrice.replace(/\D/g, ''), 10);
 
 function updateTotalPrice(quantity, bookPrice) {
-  console.log(bookPrice+ "bookPrice");
+  console.log(bookPrice + " bookPrice");
   totalPrice = bookPrice * quantity;
   document.getElementById("total-price").innerText = totalPrice.toLocaleString();
 }
@@ -20,7 +20,7 @@ function initializeQuantityControls(bookPrice) {
   // Xử lý sự kiện tăng số lượng
   increaseBtn.addEventListener("click", () => {
     quantity++;
-    console.log(quantity + "quantity")
+    console.log(quantity + " quantity");
     quantityInput.value = quantity;
     decreaseBtn.disabled = quantity <= 1;
     updateTotalPrice(quantity, bookPrice);
@@ -86,11 +86,12 @@ document.getElementById('add-cart').addEventListener('click', addToCart);
 
 document.addEventListener('DOMContentLoaded', async () => {
   const bookId = document.getElementById('book-id').value;
-  const userId = document.getElementById('user-id').value;
   const reviewsContainer = document.getElementById('reviews-container');
   const prevPageButton = document.getElementById('prev-page');
   const nextPageButton = document.getElementById('next-page');
   const currentPageSpan = document.getElementById('current-page');
+  const totalPagesSpan = document.getElementById('total-pages');
+  const averageRatingSpan = document.getElementById('average-rating');
   let currentPage = 1;
 
   const loadReviews = async (page) => {
@@ -108,8 +109,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `).join('');
       currentPageSpan.textContent = page;
+      totalPagesSpan.textContent = data.totalPages;
       prevPageButton.disabled = page === 1;
       nextPageButton.disabled = page === data.totalPages;
+      averageRatingSpan.textContent = data.averageRating.toFixed(1);
     } catch (error) {
       console.error('Error loading reviews:', error);
     }
@@ -117,21 +120,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const submitReview = async () => {
     const comment = document.getElementById('review-comment').value;
-    const rating = document.querySelector('input[name="rating"]:checked').value;
+    const ratingElement = document.querySelector('input[name="rating"]:checked');
+    if (!comment || !ratingElement) {
+      alert('Please fill in both the comment and rating.');
+      return;
+    }
+    const rating = ratingElement.value;
+    const userId = document.getElementById('user-id').value;
+    console.log('Submitting review:', { comment, rating, userId });
     try {
       const response = await fetch(`/books/${bookId}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ comment, rating })
+        body: JSON.stringify({ comment, rating, userId })
       });
       if (response.ok) {
         document.getElementById('review-comment').value = '';
         document.querySelector('input[name="rating"]:checked').checked = false;
         loadReviews(currentPage);
       } else {
-        console.error('Error submitting review');
+        const errorText = await response.text();
+        console.error('Error submitting review:', errorText);
       }
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -150,16 +161,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadReviews(currentPage);
   });
 
-  if (userId) {
-    document.getElementById('submit-review').addEventListener('click', submitReview);
-  }
-
   try {
     const response = await fetch('/users/review-user');
     if (response.ok) {
       const data = await response.json();
       document.getElementById('user-id').value = data.userId;
       document.querySelector('.add-review').style.display = 'block';
+      console.log('Adding event listener to submit-review button');
+      const submitReviewButton = document.getElementById('submit-review');
+      if (submitReviewButton) {
+        submitReviewButton.addEventListener('click', submitReview);
+        console.log('Event listener added to submit-review button');
+      } else {
+        console.error('submit-review button not found');
+      }
     } else {
       document.getElementById('login-prompt').style.display = 'block';
     }
