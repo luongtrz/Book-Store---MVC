@@ -1,6 +1,15 @@
 // components/books/bookController.js
 const bookService = require('./bookService');
 
+const allBook = async (req, res) => {
+  try {
+    const books = await bookService.allBooks();
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching books' });
+  }
+}
+
 const getBooks = async (req, res) => {
   try {
     const books = await bookService.getAllBooks();
@@ -10,12 +19,12 @@ const getBooks = async (req, res) => {
   }
 };
 
-
 const getBookById = async (req, res) => {
   try {
-    const book = await bookService.getBookById(req.params.id);
+    const book = await bookService.getBookByTitleId(req.params.id);
+    console.log(book);
     if (book) {
-      res.render('singleBook', {book});
+      res.render('singleBook', { book });
     } else {
       res.status(404).send('Book not found');
     }
@@ -32,7 +41,6 @@ const getGenres = async (req, res) => {
     res.status(500).send('Error fetching genres');
   }
 };
-
 
 const getAuthors = async (req, res) => {
   try {
@@ -114,7 +122,9 @@ const searchAndFilterBooks = async (req, res) => {
     res.status(500).json({ error: 'Error searching and filtering books' });
   }
 };
+
 module.exports = {
+  allBook,
   getBooks,
   getBookById,
   getGenres,
@@ -123,5 +133,4 @@ module.exports = {
   filterBooks,  
   searchBooks,
   searchAndFilterBooks
-  
 };

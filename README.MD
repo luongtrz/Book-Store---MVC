@@ -27,4 +27,8 @@ contact: 22120199 (email hcmus) to obtain the required keys
 RUN THIS BEFORE 
 
 `npm run dev` 
+<<<<<<< HEAD
 HOSTING (http://localhost:5000)
+=======
+HOSTING (http://localhost:5000)
+>>>>>>> origin/mvc

@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, { message: 'Incorrect email.' });
       }
-      const isMatch = await user.comparePassword(password);
+      const isMatch = await userService.validatePassword(password, user.password);
       if (!isMatch) {
         return done(null, false, { message: 'Incorrect password.' });
       }
@@ -24,25 +24,24 @@ passport.use(new LocalStrategy(
   }
 ));
 
-
 // Passport Google Strategy
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/auth/google/callback'
+  callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/users/auth/google/callback'
 }, async (token, tokenSecret, profile, done) => {
   try {
-      let user = await userService.findUserByGoogleId(profile.id);
-      if (!user) {
-          user = await userService.createUserWithGoogle(
-              profile.displayName,
-              profile.emails[0].value,
-              profile.id
-          );
-      }
-      return done(null, user);
+    let user = await userService.findUserByGoogleId(profile.id);
+    if (!user) {
+      user = await userService.createUserWithGoogle(
+        profile.displayName,
+        profile.emails[0].value,
+        profile.id
+      );
+    }
+    return done(null, user);
   } catch (err) {
-      return done(err);
+    return done(err);
   }
 }));
 

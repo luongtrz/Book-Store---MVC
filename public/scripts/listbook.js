@@ -66,7 +66,11 @@ function updateBookList(books) {
   books.forEach(book => {
     const bookItem = `
       <li class="mb-8 md:col-6">
+<<<<<<< HEAD
         <a href="/list/${book.id}">
+=======
+        <a href="/list/${book.title_id}">
+>>>>>>> origin/mvc
           <div class="card">
             <img class="card-img" width="235" height="304" src="${book.image}" alt="${book.title}" />
             <div class="card-content">
@@ -74,7 +78,11 @@ function updateBookList(books) {
                 <a class="tag" href="#">${book.genre}</a>
               </div>
               <h3 class="h4 card-title">
+<<<<<<< HEAD
                 <a href="/list/${book.id}">${book.title}</a>
+=======
+                <a href="/list/${book.title_id}">${book.title}</a>
+>>>>>>> origin/mvc
               </h3>
               <p>
                 Author: ${book.author}
@@ -146,4 +154,8 @@ function renderPagination(totalPages) {
     }
   });
   pagination.appendChild(nextButton);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/mvc

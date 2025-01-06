@@ -15,4 +15,8 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
        event.preventDefault();
        alert('Password must contain at least one special character and one uppercase letter');
      }
+<<<<<<< HEAD
    });
+=======
+   });
+>>>>>>> origin/mvc

@@ -2,7 +2,7 @@
     <nav class="navbar container">
         <!-- logo -->
         <div class="order-0">
-            <a href="index.html">
+            <a href="/home">
                 <img src="/images/logo.png" height="30" width="147" alt="logo" />
             </a>
         </div>
@@ -41,12 +41,12 @@
                 <div class="nav-link text-l">{{ userEmail}}</div>
             </li>
             <li class="nav-item lg:hidden">
-                <a href="/logout" class="nav-link text-lg">Log out</a>
+                <a href="/users/logout" class="nav-link text-lg">Log out</a>
             </li>
             {{else}}
             <li class="nav-item mt-3.5 lg:hidden">
-                <a class="btn btn-white btn-sm border-border text-lg" href="/login">Log In</a>
-                <a class="btn btn-white btn-sm border-border text-lg" href="/signup">Sign Up Now</a>
+                <a class="btn btn-white btn-sm border-border text-lg" href="/users/login">Log In</a>
+                <a class="btn btn-white btn-sm border-border text-lg" href="/users/signup">Sign Up Now</a>
             </li>
             {{/if}}
         </ul>
@@ -56,18 +56,20 @@
                 <a class="btn btn-white btn-sm text-lg cursor-pointer">Hi! {{userEmail}}</a>
                 <div
                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/order">Order</a>
-                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/profile">Profile</a>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/users/order">Order</a>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/users/profile">Profile</a>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/users/cart">Cart</a>
+
                 </div>
             </div>
             <span class="mx-3 text-lg"> </span>
-            <a class="btn btn-white btn-sm text-lg" href="/logout">Log out</a>
+            <a class="btn btn-white btn-sm text-lg" href="/users/logout">Log out</a>
         </div>
         {{else}}
         <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex">
-            <a class="btn btn-white btn-sm text-lg" href="/login">Log In</a>
+            <a class="btn btn-white btn-sm text-lg" href="/users/login">Log In</a>
             <span class="mx-3 text-lg">or</span>
-            <a class="btn btn-white btn-sm text-lg" href="/signup">Sign Up Now</a>
+            <a class="btn btn-white btn-sm text-lg" href="/users/signup">Sign Up Now</a>
         </div>
         {{/if}}
     </nav>

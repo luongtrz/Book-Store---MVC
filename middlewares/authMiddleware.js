@@ -5,5 +5,5 @@ module.exports.ensureAuthenticated = (req, res, next) => {
     return next();
   }
   console.log('User is not authenticated');
-  res.redirect('/login');
+  res.redirect('/users/login');
 };
