@@ -20,6 +20,10 @@ router.get('/signup', userController.getSignup);
 router.post('/signup', userController.postSignup);
 router.get('/logout', userController.logout);
 
+router.get('/forgot-password', authController.getForgotPassword);
+router.post('/forgot-password', authController.postForgotPassword);
+
+
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 router.post('/profile', ensureAuthenticated, userController.postProfileUser);
 router.get('/review-user', ensureAuthenticated, userController.reviewUser);
@@ -27,5 +31,9 @@ router.get('/review-user', ensureAuthenticated, userController.reviewUser);
 router.use('/order', ensureAuthenticated, orderRoute);
 router.use('/cart', ensureAuthenticated, cartRoute);
 router.use('/payment', ensureAuthenticated, paymentRoute);
+
+
+router.get('/reset', authController.getResetPassword);
+router.post('/reset', authController.postResetPassword);
 
 module.exports = router;

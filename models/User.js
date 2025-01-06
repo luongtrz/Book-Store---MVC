@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    otp: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
     tableName: 'users',
     schema: 'public',
@@ -47,24 +51,21 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  // Hash password before saving
-  User.beforeCreate(async (user, options) => {
-    if (user.password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
-    }
-  });
-
   User.beforeUpdate(async (user, options) => {
-    if (user.password) {
+    if (user.changed('password')) { // Chỉ hash nếu mật khẩu thay đổi
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(user.password, salt);
     }
   });
-
-  User.prototype.comparePassword = function(candidatePassword) {
-    return bcrypt.compare(candidatePassword, this.password);
-  };
+  
+  User.beforeCreate(async (user, options) => {
+    if (user.password) { // Hash mật khẩu khi tạo mới
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+  });
+  
+  
 
   return User;
 };

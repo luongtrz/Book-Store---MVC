@@ -98,6 +98,46 @@ const updateUserContact = async (userId, address, phone) => {
       throw new Error('Error updating user contact');
     }
   };
+  
+  const saveOtp = async (userId, otp) => {
+    try {
+        // Cập nhật trường `otp` của user với `userId`
+        await User.update({ otp }, { where: { id: userId } });
+    } catch (error) {
+        console.error('Error saving OTP:', error);
+        throw new Error('Failed to save OTP for the user');
+    }
+};
+
+
+const findUserByOtp = async (otp) => {
+    try {
+        return await User.findUserByOtp(otp);
+    } catch (error) {
+        throw new Error('Error finding user by OTP');
+    }
+};
+
+const updateUserPassword = async (email, newPassword) => {
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      console.log('Old password (hashed):', user.password);
+      user.password = newPassword; // Trigger `beforeUpdate`
+      await user.save();
+      console.log('New password (hashed):', user.password);
+      console.log(`Password updated successfully for user: ${email}`);
+    } catch (error) {
+      console.error(`Error updating password for email ${email}:`, error);
+      throw new Error('Error updating user password');
+    }
+  };
+  
+  
+
+
 
 module.exports = {
     findUserByEmail,
@@ -108,5 +148,8 @@ module.exports = {
     createUserWithGoogle,
     validatePassword,
     updateUserProfile,
-    updateUserContact
+    updateUserContact,
+    saveOtp,
+    findUserByOtp,
+    updateUserPassword
 };

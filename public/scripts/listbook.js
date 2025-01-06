@@ -1,8 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
   fetchBooks();
+  setupSortDialog();
 });
 
-async function fetchBooks(page = 1) {
+function setupSortDialog() {
+  document.getElementById('sort-filter').addEventListener('change', function() {
+    const sortDialog = document.getElementById('sort-dialog');
+    sortDialog.classList.remove('hidden');
+    sortDialog.classList.add('flex');
+  });
+
+  document.getElementById('sort-asc').addEventListener('click', function() {
+    sortBooks('asc');
+  });
+
+  document.getElementById('sort-desc').addEventListener('click', function() {
+    sortBooks('desc');
+  });
+}
+
+function sortBooks(order) {
+  const sortField = document.getElementById('sort-filter').value;
+  // Implement sorting logic here
+  // Hide the dialog after sorting
+  const sortDialog = document.getElementById('sort-dialog');
+  sortDialog.classList.add('hidden');
+  sortDialog.classList.remove('flex');
+  // Fetch books with sorting
+  fetchBooks(1, sortField, order); // Reset to first page with sorting
+}
+
+async function fetchBooks(page = 1, sortField = '', sortOrder = '') {
   const genre = document.getElementById('genre-filter').value;
   const author = document.getElementById('author-filter').value;
   const purchaseCount = document.getElementById('sold-filter').value;
@@ -25,7 +53,9 @@ async function fetchBooks(page = 1) {
         price,
         searchText,
         page,
-        limit: ITEMS_PER_PAGE
+        limit: ITEMS_PER_PAGE,
+        sortField,
+        sortOrder
       })
     });
 
@@ -35,7 +65,7 @@ async function fetchBooks(page = 1) {
 
     const { books, totalPages } = await response.json();
     updateBookList(books);
-    renderPagination(totalPages);
+    renderPagination(totalPages, sortField, sortOrder);
 
   } catch (error) {
     console.error('Error:', error);
@@ -110,7 +140,7 @@ function updateBookList(books) {
   });
 }
 
-function renderPagination(totalPages) {
+function renderPagination(totalPages, sortField, sortOrder) {
   const pagination = document.getElementById('pagination');
   pagination.innerHTML = '';
 
@@ -123,7 +153,7 @@ function renderPagination(totalPages) {
   prevButton.addEventListener('click', () => {
     if (currentPage > 1) {
       currentPage--;
-      fetchBooks(currentPage);
+      fetchBooks(currentPage, sortField, sortOrder);
     }
   });
   pagination.appendChild(prevButton);
@@ -142,7 +172,7 @@ function renderPagination(totalPages) {
   nextButton.addEventListener('click', () => {
     if (currentPage < totalPages) {
       currentPage++;
-      fetchBooks(currentPage);
+      fetchBooks(currentPage, sortField, sortOrder);
     }
   });
   pagination.appendChild(nextButton);
