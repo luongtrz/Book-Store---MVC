@@ -55,8 +55,6 @@ window.addEventListener('load', () => {
   });
 });
 
-<<<<<<< HEAD
-=======
 async function addToCart() {
   try {
     const bookId = document.getElementById('book-id').value;
@@ -88,7 +86,6 @@ async function addToCart() {
 
 document.getElementById('add-cart').addEventListener('click', addToCart);
 
->>>>>>> origin/mvc
 
 
 
