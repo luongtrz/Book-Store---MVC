@@ -49,7 +49,6 @@ const createUserWithGoogle = async (fullName, email, googleId) => {
 
 const findUserById = async (id) => {
     try {
-        console.log(`Attempting to find user by ID: ${id}`);
         const user = await User.findByPk(id);
         if (!user) {
             console.error(`User not found with ID: ${id}`);

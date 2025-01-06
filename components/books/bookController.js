@@ -13,7 +13,7 @@ const allBook = async (req, res) => {
 const getBooks = async (req, res) => {
   try {
     const books = await bookService.getAllBooks();
-    res.render('books', { books });
+    res.render('books', { books, userId: req.session.userId });
   } catch (error) {
     res.status(500).send('Error fetching books');
   }
@@ -24,7 +24,8 @@ const getBookById = async (req, res) => {
     const book = await bookService.getBookByTitleId(req.params.id);
     console.log(book);
     if (book) {
-      res.render('singleBook', { book });
+      const { reviews, totalPages, averageRating } = await bookService.getReviewsByBookId(req.params.id, 1, 5);
+      res.render('singleBook', { book, reviews, totalPages, averageRating, userId: req.user ? req.user.id : null });
     } else {
       res.status(404).send('Book not found');
     }
@@ -36,7 +37,7 @@ const getBookById = async (req, res) => {
 const getGenres = async (req, res) => {
   try {
     const genres = await bookService.getGenres();
-    res.render('genres', { genres });
+    res.render('genres', { genres, userId: req.session.userId });
   } catch (error) {
     res.status(500).send('Error fetching genres');
   }
@@ -45,7 +46,7 @@ const getGenres = async (req, res) => {
 const getAuthors = async (req, res) => {
   try {
     const authors = await bookService.getAuthors();
-    res.render('authors', { authors }); // Render đúng template authors
+    res.render('authors', { authors, userId: req.session.userId });
   } catch (error) {
     res.status(500).send('Error fetching authors');
   }
@@ -54,7 +55,7 @@ const getAuthors = async (req, res) => {
 const getPrices = async (req, res) => {
   try {
     const ratings = await bookService.getPrices();
-    res.render('prices', { prices }); 
+    res.render('prices', { prices, userId: req.session.userId });
   } catch (error) {
     res.status(500).send('Error fetching prices');
   }
@@ -123,6 +124,32 @@ const searchAndFilterBooks = async (req, res) => {
   }
 };
 
+const getReviews = async (req, res) => {
+  try {
+    const { page = 1, limit = 5 } = req.query;
+    const { reviews, totalPages, averageRating } = await bookService.getReviewsByBookId(req.params.id, page, limit);
+    if (!reviews) {
+      console.error('No reviews found');
+      return res.status(404).json({ error: 'No reviews found' });
+    }
+    res.json({ reviews, totalPages, averageRating });
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    res.status(500).json({ error: 'Error fetching reviews', details: error.message });
+  }
+};
+
+const addReview = async (req, res) => {
+  try {
+    const { comment, rating, userId } = req.body;
+    const review = await bookService.addReview(req.params.id, userId, comment, rating);
+    res.json(review);
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ error: 'Error adding review' });
+  }
+};
+
 module.exports = {
   allBook,
   getBooks,
@@ -132,5 +159,7 @@ module.exports = {
   getPrices,
   filterBooks,  
   searchBooks,
-  searchAndFilterBooks
+  searchAndFilterBooks,
+  getReviews,
+  addReview,
 };

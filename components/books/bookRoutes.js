@@ -14,7 +14,7 @@ router.get('/', bookController.getBooks);
 router.post('/search', bookController.searchBooks); 
 router.post('/search-and-filter', bookController.searchAndFilterBooks);
 router.get('/:id', bookController.getBookById);
-//router.get('/:id/reviews', bookController.getReviews);
-//router.post('/:id/reviews', ensureAuthenticated, bookController.addReview);
+router.get('/:id/reviews', bookController.getReviews);
+router.post('/:id/reviews', ensureAuthenticated, bookController.addReview);
 
 module.exports = router;
