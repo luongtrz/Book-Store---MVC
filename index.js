@@ -1,12 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
-const session = require('express-session');
+const passport = require('./config/passportConfig');
 const applyCorsMiddleware = require('./middlewares/corsMiddleware');
 const applyHelmetMiddleware = require('./middlewares/helmetMiddleware');
+const sessionMiddleware = require('./middlewares/sessionMiddleware');
 const homeRoutes = require('./routes/homeRoutes');
 const bookRoutes = require('./components/books/bookRoutes');
 const userRoutes = require('./components/users/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 const connectDB = require('./config/database');
 const configureViewEngine = require('./config/viewEngine');
 
@@ -24,8 +27,13 @@ applyHelmetMiddleware(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const sessionMiddleware = require('./middlewares/sessionMiddleware');
+// Initialize Passport and restore authentication state, if any, from the session
 app.use(sessionMiddleware);
+app.use(express.urlencoded({ extended: false }));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes set user email
@@ -33,9 +41,11 @@ const setUserEmail = require('./middlewares/setUserEmail');
 app.use(setUserEmail);
 
 app.use('/', homeRoutes);
+app.use('/', authRoutes);
 
 app.use('/books', bookRoutes);
-app.use('/api/users', userRoutes);
+app.use('/users', userRoutes);
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;

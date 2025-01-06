@@ -9,12 +9,13 @@ exports.postSignup = async (req, res) => {
     try {
         let user = await userServices.findUserByEmail(email);
         if (user) {
-            return res.status(400).render('signup', { title: 'Sign Up Page', error: 'Email đã tồn tại' });
+            return res.status(400).render('signup', {error: 'Email đã tồn tại' });
         }
 
-        await userServices.createUser(fullName, email, password);
-        res.render('signup', { title: 'Sign Up Page', success: 'Đăng kí thành công! Vui lòng đăng nhập' });
+        user = await userServices.createUser(fullName, email, password);
+        res.render('signup', {success: 'Đăng kí thành công! Hãy đăng nhập để tiếp tục!' });
     } catch (error) {
+        console.error('Error during sign-up:', error);
         res.status(500).send('Server error');
     }   
 };

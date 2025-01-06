@@ -32,7 +32,12 @@ const loginUser = async (req, res) => {
   }
 };
 
+const profileUser = async (req, res) => {
+  res.render('profile', { title: 'Profile Page' });
+}
+
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  profileUser
 };

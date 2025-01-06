@@ -93,33 +93,42 @@ const searchBooks = async (searchText) => {
     throw new Error('Error searching books');
   }
 };
-const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText }) => {
-  try {
-    const filters = {};
 
-    if (genre) filters.genre = genre;
-    if (author) filters.author = author;
-    if (purchaseCount) {
-      const [minSold, maxSold] = purchaseCount.split('-').map(Number);
-      filters.sold = { $gte: minSold, $lte: maxSold || Infinity };
-    }
-    if (price) {
-      const [minPrice, maxPrice] = price.split('-').map(Number);
-      filters.price = { $gte: minPrice, $lte: maxPrice || Infinity };
-    }
-    if (searchText) {
-      const searchTerms = searchText.split(' ').map(term => new RegExp(term, 'i'));
-      filters.$or = [
-        { title: { $in: searchTerms } },
-        { description: { $in: searchTerms } }
-      ];
-    }
+const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText, page, limit }) => {
+  const filters = {};
 
-    const books = await Book.find(filters);
-    return books;
-  } catch (error) {
-    throw new Error('Error searching and filtering books');
+  if (genre && genre !== '') filters.genre = genre;
+  if (author && author !== '') filters.author = author;
+  
+  if (purchaseCount && purchaseCount !== '') {
+    const [minSold, maxSold] = purchaseCount.split('-').map(Number);
+    filters.sold = { 
+      $gte: minSold, 
+      $lte: maxSold || Infinity 
+    };
   }
+
+  if (price && price !== '') {
+    const [minPrice, maxPrice] = price.split('-').map(Number);
+    filters.price = {
+      $gte: minPrice,
+      $lte: maxPrice || Infinity
+    };
+  }
+
+  if (searchText && searchText !== '') {
+    filters.$or = [
+      { title: { $regex: searchText, $options: 'i' } },
+      { description: { $regex: searchText, $options: 'i' } }
+    ];
+  }
+
+  const skip = (page - 1) * limit;
+  const books = await Book.find(filters).skip(skip).limit(limit);
+  const totalBooks = await Book.countDocuments(filters);
+  const totalPages = Math.ceil(totalBooks / limit);
+
+  return { books, totalPages };
 };
 
 module.exports = {

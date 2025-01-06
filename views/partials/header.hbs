@@ -1,0 +1,74 @@
+<header class="header py-8">
+    <nav class="navbar container">
+        <!-- logo -->
+        <div class="order-0">
+            <a href="index.html">
+                <img src="/images/logo.png" height="30" width="147" alt="logo" />
+            </a>
+        </div>
+        <!-- navbar toggler -->
+        <input id="nav-toggle" type="checkbox" class="hidden" />
+        <label id="show-button" for="nav-toggle" class="order-1 flex cursor-pointer items-center lg:order-1 lg:hidden">
+            <svg class="h-6 fill-current" viewBox="0 0 20 20">
+                <title>Menu Open</title>
+                <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+            </svg>
+        </label>
+        <label id="hide-button" for="nav-toggle" class="order-2 hidden cursor-pointer items-center lg:order-1">
+            <svg class="h-6 fill-current" viewBox="0 0 20 20">
+                <title>Menu Close</title>
+                <polygon points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+                    transform="rotate(45 10 10)"></polygon>
+            </svg>
+        </label>
+        <!-- /navbar toggler -->
+        <ul id="nav-menu"
+            class="navbar-nav order-2 hidden w-full flex-[0_0_100%] lg:order-1 lg:flex lg:w-auto lg:flex-auto lg:justify-center lg:space-x-5">
+            <li class="nav-item">
+                <a href="/home" class="nav-link text-lg">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a href="/about" class="nav-link text-lg">ABOUT</a>
+            </li>
+            <li class="nav-item">
+                <a href="/list" class="nav-link text-lg">BOOK LIST</a>
+            </li>
+            <li class="nav-item">
+                <a href="/contact" class="nav-link text-lg">CONTACT US</a>
+            </li>
+            {{#if userEmail}}
+            <li class="nav-item lg:hidden">
+                <div class="nav-link text-l">{{ userEmail}}</div>
+            </li>
+            <li class="nav-item lg:hidden">
+                <a href="/logout" class="nav-link text-lg">Log out</a>
+            </li>
+            {{else}}
+            <li class="nav-item mt-3.5 lg:hidden">
+                <a class="btn btn-white btn-sm border-border text-lg" href="/login">Log In</a>
+                <a class="btn btn-white btn-sm border-border text-lg" href="/signup">Sign Up Now</a>
+            </li>
+            {{/if}}
+        </ul>
+        {{#if userEmail}}
+        <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex relative">
+            <div class="relative group">
+                <a class="btn btn-white btn-sm text-lg cursor-pointer">Hi! {{userEmail}}</a>
+                <div
+                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/order">Order</a>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="/profile">Profile</a>
+                </div>
+            </div>
+            <span class="mx-3 text-lg"> </span>
+            <a class="btn btn-white btn-sm text-lg" href="/logout">Log out</a>
+        </div>
+        {{else}}
+        <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex">
+            <a class="btn btn-white btn-sm text-lg" href="/login">Log In</a>
+            <span class="mx-3 text-lg">or</span>
+            <a class="btn btn-white btn-sm text-lg" href="/signup">Sign Up Now</a>
+        </div>
+        {{/if}}
+    </nav>
+</header>

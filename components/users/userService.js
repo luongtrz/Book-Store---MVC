@@ -10,10 +10,18 @@ const findUserByEmail = async (email) => {
     }
 };
 
+const findUserByGoogleId = async (googleId) => {
+    try {
+      return await User.findOne({ googleId });
+    } catch (error) {
+      throw new Error('Error finding user by Google ID');
+    }
+};
+
 const createUser = async (fullName, email, password) => {
     try {
         const user = new User({
-            fullName,
+            username: fullName,
             email,
             password
         });
@@ -23,6 +31,30 @@ const createUser = async (fullName, email, password) => {
         throw new Error('Error creating user');
     }
 };
+
+const createUserWithGoogle = async (fullName, email, googleId) => {
+    try {
+        const user = new User({
+            username: fullName,
+            email,
+            googleId
+        });
+        await user.save();
+        return user;
+    } catch (error) {
+        console.error('Error details:', error);
+        throw new Error('Error creating user with Google');
+    }
+};
+
+const findUserById = async (id) => {
+    try {
+      return await User.findById(id);
+    } catch (error) {
+      throw new Error('Error finding user by ID');
+    }
+};
+
 
 const validatePassword = async (password, hashedPassword) => {
     try {
@@ -34,6 +66,9 @@ const validatePassword = async (password, hashedPassword) => {
 
 module.exports = {
     findUserByEmail,
+    findUserByGoogleId,
+    findUserById,
     createUser,
+    createUserWithGoogle,
     validatePassword
 };
