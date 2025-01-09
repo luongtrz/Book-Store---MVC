@@ -1,5 +1,6 @@
 const userServices = require('./userService');
 const passport = require('passport');
+const upload = require('../../config/multerConfig');
 
 exports.profileUser = async (req, res) => {
   const user = await userServices.findUserById(req.user.id);
@@ -78,3 +79,51 @@ exports.logout = (req, res) => {
       });
   });
 };
+
+//upload avatar
+exports.uploadAvatar = async (req, res) => {
+  try {
+      const singleUpload = upload.single('avatar');
+      singleUpload(req, res, async (err) => {
+          if (err) {
+              return res.status(400).json({
+                  success: false,
+                  message: 'Error uploading file',
+                  error: err.message,
+              });
+          }
+
+          const file = req.file;
+          console.log('file', file);
+          if (!file) {
+              return res.status(400).json({
+                  success: false,
+                  message: 'No file uploaded.',
+              });
+          }
+
+          const avatarUrl = file.path;
+          console.log('avatarUrl', avatarUrl);
+          const user = await userServices.updateAvatar(req.user.id, avatarUrl);
+
+          if (!user) {
+              return res.status(404).json({
+                  success: false,
+                  message: 'User not found.'
+              })
+          }
+          return res.status(200).json({
+              success: true,
+              message: 'Uploaded avatar successfully.',
+              data: user
+          });
+      });
+  } catch (error) {
+      console.error('Error uploading avatar:', error);
+      return res.status(500).json({
+          success: false,
+          message: 'Failed to upload avatar.',
+          error: error.message,
+      });
+  }
+}

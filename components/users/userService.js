@@ -54,6 +54,7 @@ const findUserById = async (id) => {
             console.error(`User not found with ID: ${id}`);
             throw new Error('User not found');
         }
+        console.log('---User found:', user);
         return user;
     } catch (error) {
         console.error(`Error finding user by ID: ${id}`, error);
@@ -135,6 +136,21 @@ const updateUserPassword = async (email, newPassword) => {
     }
   };
   
+//update avatar
+const updateAvatar = async (userId, avatarUrl) => {
+    try {
+        console.log('Updating avatar for userId:', userId);
+        const user = await User.findOne({ where: { id: userId } });
+        if (!user) {
+            return null;
+        }
+        user.avatar = avatarUrl;
+        await user.save();
+        return user;
+    } catch (error) {
+        throw error;
+    }
+};
   
 
 
@@ -151,5 +167,6 @@ module.exports = {
     updateUserContact,
     saveOtp,
     findUserByOtp,
-    updateUserPassword
+    updateUserPassword,
+    updateAvatar
 };

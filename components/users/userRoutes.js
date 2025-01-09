@@ -36,4 +36,7 @@ router.use('/payment', ensureAuthenticated, paymentRoute);
 router.get('/reset', authController.getResetPassword);
 router.post('/reset', authController.postResetPassword);
 
+//upload avatar
+router.post('/upload-avatar', userController.uploadAvatar);
+
 module.exports = router;

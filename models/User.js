@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
     tableName: 'users',
     schema: 'public',
