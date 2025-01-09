@@ -9,7 +9,7 @@ exports.getLogin = (req, res) => {
 };
 
 exports.login = (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', async (err, user, info) => {
         console.log('user', user);
         if (err) {
             return next(err);
@@ -17,6 +17,13 @@ exports.login = (req, res, next) => {
         if (!user) {
             return res.status(400).render('login', { title: 'Sign In Page', error: 'Invalid email or password' });
         }
+
+        // Check if the user is banned
+        const isBanned = await userServices.isUserBanned(user.id);
+        if (isBanned) {
+            return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned' });
+        }
+
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);
@@ -31,13 +38,20 @@ exports.login = (req, res, next) => {
 exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 exports.googleAuthCallback = (req, res, next) => {
-    passport.authenticate('google', { failureRedirect: '/users/login' }, (err, user) => {
+    passport.authenticate('google', { failureRedirect: '/users/login' }, async (err, user) =>{
         if (err) {
             return next(err);
         }
         if (!user) {
             return res.redirect('/users/login');
         }
+
+        // Check if the user is banned
+        const isBanned = await userServices.isUserBanned(user.id);
+        if (isBanned) {
+            return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned' });
+        }
+
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);

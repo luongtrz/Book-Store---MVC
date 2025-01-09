@@ -151,6 +151,15 @@ const updateAvatar = async (userId, avatarUrl) => {
         throw error;
     }
 };
+
+const isUserBanned = async (userId) => {
+    try {
+        const user = await User.findByPk(userId);
+        return user.banned;
+    } catch (error) {
+        throw new Error('Error checking if user is banned');
+    }
+};
   
 
 
@@ -168,5 +177,6 @@ module.exports = {
     saveOtp,
     findUserByOtp,
     updateUserPassword,
-    updateAvatar
+    updateAvatar,
+    isUserBanned
 };
