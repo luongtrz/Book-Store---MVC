@@ -45,3 +45,15 @@ exports.removeCartItem = async (req, res) => {
   }
 };
 
+exports.checkCartStatus = async (req, res) => {
+  try {
+    const totalItems = await cartService.getCartTotalItems(req.user.id);
+    if (totalItems === 0) {
+      return res.status(200).send({ canCheckout: false, message: 'Không có đơn hàng để thanh toán' });
+    }
+    res.status(200).send({ canCheckout: true });
+  } catch (error) {
+    console.error('Error checking cart status:', error);
+    res.status(500).send('Error checking cart status');
+  }
+};

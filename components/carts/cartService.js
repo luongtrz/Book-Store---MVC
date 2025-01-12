@@ -84,3 +84,14 @@ exports.removeCartItemByBookID = async (cartItemId) => {
     throw new Error('Error removing cart item');
   }
 }
+exports.getCartTotalItems = async (userId) => {
+  try {
+    const totalItems = await Cart.sum('amount', {
+      where: { user_id: userId },
+    });
+    return totalItems || 0; // Nếu không có hàng, trả về 0
+  } catch (error) {
+    console.error('Error fetching total cart items:', error);
+    throw new Error('Error fetching total cart items');
+  }
+};
