@@ -14,6 +14,11 @@
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold my-10">Book Payment</h1>
         </div>
+        {{#if error}}
+            <div class="alert alert-danger">
+                {{error}}
+            </div>
+        {{/if}}
         <div class="product-list space-y-4">
             {{#each cartItems}}
             <div class="product-item flex items-center justify-between border-b pb-4">
@@ -85,15 +90,14 @@
                     <label for="cvv" class="block mb-2">CVV</label>
                     <input type="text" id="cvv" name="cvv" placeholder="123" class="w-full p-2 border rounded mb-2">
                 </div> --}}
-                <div class="flex items-center mb-2">
+                {{!-- <div class="flex items-center mb-2">
                     <input type="radio" id="paypal" name="payment" value="paypal" class="mr-2"
                         onchange="togglePaymentDetails()">
                     <label for="paypal">PayPal</label>
-                </div>
+                </div> --}}
                 <div class="flex items-center">
-                    <input type="radio" id="momo" name="payment" value="paypal" class="mr-2"
-                        onchange="togglePaymentDetails()">
-                    <label for="momo">Momo</label>
+                    <input type="radio" id="zalopay" name="payment" value="zalopay" class="mr-2" checked>
+                    <label for="zalopay">ZaloPay</label>
                 </div>
                 <div id="paypal-details" class="hidden">
                     <label for="paypal-email" class="block mb-2">PayPal Email</label>

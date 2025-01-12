@@ -1,15 +1,30 @@
 function togglePaymentDetails() {
     const cardDetails = document.getElementById('card-details');
     const paypalDetails = document.getElementById('paypal-details');
+    const sandboxBankDetails = document.getElementById('sandbox-bank-details');
 
     const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
 
     if (selectedPayment === 'card') {
         cardDetails.classList.remove('hidden');
         paypalDetails.classList.add('hidden');
+        if (sandboxBankDetails) {
+            sandboxBankDetails.classList.add('hidden');
+        }
     } else if (selectedPayment === 'paypal') {
         paypalDetails.classList.remove('hidden');
         cardDetails.classList.add('hidden');
+        if (sandboxBankDetails) {
+            sandboxBankDetails.classList.add('hidden');
+        }
+    } else if (selectedPayment === 'sandboxBank') {
+        sandboxBankDetails.classList.remove('hidden');
+        if (cardDetails) {
+            cardDetails.classList.add('hidden');
+        }
+        if (paypalDetails) {
+            paypalDetails.classList.add('hidden');
+        }
     }
 }
 
