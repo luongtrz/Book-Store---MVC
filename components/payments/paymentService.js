@@ -56,7 +56,7 @@ exports.processPayment = async (userId) => {
         price: item.Book.price,
         quantity: item.amount,
       }))),
-      embed_data: JSON.stringify({}),
+      embed_data: JSON.stringify({redirecturl: 'http://localhost:5000/list'}),
       amount: totalAmount,
       description: `Bookstore - Payment for order #${transID}`,
       bank_code: "",
