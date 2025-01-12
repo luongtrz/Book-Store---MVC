@@ -10,13 +10,12 @@ exports.getPaymentPage = async (req, res) => {
     res.status(500).send('Error fetching cart items');
   }
 };
-
 exports.submitPayment = async (req, res) => {
   try {
-    //const paymentDetails = req.body;
-    //await paymentService.processPayment(req.user.id, paymentDetails);
-    await paymentService.processPayment(req.user.id);
-    res.redirect('/users/order');
+    const paymentResult = await paymentService.processPayment(req.user.id);
+
+    // Redirect user to the ZaloPay payment URL
+    res.redirect(paymentResult.order_url);
   } catch (error) {
     console.error('Error processing payment:', error);
     res.status(500).send('Error processing payment');

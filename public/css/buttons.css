@@ -195,3 +195,13 @@
 
     line-height: 24px
 }
+
+.checkout-notification {
+    display: none; 
+    color: red; 
+    font-size: 15px;
+    font-size: bold;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+}

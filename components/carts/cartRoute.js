@@ -9,6 +9,7 @@ router.get('/', cartController.getCart);
 router.post('/add', cartController.addToCart);
 router.post('/update/:id', cartController.updateCartItem);
 router.post('/remove/:id', cartController.removeCartItem);
+router.get('/check-status', cartController.checkCartStatus);
 
 router.get('/countCart', cartController.getCartCount);
 
