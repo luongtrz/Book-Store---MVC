@@ -27,6 +27,7 @@
           <th class="py-4 px-6">Amount</th>
           <th class="py-4 px-6">Total</th>
           <th class="py-4 px-6">Date</th>
+          <th class="py-4 px-6">Status</th>
         </tr>
       </thead>
 
@@ -64,6 +65,10 @@
           <td class="py-4 px-6 text-gray-600">
             <span class="text-primary font-medium">{{this.date_order}}</span>
           </td>
+
+          <!-- Cột Status -->
+          <td class="py-4 px-6 text-gray-600">
+            <span class="text-primary font-medium">{{this.status}}</span>
         </tr>
         {{/each}}
       </tbody>

@@ -52,11 +52,12 @@
 
           <!-- Cột Amount -->
           <td class="py-4 px-6">
-            <form action="/users/cart/update/{{this.Book.id}}" method="POST" class="flex items-center">
+            <div class="flex items-center">
+              <button class="minus-btn text-primary font-medium px-2" data-book-id="{{this.Book.id}}">-</button>
               <input type="number" name="amount" value="{{this.amount}}" min="1"
                 class="text-center border rounded w-16 h-10">
-              <button class="text-primary font-medium px-2">Update</button>
-            </form>
+              <button class="plus-btn text-primary font-medium px-2" data-book-id="{{this.Book.id}}">+</button>
+            </div>
           </td>
 
           <!-- Cột Total -->
@@ -64,11 +65,8 @@
             <span class="text-primary font-medium">{{this.total}} ₫</span>
           </td>
 
-          <!-- Cột Delete -->
           <td class="py-4 px-6">
-            <form action="/users/cart/remove/{{this.Book.id}}" method="POST">
-              <button type="submit" class="text-red-500">Delete</button>
-            </form>
+            <button class="delete-btn text-red-500" data-book-id="{{this.Book.id}}">Delete</button>
           </td>
         </tr>
         {{/each}}
@@ -80,19 +78,18 @@
       <div class="container mx-auto py-4 justify-between items-center">
         <nav class="w-full">
           <div class="flex items-center justify-between space-x-4">
-            <span class="text-lg font-medium">Total Payment ({{cartItems.length}} Products): {{cartTotal}} VND</span>
+            <span class="text-lg font-medium" id="total-payment">Total Payment ({{cartItems.length}} Products):
+              {{cartTotal}} VND</span>
             <div class="justify-center items-center flex">
-               <div class="checkout-notification"></div>
+              <div class="checkout-notification"></div>
               <a href="/list"
                 class="justify-end bg-red-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark mx-4">Shopping
                 more book</a>
-              <a 
-                class="checkout-button justify-end bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark"
-                href="#"
-              >
+              <a class="checkout-button justify-end bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark"
+                href="#">
                 Thanh Toán
               </a>
-             
+
 
 
             </div>
@@ -101,9 +98,6 @@
       </div>
     </header>
   </div>
-  <script src="/scripts/cartNotification.js">
-  
-
-  
-  </script>
+  <script src="/scripts/cartNotification.js"></script>
+  <script src="/scripts/cart.js"></script>
 </section>

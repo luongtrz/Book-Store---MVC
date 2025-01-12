@@ -26,6 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    status: {
+      type: DataTypes.ENUM('Pending', 'Transporting', 'Delivered', 'Cancelled'),
+      allowNull: false,
+      defaultValue: 'Pending',
+    },
   }, {
     tableName: 'orders',
     schema: 'public',

@@ -75,6 +75,7 @@ exports.getOrderHistory = async (userId) => {
       };
     });
 
+    console.log('formattedOrders:', formattedOrders);
     return formattedOrders;
   } catch (error) {
     console.error('Error fetching order history:', error);

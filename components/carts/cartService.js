@@ -70,10 +70,11 @@ exports.updateCartItem = async (bookId, userId, amount) => {
   }
 };
 
-exports.removeCartItemByBookID = async (cartItemId) => {
+
+exports.removeCartItemByBookIDandUserID = async (bookId, userId) => {
   try {
     const cartItem = await Cart.findOne({
-      where: { book_id: cartItemId },
+      where: { book_id: bookId, user_id: userId },
     });
     if (!cartItem) {
       throw new Error('Cart item not found');
