@@ -10,4 +10,6 @@ router.post('/add', cartController.addToCart);
 router.post('/update/:id', cartController.updateCartItem);
 router.post('/remove/:id', cartController.removeCartItem);
 
+router.get('/countCart', cartController.getCartCount);
+
 module.exports = router;

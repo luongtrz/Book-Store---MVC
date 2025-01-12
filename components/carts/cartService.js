@@ -84,3 +84,17 @@ exports.removeCartItemByBookID = async (cartItemId) => {
     throw new Error('Error removing cart item');
   }
 }
+
+
+//countCartItems
+exports.countCartItems = async (userId) => {
+  try {
+    const sum = await Cart.sum('amount', {
+      where: { user_id: userId },
+    });
+    return sum || 0;
+  } catch (error) {
+    console.error('Error summing cart items:', error);
+    throw new Error('Error summing cart items');
+  }
+};

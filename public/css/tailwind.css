@@ -762,16 +762,8 @@ video {
   margin-bottom: 2rem;
 }
 
-.-ml-10 {
-  margin-left: -2.5rem;
-}
-
 .-ml-4 {
   margin-left: -1rem;
-}
-
-.-ml-8 {
-  margin-left: -2rem;
 }
 
 .mb-10 {
@@ -910,8 +902,16 @@ video {
   display: inline-flex;
 }
 
+.table {
+  display: table;
+}
+
 .hidden {
   display: none;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-12 {
@@ -1148,12 +1148,6 @@ video {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-x-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {

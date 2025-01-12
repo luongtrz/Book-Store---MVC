@@ -45,3 +45,14 @@ exports.removeCartItem = async (req, res) => {
   }
 };
 
+//count cart items
+exports.getCartCount = async (req, res) => {
+  try {
+    const count = await cartService.countCartItems(req.user.id);
+    res.send({ count });
+  } catch (error) {
+    console.error('Error counting cart items:', error);
+    res.status(500).send('Error counting cart items');
+  }
+}
+

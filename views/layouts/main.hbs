@@ -7,16 +7,19 @@
 
 <body>
     {{> header}}
+    <script src="/scripts/general.js"></script>
 
     {{{ body }}}
 
     <a href="/users/cart"
+        id="cart-button"
         class="fixed bottom-5 right-5 z-50 bg-red-100 border border-gray-300 rounded-full p-3 shadow-lg hover:scale-110 transition-transform duration-200"
         title="Go to Cart">
         <img src="/images/icon-cart.png" alt="Cart" class="w-16 h-16">
     </a>
 
     {{> footer}}
+
 </body>
 
 </html>

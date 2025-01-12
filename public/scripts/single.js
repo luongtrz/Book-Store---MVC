@@ -53,7 +53,7 @@ window.addEventListener('load', () => {
   });
 });
 
-async function addToCart() {
+async function addToCart(event) {
   try {
     const bookId = document.getElementById('book-id').value;
     const amount = document.getElementById('quantity').value;
@@ -75,12 +75,54 @@ async function addToCart() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    alert('Added to cart');
+    createFlyingDot(event);
+    fetchCartItemCount();
   } catch (error) {
     console.error('Error adding to cart:', error);
     alert('Error adding to cart');
   }
 };
+
+function createFlyingDot(event) {
+  const dot = document.createElement('div');
+  dot.style.position = 'absolute';
+  dot.style.width = '20px';
+  dot.style.height = '20px';
+  dot.style.backgroundColor = 'red';
+  dot.style.borderRadius = '50%';
+  dot.style.boxShadow = '0 0 10px 5px rgba(255, 0, 0, 0.5)';
+  dot.style.pointerEvents = 'none';
+  dot.style.left = `${event.clientX+window.scrollX}px`;
+  dot.style.top = `${event.clientY+window.scrollY}px`;
+  dot.style.zIndex = 1000;
+  dot.style.backgroundColor = 'red'; 
+  dot.style.border = '3px solid yellow'; 
+  dot.style.zIndex = 9999; 
+
+
+  document.body.appendChild(dot);
+
+  const targetX = window.innerWidth - 100;
+  const targetY = window.innerHeight - 100; 
+
+  console.log('Dot starts at:', event.clientX, event.clientY);
+  console.log('Dot ends at:', targetX, targetY);
+
+  dot.animate(
+    [
+      { transform: 'translate(0, 0)', opacity: 1 },
+      { transform: `translate(${(targetX - event.clientX) / 2}px, ${(targetY - event.clientY) / 2}px)`, opacity: 0.8 },
+      { transform: `translate(${targetX - event.clientX}px, ${targetY - event.clientY}px)`, opacity: 0.5 },
+    ],
+    {
+      duration: 1000,
+      easing: 'ease-in-out',
+    }
+  ).onfinish = () => {
+    dot.remove();
+  };
+}
+
 
 document.getElementById('add-cart').addEventListener('click', addToCart);
 
