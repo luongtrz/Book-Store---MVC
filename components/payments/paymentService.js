@@ -72,6 +72,11 @@ exports.processPayment = async (userId) => {
 
     if (response.data.return_code !== 1) {
       throw new Error(`ZaloPay Error: ${response.data.return_message}`);
+      return response.data;
+    }
+    if (response.data.return_code === 2) {
+      throw new Error(`Payment Failed`);
+      return response.data;
     }
 
     // Save order to database (if needed)
@@ -83,9 +88,11 @@ exports.processPayment = async (userId) => {
         total: item.total,
         date_order: new Date(),
         payment_id: order.app_trans_id,
+        payment_status: 'Paid',        
       })
     );
     await Promise.all(orderPromises);
+
 
     // Clear the cart after successful payment
     await Cart.destroy({ where: { user_id: userId } });
@@ -96,6 +103,7 @@ exports.processPayment = async (userId) => {
     throw new Error('Error processing payment');
   }
 };
+
 exports.getUserDetails = async (userId) => {
     try {
       const user = await User.findByPk(userId);

@@ -26,6 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    payment_status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'Unpaid',
+    },
   }, {
     tableName: 'orders',
     schema: 'public',

@@ -32,9 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     togglePaymentDetails();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('JavaScript is working!');
-});
+
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded!");
