@@ -82,4 +82,20 @@ exports.getOrderHistory = async (userId) => {
   }
 };
 
+exports.getOrderIDByUserID = async (userId) => {
+  try {
+    const order = await Order.findOne({
+      where: { user_id: userId },
+      order: [['date_order', 'DESC']], // Lấy order mới nhất
+    });
 
+    if (!order) {
+      throw new Error('No orders found for this user');
+    }
+
+    return order.id; // Trả về ID của đơn hàng
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    throw new Error('Error fetching orders');
+  }
+};

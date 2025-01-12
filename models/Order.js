@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'Unpaid',
     },
+    payment_method: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     tableName: 'orders',
     schema: 'public',
