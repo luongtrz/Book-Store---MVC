@@ -19,8 +19,12 @@ exports.submitPayment = async (req, res) => {
       const paymentResult = await paymentService.processPayment(req.user.id);
       res.redirect(paymentResult.order_url);
     } else if (selectedPaymentMethod === 'COD') {
-      await paymentService.processCODPayment(req.user.id);
-      res.redirect('/list'); // Redirect to a success page or any other page
+      const result = await paymentService.processCODPayment(req.user.id);
+      if (result.status === 'success') {
+        res.render('orderSuccess', { message: 'Đã đặt hàng thành công' });
+      } else {
+        res.render('orderFailure', { message: 'Đặt hàng không thành công' });
+      }
     } else {
       res.status(400).send('Invalid payment method');
     }
