@@ -125,8 +125,10 @@ exports.processPayment = async (userId) => {
 
     // Kiểm tra trạng thái thanh toán
     const status = await this.checkStatusPayment(appTransId);
+    console.log('\n=== Payment Response Code 2XXXXX ===');
+    console.log('Initial return_code:', status);
 
-    if (status.status === 'success') {
+    if (status.status === 'pending') {
       // Save order to database
       const orderPromises = cartItems.map(item =>
         Order.create({
