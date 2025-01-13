@@ -11,6 +11,7 @@ const config = {
   key2: process.env.ZALOPAY_KEY2,
   endpoint: process.env.ZALOPAY_ENDPOINT,
   query_endpoint: process.env.ZALOPAY_ENDPOINT2,
+  cancel_endpoint: process.env.ZALOPAY_CANCEL_ENDPOINT,
 };
 exports.getCartItems = async (userId) => {
   try {
@@ -77,7 +78,6 @@ exports.checkStatusPayment = async (appTransId) => {
   }
 };
 
-
 exports.processPayment = async (userId) => {
   try {
     const cartItems = await Cart.findAll({
@@ -125,9 +125,15 @@ exports.processPayment = async (userId) => {
 
     // Kiểm tra trạng thái thanh toán
     const status = await this.checkStatusPayment(appTransId);
-    console.log('\n=== Payment Response Code 2XXXXX ===');
-    console.log('Initial return_code:', status);
+    console.log('Payment status:', status);
 
+    const cancelResult = await this.cancelPayment(appTransId);
+    // Nếu bị hủy thanh toán
+    if (status.status === 'failed') {
+      return { status: 'cancelled', message: cancelResult.message, data: response.data };
+    }
+    console.log('\n=== Payment Response Code 2XXXXX ===');
+    console.log('Initial return_code:', cancelResult);
     if (status.status === 'pending') {
       // Save order to database
       const orderPromises = cartItems.map(item =>
@@ -156,7 +162,44 @@ exports.processPayment = async (userId) => {
     throw new Error('Error processing payment');
   }
 };
+
                                         
+exports.cancelPayment = async (appTransId) => {
+  try {
+    const postData = {
+      app_id: config.app_id,
+      app_trans_id: appTransId,
+    };
+
+    // Tạo chữ ký HMAC
+    const data = `${postData.app_id}|${postData.app_trans_id}|${config.key1}`;
+    postData.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
+
+    // Gửi yêu cầu hủy thanh toán tới ZaloPay
+    const postConfig = {
+      method: 'post',
+      url: config.cancel_endpoint,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(postData),
+    };
+
+    const response = await axios(postConfig);
+    const { return_code, return_message } = response.data;
+
+    console.log('Cancel payment code:', return_code);
+    console.log('Cancel payment message:', return_message);
+    console.log('Cancel payment response:', response.data);
+
+    if (return_code === 1) {
+      return { status: 'success', message: 'Payment cancelled successfully' };
+    } else {
+      return { status: 'failed', message: return_message || 'Failed to cancel payment' };
+    }
+  } catch (error) {
+    console.error('Error cancelling payment:', error);
+    throw new Error('Error cancelling payment');
+  }
+};
 
 exports.getUserDetails = async (userId) => {
     try {
