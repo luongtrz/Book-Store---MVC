@@ -212,3 +212,38 @@ exports.getUserDetails = async (userId) => {
       throw new Error('Error fetching user details');
     }
   };
+
+exports.processCODPayment = async (userId) => {
+  try {
+    const cartItems = await Cart.findAll({
+      where: { user_id: userId },
+      include: Book,
+    });
+
+    if (!cartItems.length) {
+      throw new Error('Cart is empty');
+    }
+
+    const orderPromises = cartItems.map(item =>
+      Order.create({
+        user_id: userId,
+        book_id: item.book_id,
+        amount: item.amount,
+        total: item.total,
+        date_order: new Date(),
+        payment_id: null,
+        payment_status: 'Unpaid',
+        payment_method: 'COD',
+      })
+    );
+    await Promise.all(orderPromises);
+
+    // Clear the cart
+    await Cart.destroy({ where: { user_id: userId } });
+
+    return { status: 'success', message: 'Order placed successfully with COD' };
+  } catch (error) {
+    console.error('Error processing COD payment:', error);
+    throw new Error('Error processing COD payment');
+  }
+};

@@ -32,7 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
     togglePaymentDetails();
 });
 
-
+document.querySelectorAll('input[name="payment"]').forEach((input) => {
+    input.addEventListener('change', (event) => {
+        document.getElementById('selected-payment-method').value = event.target.value;
+    });
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded!");
