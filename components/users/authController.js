@@ -21,6 +21,9 @@ exports.login = async (req, res, next) => {
       if (!user) {
         return res.status(400).render('login', { title: 'Sign In Page', error: 'Invalid email or password' });
       }
+      if (!user.activated_status === false || !user.activated_status) {
+        return res.status(400).render('login', { title: 'Sign In Page', error: 'Account not activated' });
+      }
       try {
         req.logIn(user, (err) => {
           if (err) {
@@ -41,6 +44,26 @@ exports.login = async (req, res, next) => {
 
 exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
+exports.getForgotPassword = (req, res) => {
+  res.render('forgotPassword', { title: 'Forgot Password' });
+};
+
+exports.postForgotPassword = async (req, res) => {
+  const email = req.body.email;
+  try {
+      const user = await userServices.findUserByEmail(email);
+      if (!user) {
+          return res.status(400).render('forgotPassword', { error: 'Email not found' });
+      }
+      const host = req.header('host');
+      const resetLink = `${req.protocol}://${host}/users/reset?token=${sign(email)}&email=${email}`;
+      await sendForgotPasswordEmail(user, host, resetLink);
+      res.render('forgotPassword', { success: 'Reset password link sent to your email' });
+  } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).send('Server error');
+  }
+};
 exports.googleAuthCallback = (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/users/login' }, async (err, user,info) => {
     if (err) {
@@ -50,6 +73,7 @@ exports.googleAuthCallback = (req, res, next) => {
       return res.redirect('/users/login');
     }
     try {
+
         const forgot = await userServices.findUserByEmail(user.email);
         
         if (!forgot) {
@@ -195,23 +219,3 @@ exports.checkEmailExists = async (email) => {
   }
 };
 
-exports.getForgotPassword = (req, res) => {
-    res.render('forgotPassword', { title: 'Forgot Password' });
-};
-
-exports.postForgotPassword = async (req, res) => {
-    const email = req.body.email;
-    try {
-        const user = await userServices.findUserByEmail(email);
-        if (!user) {
-            return res.status(400).render('forgotPassword', { error: 'Email not found' });
-        }
-        const host = req.header('host');
-        const resetLink = `${req.protocol}://${host}/users/reset?token=${sign(email)}&email=${email}`;
-        await sendForgotPasswordEmail(user, host, resetLink);
-        res.render('forgotPassword', { success: 'Reset password link sent to your email' });
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).send('Server error');
-    }
-};
