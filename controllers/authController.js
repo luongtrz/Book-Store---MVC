@@ -7,6 +7,7 @@ exports.getLogin = (req, res) => {
 
 exports.login = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
+      console.log('using login in auth to login');
         console.log('user', user);
       if (err) {
         return next(err);

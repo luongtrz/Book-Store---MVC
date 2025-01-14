@@ -70,10 +70,11 @@ exports.updateCartItem = async (bookId, userId, amount) => {
   }
 };
 
-exports.removeCartItemByBookID = async (cartItemId) => {
+
+exports.removeCartItemByBookIDandUserID = async (bookId, userId) => {
   try {
     const cartItem = await Cart.findOne({
-      where: { book_id: cartItemId },
+      where: { book_id: bookId, user_id: userId },
     });
     if (!cartItem) {
       throw new Error('Cart item not found');
@@ -84,6 +85,21 @@ exports.removeCartItemByBookID = async (cartItemId) => {
     throw new Error('Error removing cart item');
   }
 }
+
+
+//countCartItems
+exports.countCartItems = async (userId) => {
+  try {
+    const sum = await Cart.sum('amount', {
+      where: { user_id: userId },
+    });
+    return sum || 0;
+  } catch (error) {
+    console.error('Error summing cart items:', error);
+    throw new Error('Error summing cart items');
+  }
+}
+
 exports.getCartTotalItems = async (userId) => {
   try {
     const totalItems = await Cart.sum('amount', {

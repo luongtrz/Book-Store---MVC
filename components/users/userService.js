@@ -152,11 +152,14 @@ const updateAvatar = async (userId, avatarUrl) => {
     }
 };
 
-const isUserBanned = async (userId) => {
+const isUserBanned = async (email) => {
+    console.log('Checking if user is banned:', email);
     try {
-        const user = await User.findByPk(userId);
-        return user.banned;
+        const user = await User.findOne({ where: { email } });
+        console.log('User found for banned check:', user);
+        return user && user.banned;
     } catch (error) {
+        console.error('Error checking if user is banned:', error);
         throw new Error('Error checking if user is banned');
     }
 };
@@ -176,7 +179,34 @@ const activateUser = async (mail) => {
         throw error;
     }
 };
+const changeUserPassword = async (userId, oldPassword, newPassword) => {
+    try {
+        const user = await User.findByPk(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            throw new Error('Old password is incorrect');
+        }
+        user.password = newPassword; 
+        await user.save();
+        return user;
+    } catch (error) {
+        console.error('Error changing password:', error);
+        throw new Error('Error changing password');
 
+    }
+};
+
+const checkEmailExists = async (email) => {
+    try {
+        const user = await User.findOne({ where: { email } });
+        return !!user;
+    } catch (error) {
+        throw new Error('Error checking email existence');
+    }
+};
 
 module.exports = {
     findUserByEmail,
@@ -193,5 +223,7 @@ module.exports = {
     updateUserPassword,
     updateAvatar,
     isUserBanned,
-    activateUser
+    activateUser,
+    changeUserPassword,
+    checkEmailExists
 };

@@ -20,13 +20,10 @@ router.get('/list/:id', singleController.getBook);
 router.get('/list/:id', bookController.getBookById);
 router.get('/list', listController.getList);
 
-//router.get('/profile', userController.profileUser);
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 
-
-// router.get('/signin', signinController.getSignin);
+router.get('/signin', signinController.getSignin);
 // router.post('/signin', signinController.postSignin);
-
 
 router.get('/signup', signupController.getSignup);
 router.post('/signup', signupController.postSignup);

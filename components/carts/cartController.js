@@ -26,8 +26,9 @@ exports.updateCartItem = async (req, res) => {
     const { id: bookId } = req.params; // Extract bookId from params
     const userId = req.user.id; // Extract userId from req.user
     const { amount } = req.body;
-    await cartService.updateCartItem(bookId, userId, amount);
-    res.redirect('/users/cart'); 
+    const update =  await cartService.updateCartItem(bookId, userId, amount);
+    const newCart = await cartService.getCartItems(userId);
+    res.status(200).send({ message: 'Đã cập nhật giỏ hàng thành công', newCart });
   } catch (error) {
     console.error('Error updating cart item in controller:', error);
     res.status(500).send('Error updating cart item in controller');
@@ -37,13 +38,25 @@ exports.updateCartItem = async (req, res) => {
 exports.removeCartItem = async (req, res) => {
   try {
     const { id } = req.params;
-    await cartService.removeCartItemByBookID(id);
-    res.redirect('/users/cart');
+    const remove = await cartService.removeCartItemByBookIDandUserID(id, req.user.id);
+    const newCart = await cartService.getCartItems(req.user.id);
+    res.status(200).send({ message: 'Đã xóa giỏ hàng thành công', newCart });
   } catch (error) {
     console.error('Error removing cart item:', error);
     res.status(500).send('Error removing cart item');
   }
 };
+
+//count cart items
+exports.getCartCount = async (req, res) => {
+  try {
+    const count = await cartService.countCartItems(req.user.id);
+    res.send({ count });
+  } catch (error) {
+    console.error('Error counting cart items:', error);
+    res.status(500).send('Error counting cart items');
+  }
+}
 
 exports.checkCartStatus = async (req, res) => {
   try {

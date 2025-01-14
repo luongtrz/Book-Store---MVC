@@ -18,85 +18,81 @@
         </li>
       </ul>
     </div>
-    <header class="bg-white shadow-md mt-8 px-10">
-      <div class="mx-auto py-4 justify-between items-center">
-        <nav class="w-full">
-          <ul class="flex justify-between">
-            <li class="container-product text-gray-600">
-              <div class="flex items-center space-x-4">
-                <span>Book</span>
-              </div>
-            </li>
-            <li class="text-gray-600 -ml-10">Price</li>
-            <li class="text-gray-600 -ml-10">Amount</li>
-            <li class="text-gray-600 -ml-10">Total</li>
-            <li class="text-gray-600 -ml-10">Delete</li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <table class="w-full bg-white shadow-md mt-8 px-10">
+      <!-- Header của bảng -->
+      <thead>
+        <tr class="bg-gray-100 text-gray-600 text-left">
+          <th class="py-4 px-10">Book</th>
+          <th class="py-4 px-6">Price</th>
+          <th class="py-4 px-6">Amount</th>
+          <th class="py-4 px-6">Total</th>
+          <th class="py-4 px-6">Delete</th>
+        </tr>
+      </thead>
 
-    {{#each cartItems}}
-    <header class="bg-white shadow-md mt-8 px-10">
-      <div class=" mx-auto py-4 justify-between items-center">
-        <nav class="w-full">
-          <ul class="flex justify-between items-center">
-            <li class="container-product text-gray-600">
-              <div class="flex items-center space-x-4">
-                <div class="mr-4 flex space-x-3 items-center">
-                  <div>
-                    <img src="{{this.Book.image}}" alt="{{this.Book.title}}"
-                      class="w-20 h-20 object-cover rounded-lg shadow-md">
-                  </div>
-                  <div class="container-inforbook">
-                    <h3 class="text-lg font-medium">{{this.Book.title}}</h3>
-                  </div>
-                </div>
+      <!-- Nội dung của bảng -->
+      <tbody>
+        {{#each cartItems}}
+        <tr class="border-t">
+          <!-- Cột Book -->
+          <td class="py-4 px-6">
+            <div class="flex items-center space-x-4">
+              <img src="{{this.Book.image}}" alt="{{this.Book.title}}"
+                class="w-20 h-20 object-cover rounded-lg shadow-md">
+              <div>
+                <h3 class="text-lg font-medium">{{this.Book.title}}</h3>
               </div>
-            </li>
-            <li class="text-gray-600 -ml-10">
-              <span class="text-primary font-medium">{{this.Book.price}} ₫</span>
-            </li>
-            <li class="text-gray-600 -ml-10">
-              <div class="flex items-center justify-between">
-                <form action="/users/cart/update/{{this.Book.id}}" method="POST" class="flex items-center">
-                  <input type="number" name="amount" value="{{this.amount}}" min="1" id="text-amount"
-                    style="width: 70px; height: 41.5px;" class="text-center border rounded">
-                  <button class="text-primary font-medium px-2" id="btn-update">Update</button>
-                </form>
-              </div>
-            </li>
-            <li class="text-gray-600 -ml-8 flex items-center">
-              <span class="text-primary font-medium" style="padding-right: 20px">{{this.total}} ₫</span>
-            </li>
-            <li class="text-gray-600 -ml-10 flex items-center" style="padding-right: 15px">
-              <form action="/users/cart/remove/{{this.Book.id}}" method="POST">
-                <button type="submit" class="text-red-500">Delete</button>
-              </form>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    {{/each}}
+            </div>
+          </td>
+
+          <!-- Cột Price -->
+          <td class="py-4 px-4 text-gray-600">
+            <span class="text-primary font-medium">{{this.Book.price}} ₫</span>
+          </td>
+
+          <!-- Cột Amount -->
+          <td class="py-4 px-4">
+            <div class="flex items-center">
+              <button class="minus-btn text-primary font-medium px-2" data-book-id="{{this.Book.id}}">-</button>
+              <input type="number" name="amount" value="{{this.amount}}" min="1"
+                class="text-center border rounded w-16 h-10">
+              <button class="plus-btn text-primary font-medium px-2" data-book-id="{{this.Book.id}}">+</button>
+            </div>
+          </td>
+
+          <!-- Cột Total -->
+          <td class="py-4 px-4 text-gray-600">
+            <span class="text-primary font-medium">{{this.total}} ₫</span>
+          </td>
+
+          <td class="py-4 px-4">
+            <button class="delete-btn text-red-500" data-book-id="{{this.Book.id}}">Delete</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
 
     <header class="bg-white shadow-md mt-8">
       <div class="container mx-auto py-4 justify-between items-center">
         <nav class="w-full">
           <div class="flex items-center justify-between space-x-4">
-            <span class="text-lg font-medium">Total Payment ({{cartItems.length}} Products): {{cartTotal}} VND</span>
+            <span class="text-lg font-medium" id="total-payment">Total Payment ({{cartItems.length}} Products):
+              {{cartTotal}} VND</span>
             <div class="justify-center items-center flex">
-               <div class="checkout-notification"></div>
+              <div class="checkout-notification"></div>
               <a href="/list"
                 class="justify-end bg-red-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark mx-4">Shopping
                 more book</a>
+
               <a 
                 class="checkout-button justify-end bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark"
                 href="#"
               >
                 Payment
               </a>
-             
+
 
 
             </div>
@@ -105,9 +101,6 @@
       </div>
     </header>
   </div>
-  <script src="/scripts/cartNotification.js">
-  
-
-  
-  </script>
+  <script src="/scripts/cartNotification.js"></script>
+  <script src="/scripts/cart.js"></script>
 </section>
