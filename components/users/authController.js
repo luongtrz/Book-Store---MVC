@@ -13,7 +13,7 @@ exports.login = async (req, res, next) => {
   const { email } = req.body;
   try {
     passport.authenticate('local', async (err, user, info) => {
-      console.log('user', user);
+      console.log('---------------user', user);
 
       if (err) {
         return next(err);
@@ -22,12 +22,22 @@ exports.login = async (req, res, next) => {
         return res.status(400).render('login', { title: 'Sign In Page', error: 'Invalid email or password' });
       }
       try {
+        const forgot = await userServices.findUserByEmail(user.dataValues.email);
+        
+        if (!forgot) {
+            return res.status(400).render('forgotPassword', { error: 'Email does not exist please register and activate account' });
+        }
+        const isBanned = await userServices.isUserBanned(user.dataValues.email);
+        if (isBanned) {
+        return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned.' });
+        }
         req.logIn(user, (err) => {
           if (err) {
             return next(err);
           }
-          req.session.userId = user._id;
-          req.session.userEmail = user.email;
+          req.session.userId = user.dataValues._id;
+          req.session.userEmail = user.dataValues.email;
+          console.log('++++++++User logged in:', user);
           return res.redirect('/');
         });
       } catch (error) {
@@ -49,13 +59,14 @@ exports.googleAuthCallback = (req, res, next) => {
     if (!user) {
       return res.redirect('/users/login');
     }
+    console.log('--------------User logged in:', user);
     try {
-        const forgot = await userServices.findUserByEmail(user.email);
+        const forgot = await userServices.findUserByEmail(user.dataValues.email);
         
         if (!forgot) {
             return res.status(400).render('forgotPassword', { error: 'Email does not exist please register and activate account' });
         }
-        const isBanned = await userServices.isUserBanned(user.email);
+        const isBanned = await userServices.isUserBanned(user.dataValues.email);
         if (isBanned) {
         return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned.' });
         }
@@ -64,8 +75,8 @@ exports.googleAuthCallback = (req, res, next) => {
             return next(err);
 
         }
-        req.session.userEmail = user.email;
-        console.log('User logged in:', user.email);
+        req.session.userEmail = user.dataValues.email;
+        console.log('User logged in:', user.dataValues.email);
         return res.redirect('/');
           });
         } 
