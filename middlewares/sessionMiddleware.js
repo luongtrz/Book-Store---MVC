@@ -10,7 +10,7 @@ const sessionMiddleware = session({
     mongoUrl: process.env.MONGODB_URI,
     collectionName: 'sessionsss'
   }),
-  cookie: { secure: false } // Set to true if using HTTPS
+  cookie: { secure: false } // Set to true if using HTTPS 
 });
 
 module.exports = sessionMiddleware;
