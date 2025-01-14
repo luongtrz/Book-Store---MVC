@@ -35,7 +35,7 @@ exports.login = async (req, res, next) => {
           if (err) {
             return next(err);
           }
-          req.session.userId = user.dataValues._id;
+          req.session.userId = user.dataValues.id;
           req.session.userEmail = user.dataValues.email;
           console.log('++++++++User logged in:', user);
           return res.redirect('/');
@@ -75,8 +75,10 @@ exports.googleAuthCallback = (req, res, next) => {
             return next(err);
 
         }
+        req.session.userId = user.dataValues.id;
+        console.log('req.session.userId', req.session.userId);
         req.session.userEmail = user.dataValues.email;
-        console.log('User logged in:', user.dataValues.email);
+        console.log('req.session.userEmail', req.session.userEmail);
         return res.redirect('/');
           });
         } 
