@@ -3,9 +3,9 @@
     <div class="row">
       <div class="min-h-[980px] bg-white py-10 lg:col-6 lg:py-[114px]">
         <div class="mx-auto w-full max-w-[480px]">
-          <h1 class="mb-4 text-center text-4xl">Retrieve Password</h1>
+          <h1 class="mb-4 text-center text-4xl">Activate Account</h1>
           
-          <form action="/users/forgot-password" method="POST" id="forgot-password-form">
+          <form action="/users/activate-account" method="POST" id="activate-account-form">
             <div class="form-group mt-4">
               <label for="email" class="form-label">Email Address</label>
               <input
@@ -18,16 +18,15 @@
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               />
             </div>
-            {{#if error}}
+          {{#if error}}
             <p class="text-lg m-3" style="color: red;">{{error}}</p>
           {{/if}}
           {{#if success}}
             <p class="text-lg m-3 flex" style="color: green;">{{success}}</p>
           {{/if}}
-            <button class="btn btn-primary mt-10 block w-full" type="submit">
+            <button class="btn btn-primary mt-8 block w-full" type="submit">
                 Send Email
             </button>
-
             {{#if message}}
             <div class="col-md-12">
               <div class="p-3 mt-3 alert-warning">

@@ -1471,3 +1471,10 @@ select:invalid {
 .forgot-password-link:hover {
   color: #808080; /* Grey color */
 }
+
+.activate-account-link {
+  color: #FFA500; /* Orange color */
+}
+.activate-account-link:hover {
+  color: #808080; /* Grey color */
+}

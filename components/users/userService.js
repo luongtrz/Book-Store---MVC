@@ -160,8 +160,19 @@ const isUserBanned = async (userId) => {
         throw new Error('Error checking if user is banned');
     }
 };
-  
 
+const activateUser = async (userId) => {
+    try {
+        const user = await User.findByPk(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        user.activated_status = true;
+        await user.save();
+    } catch (error) {
+        throw new Error('Error activating user');
+    }
+};
 
 
 module.exports = {
@@ -178,5 +189,6 @@ module.exports = {
     findUserByOtp,
     updateUserPassword,
     updateAvatar,
-    isUserBanned
+    isUserBanned,
+    activateUser
 };

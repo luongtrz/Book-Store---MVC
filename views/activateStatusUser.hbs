@@ -4,57 +4,16 @@
       <div class="min-h-[980px] bg-white py-10 lg:col-6 lg:py-[114px]">
         <div class="mx-auto w-full max-w-[480px]">
           
-          <h1 class="mb-4 text-center text-4xl">Reset Password</h1>
+          <h1 class="mb-4 text-center text-4xl">Activate Account</h1>
           
-          
-          <form action="/users/reset" method="POST" id="formReset">
+          <form action="/users/activate" method="POST" id="formActivate">
             
-            <div class="form-group mt-4">
-              <label for="password" class="form-label">New Password</label>
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                name="password"
-                placeholder="Your Password"
-                required
-              />
-            </div>
-
-            <div class="form-group mt-4">
-              <label for="confirm-password" class="form-label">Confirm New Password</label>
-              <input
-                type="password"
-                id="confirm-password"
-                class="form-control"
-                name="confirm-password"
-                placeholder="Confirm Your Password"
-                autocomplete="new-password"
-                required
-              />
-            </div>
-          {{#if error}}
-            <p class="text-xl m-3" style="color: red;">{{error}}</p>
-          {{/if}}
-          {{#if success}}
-            <p class="text-xl m-3 flex" style="color: green;">{{success}}</p>
-          {{/if}}
-
-
-            <button class="btn btn-primary mt-10 block w-full" type="submit">
-                Reset Password
-            </button>
-            
-            {{#if message}}
-            <div class="col-md-12">
-              <div class="p-3 mt-3 alert-warning">
-                {{{message}}}
-              </div>
-            </div>
-            {{/if}}
-            <input type="hidden" name="email" value="{{email}}">
-            <input type="hidden" name="token" value="{{token}}">
-
+               <div class="bg-red-100 items-center justify-center h-screen">
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                         <h1 class="text-2xl font-bold text-red-600 mb-4">{{success}}</h1>
+                         <a href="/users/login" class="text-blue-500 underline">Go to Log In</a>
+                    </div>
+               </div>
           </form>
           
         </div>
@@ -109,7 +68,7 @@
       </div>
     </div>
   </div>
-  <script src="/scripts/resetPassword.js"></script>
+  <script src=""></script>
 
 </section>
 
