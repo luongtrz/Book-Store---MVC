@@ -3,9 +3,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET ||'luongtrz',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: flase,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
     collectionName: 'sessionsss'
