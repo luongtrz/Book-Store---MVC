@@ -1465,9 +1465,3 @@ select:invalid {
 .filter-list .filter-btn {
   white-space: nowrap;
 }
-.forgot-password-link {
-  color: #FFA500; /* Orange color */
-}
-.forgot-password-link:hover {
-  color: #808080; /* Grey color */
-}

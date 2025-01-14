@@ -1,7 +1,7 @@
 // config/database.js
 const mongoose = require('mongoose');
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI || 'mongodb+srv://luongtrz:luongtrzpass@book.hrsim.mongodb.net/BookStore';
 
 const connectDB = async () => {
   try {

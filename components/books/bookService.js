@@ -1,6 +1,5 @@
-// components/books/bookService.js
-const { Book, Review, User } = require('../../models/model.index');
-const { Sequelize } = require('sequelize');
+// components/books/services/bookService.js
+const Book = require('../../models/Book');
 
 const getAllBooks = async (genre, author, price, purchaseCount) => {
   try {
@@ -10,39 +9,32 @@ const getAllBooks = async (genre, author, price, purchaseCount) => {
     if (author) filters.author = author;
     if (purchaseCount) {
       const [minSold, maxSold] = purchaseCount.split('-').map(Number);
-      filters.sold = { [Sequelize.Op.gte]: minSold, [Sequelize.Op.lte]: maxSold || Infinity };
+      filters.sold = { $gte: minSold, $lte: maxSold || Infinity };
     }
     if (price) {
       const [minPrice, maxPrice] = price.split('-').map(Number);
-      filters.price = { [Sequelize.Op.gte]: minPrice, [Sequelize.Op.lte]: maxPrice || Infinity };
+      filters.price = { $gte: minPrice, $lte: maxPrice || Infinity };
     }
 
-    const books = await Book.findAll({ where: filters });
+    const books = await Book.find(filters);
     return books;
   } catch (error) {
     throw new Error('Error fetching books');
   }
 };
 
-const getBookByTitleId = async (title_id) => {
+const getBookById = async (id) => {
   try {
-    const book = await Book.findOne({ where: { title_id } });
-    //console.log('book services:', book);
+    const book = await Book.findOne({ id: id});
     return book;
   } catch (error) {
-    throw new Error('Error fetching book by title_id');
+    throw new Error('Error fetching book');
   }
 };
 
 const getRelatedBooks = async (genre, excludeId) => {
   try {
-    const relatedBooks = await Book.findAll({
-      where: {
-        genre,
-        id: { [Sequelize.Op.ne]: excludeId }
-      },
-      limit: 5
-    });
+    const relatedBooks = await Book.find({ genre, _id: { $ne: excludeId } }).limit(5);
     return relatedBooks;
   } catch (error) {
     throw new Error('Error fetching related books');
@@ -51,10 +43,8 @@ const getRelatedBooks = async (genre, excludeId) => {
 
 const getGenres = async () => {
   try {
-    const genres = await Book.findAll({
-      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('genre')), 'genre']]
-    });
-    return genres.map(genre => genre.genre);
+    const genres = await Book.distinct('genre');
+    return genres;
   } catch (error) {
     throw new Error('Error fetching genres');
   }
@@ -62,31 +52,27 @@ const getGenres = async () => {
 
 const getAuthors = async () => {
   try {
-    const authors = await Book.findAll({
-      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('author')), 'author']]
-    });
-    //console.log('Fetched authors:', authors); // Add this line to log the fetched authors
-    return authors.map(author => author.author);
+    const authors = await Book.distinct('author');
+    return authors;
   } catch (error) {
-    console.error('Error fetching authors:', error); // Add this line to log the error
     throw new Error('Error fetching authors');
   }
 };
 
 const getPrices = async () => {
   try {
-    const prices = await Book.findAll({
-      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('price')), 'price']]
-    });
-    return prices.map(price => price.price);
+    const prices = await Book.distinct('price');
+    return prices;
   } catch (error) {
     throw new Error('Error fetching prices');
   }
 };
 
+
+
 const filterBooks = async (filters) => {
   try {
-    const books = await Book.findAll({ where: filters });
+    const books = await Book.find(filters);
     return books;
   } catch (error) {
     throw new Error('Error filtering books');
@@ -95,88 +81,55 @@ const filterBooks = async (filters) => {
 
 const searchBooks = async (searchText) => {
   try {
-    const searchTerms = searchText.split(' ').map(term => `%${term}%`);
-    const books = await Book.findAll({
-      where: {
-        [Sequelize.Op.or]: [
-          { title: { [Sequelize.Op.iLike]: { [Sequelize.Op.any]: searchTerms } } },
-          { description: { [Sequelize.Op.iLike]: { [Sequelize.Op.any]: searchTerms } } }
-        ]
-      }
+    const searchTerms = searchText.split(' ').map(term => new RegExp(term, 'i'));
+    const books = await Book.find({
+      $or: [
+        { title: { $in: searchTerms } },
+        { description: { $in: searchTerms } }
+      ]
     });
     return books;
   } catch (error) {
     throw new Error('Error searching books');
   }
 };
-
-const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText, page, limit }) => {
-  const filters = {};
-
-  if (genre && genre !== '') filters.genre = genre;
-  if (author && author !== '') filters.author = author;
-  if (purchaseCount && purchaseCount !== '') {
-    const [minSold, maxSold] = purchaseCount.split('-').map(Number);
-    filters.sold = { [Sequelize.Op.gte]: minSold, [Sequelize.Op.lte]: maxSold || Infinity };
-  }
-  if (price && price !== '') {
-    const [minPrice, maxPrice] = price.split('-').map(Number);
-    filters.price = { [Sequelize.Op.gte]: minPrice, [Sequelize.Op.lte]: maxPrice || Infinity };
-  }
-  if (searchText && searchText !== '') {
-    const searchTerms = searchText.split(' ').map(term => `%${term}%`);
-    filters[Sequelize.Op.or] = [
-      { title: { [Sequelize.Op.iLike]: { [Sequelize.Op.any]: searchTerms } } },
-      { description: { [Sequelize.Op.iLike]: { [Sequelize.Op.any]: searchTerms } } }
-    ];
-  }
-
-  const offset = (page - 1) * limit;
-  const books = await Book.findAll({ where: filters, offset, limit });
-  const totalBooks = await Book.count({ where: filters });
-  const totalPages = Math.ceil(totalBooks / limit);
-
-  return { books, totalPages };
-};
-
-const getReviewsByBookId = async (bookId, page, limit) => {
+const searchAndFilterBooks = async ({ genre, author, purchaseCount, price, searchText }) => {
   try {
-    const offset = (page - 1) * limit;
-    const reviews = await Review.findAndCountAll({
-      where: { book_id: bookId },
-      offset,
-      limit,
-      include: [{ model: User, attributes: ['username'] }]
-    });
-    const totalPages = Math.ceil(reviews.count / limit);
-    const averageRating = reviews.rows.reduce((acc, review) => acc + review.rating, 0) / reviews.count;
-    return { reviews: reviews.rows, totalPages, averageRating };
-  } catch (error) {
-    console.error('Error fetching reviews:', error);
-    throw new Error('Error fetching reviews');
-  }
-};
+    const filters = {};
 
-const addReview = async (bookId, userId, comment, rating) => {
-  try {
-    const review = await Review.create({ book_id: bookId, user_id: userId, comment, rating });
-    return review;
+    if (genre) filters.genre = genre;
+    if (author) filters.author = author;
+    if (purchaseCount) {
+      const [minSold, maxSold] = purchaseCount.split('-').map(Number);
+      filters.sold = { $gte: minSold, $lte: maxSold || Infinity };
+    }
+    if (price) {
+      const [minPrice, maxPrice] = price.split('-').map(Number);
+      filters.price = { $gte: minPrice, $lte: maxPrice || Infinity };
+    }
+    if (searchText) {
+      const searchTerms = searchText.split(' ').map(term => new RegExp(term, 'i'));
+      filters.$or = [
+        { title: { $in: searchTerms } },
+        { description: { $in: searchTerms } }
+      ];
+    }
+
+    const books = await Book.find(filters);
+    return books;
   } catch (error) {
-    console.error('Error adding review:', error);
-    throw new Error('Error adding review');
+    throw new Error('Error searching and filtering books');
   }
 };
 
 module.exports = {
   getAllBooks,
-  getBookByTitleId,
+  getBookById,
   getRelatedBooks,
   getGenres,
   getAuthors,
   getPrices,
   filterBooks,
   searchBooks,
-  searchAndFilterBooks,
-  getReviewsByBookId,
-  addReview,
+  searchAndFilterBooks
 };

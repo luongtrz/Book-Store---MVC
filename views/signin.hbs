@@ -37,10 +37,6 @@
                 placeholder="Your Password"
               />
             </div>
-            <input type="hidden" id="banned" name="banned" value="{{banned}}" />
-            {{#if banned}}
-            <div class="alert alert-danger text-red-500">Your account has been banned.</div>
-            {{/if}}
             {{#if error}}
             <div class="alert alert-danger text-red-500">{{error}}</div>
             {{/if}}

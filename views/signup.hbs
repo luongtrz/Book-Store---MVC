@@ -4,23 +4,13 @@
       <div class="min-h-[980px] bg-white py-10 lg:col-6 lg:py-[114px]">
         <div class="mx-auto w-full max-w-[480px]">
           
-          <h1 class="mb-4 text-center text-4xl">Sign Up</h1>
+          <h1 class="mb-4 text-center">Sign Up</h1>
           
-          <div class="flex signin-options mt-10">
-            <a 
-              class="flex items-center justify-center btn btn-outline-white w-full text-dark border border-gray-300 rounded-lg py-2 px-4 hover:bg-gray-100 transition"
-              href="/users/auth/google"
+          <div class="signin-options mt-10">
+            <a class="btn btn-outline-white block w-full text-dark" href="#"
+              >Sign Up With Google</a
             >
-              <img 
-                src="/images/icon-google.png" 
-                alt="Google Logo" 
-                class="w-5 h-5 mr-2"
-                style="width: 20px; height: 20px;"
-              />
-              Log In With Google
-            </a>
           </div>
-
           <div
             class="relative my-8 text-center after:absolute after:left-0 after:top-1/2 after:z-[0] after:w-full after:border-b after:border-border after:content-['']"
           >
@@ -29,14 +19,6 @@
             >
           </div>
 
-          {{#if error}}
-            <p class="text-xl m-3" style="color: red;">{{error}}</p>
-          {{/if}}
-
-          {{#if success}}
-            <p class="text-xl m-3 flex" style="color: green;">{{success}}</p>
-           
-          {{/if}}
           <form action="" method="POST" id="signupForm">
             <div class="form-group">
               <label for="name" class="form-label" id="">Full Name</label>
@@ -60,7 +42,6 @@
                 required
               />
             </div>
-            <div id="emailFeedback" class="alert alert-danger text-red-500" style="display: none;"></div>
             <div class="form-group mt-4">
               <label for="password" class="form-label">Password</label>
               <input
@@ -72,27 +53,20 @@
                 required
               />
             </div>
-            <div id="passwordError" class="alert alert-danger text-red-500" style="display: none;"></div>
-            <div class="form-group mt-4">
-              <label for="confirm-password" class="form-label">Confirm Password</label>
-              <input
-                type="password"
-                id="confirm-password"
-                class="form-control"
-                name="confirm-password"
-                placeholder="Confirm Your Password"
-                autocomplete="new-password"
-                required
-              />
-            </div>
-            <div id="confirmPasswordError" class="alert alert-danger text-red-500" style="display: none;"></div>
             <input
               class="btn btn-primary mt-10 block w-full"
               type="submit"
               value="Sign Up"
             />
           </form>
-          
+          {{#if error}}
+            <p class="text-xl m-3" style="color: red;">{{error}}</p>
+          {{/if}}
+
+          {{#if success}}
+            <p class="text-xl m-3" style="color: green;">{{success}}</p>
+          {{/if}}
+
           <!-- thông báo đăng kí -->
           <div id="notification" class="notification" style="display: none;">
             <span id="notification-message"></span>
@@ -106,7 +80,7 @@
       >
         <img
           class="absolute top-0 left-0 h-full w-full"
-          src="/images/login-banner-bg.svg"
+          src="images/login-banner-bg.svg"
           alt=""
         />
         <div class="w-full text-center">
@@ -121,7 +95,7 @@
                   width="667"
                   height="557"
                   class="mx-auto"
-                  src="/images/nhung-cau-noi-hay-ve-sach-1.jpg"
+                  src="images/nhung-cau-noi-hay-ve-sach-1.jpg"
                   alt=""
                 />
               </div>
@@ -130,7 +104,7 @@
                   width="667"
                   height="557"
                   class="mx-auto"
-                  src="/images/nhung-cau-noi-hay-ve-sach-2.jpg"
+                  src="images/nhung-cau-noi-hay-ve-sach-2.jpg"
                   alt=""
                 />
               </div>
@@ -139,7 +113,7 @@
                   width="667"
                   height="557"
                   class="mx-auto"
-                  src="/images/nhung-cau-noi-hay-ve-sach-3.jpg"
+                  src="images/nhung-cau-noi-hay-ve-sach-3.jpg"
                   alt=""
                 />
               </div>
@@ -150,5 +124,5 @@
       </div>
     </div>
   </div>
-  <script src="/scripts/signup.js"></script>
+  <script src="scripts/signup.js"></script>
 </section>

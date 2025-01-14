@@ -15,8 +15,10 @@
         <div class="flex flex-wrap lg:flex-nowrap flex-row m-8 justify-evenly gap-4 ">
             <div class="flex justify-evenly flex-wrap gap-4 ">
                 <img class="sticky top-4 bg-white p-4 border-2" id="book-image" src="{{book.image}}" alt="{{book.title}}"/>
+            
 
             <div class="" id=" order">
+
                 <div class="bg-white rounded-xl pb-2">
                     <h1 class="text-3xl font-bold text-red-500 text-center py-2 mx-6 border-b">Mua ngay!</h1>
 
@@ -37,13 +39,17 @@
                     </div>
 
                     <div class="flex justify-center p-2">
-                        <button class="border bg-red-500 text-white p-2 rounded-xl w-4/5" id="buy-now">
+                        <button class="border bg-red-500 text-white p-2 rounded-xl w-4/5" id="buy-now"
+                            onclick="window.location.href='signin.html'">
                             Mua ngay</button>
                     </div>
 
                     <div class="flex justify-center p-2">
-                        <button class="border text-blue-500 p-2 rounded-xl w-4/5" id="add-cart">Thêm vào giỏ
+                        <button class="border text-blue-500 p-2 rounded-xl w-4/5" id="buy-now">Thêm vào giỏ
                             hàng</button>
+                    </div>
+                    <div class="flex justify-center p-2">
+                        <button class="border text-blue-500 p-2 rounded-xl w-4/5" id="buy-now">Mua trả sau</button>
                     </div>
                 </div>
             </div>
@@ -65,14 +71,8 @@
                 <p class="font-bold text-black">Thông tin vận chuyển</p>
 
                 <div class="flex justify-between border-b-2 ">
-                    {{#if contact}}
-                        <p id="book-delivery">Giao đến <b class="text-red-500">{{contact.address}}</b></p>
-                    {{else}}
-                        <p id="book-delivery"><b class="text-red-500">Đăng nhập để chọn địa chỉ của bạn</b></p>
-                    {{/if}}
-                    <a href="/users/profile">
-                        <button class="p-1 font-bold text-blue-500" id="change-des">Đổi ngay</button>
-                    </a>
+                    <p id="book-delivery">Giao đến 227 Nguyễn Văn cừ, P.4, Q.5, Thành phố Hồ Chí Minh</p>
+                    <button class="p-1 font-bold text-blue-500" id="change-des">Đổi ngay</button>
                 </div>
 
                 <div class="py-2 border-b-2">
@@ -152,19 +152,20 @@
 
                 </ul>
             </div>
-
+        </div>
+        </div>
         <!-- related products -->
         <div class="bg-white border-2 my-4 rounded-xl p-4 w-full pb-5" id="related-books">
             <p class="font-bold text-black">Sản phẩm liên quan cùng thể loại</p>
             <div class="flex overflow-x-auto gap-4 scroll-container">
                 {{#each relatedBooks}}
                 <div class="flex-shrink-0 snap-center">
-                    <a href="/list/{{this.title_id}}">
+                    <a href="/list/{{this.id}}">
                         <div class="card">
                             <img class="max-h-[150px] min-w-[150px] w-full object-cover rounded-md card-sub-img" src="{{this.image}}" alt="{{this.title}}" />
                             <div class="card-content mt-2">
                                 <h3 class="text-lg font-medium wrap related-title">
-                                    <a class="wrap" href="/list/{{this.title_id}}">
+                                    <a class="wrap" href="/list/{{this.id}}">
                                         {{this.title}}
                                     </a>
                                 </h3>
@@ -176,56 +177,7 @@
                 {{/each}}
             </div>
         </div>
-
-        <!-- reviews section -->
-        <input type="hidden" id="book-id" value="{{book.id}}">
-        <input type="hidden" id="user-id" value="">
-        <div class="bg-white border-2 my-4 rounded-xl p-4" id="reviews-section">
-            <p class="font-bold text-black">Đánh giá sản phẩm</p>
-            <div class="add-review" style="display: none;">
-                <h3>Thêm đánh giá</h3>
-                <textarea class="w-full mt-2 p-2 border rounded" id="review-comment" placeholder="Viết đánh giá của bạn..."></textarea>
-                <div class="star-rating flex gap-1 mt-2">
-                    <input type="radio" id="star-5" name="rating" value="5" />
-                    <label for="star-5">&#9733;</label>
-
-                    <input type="radio" id="star-4" name="rating" value="4" />
-                    <label for="star-4">&#9733;</label>
-
-                    <input type="radio" id="star-3" name="rating" value="3" />
-                    <label for="star-3">&#9733;</label>
-
-                    <input type="radio" id="star-2" name="rating" value="2" />
-                    <label for="star-2">&#9733;</label>
-
-                    <input type="radio" id="star-1" name="rating" value="1" />
-                    <label for="star-1">&#9733;</label>
-                </div>
-                <button class="border bg-red-500 text-white p-2 rounded-xl w-full mt-2" id="submit-review">Gửi đánh giá</button>
-            </div>
-            <p class="text-red-500" id="login-prompt" style="display: none;">Bạn cần <a href="/login" class="text-blue-500">đăng nhập</a> để thêm đánh giá.</p>
-            <p class="font-bold text-black mt-6">Average Rating: <span id="average-rating">{{book.averageRating}}</span></p>
-            <div id="reviews-container" class="mt-4 space-y-4">
-                {{#each reviews}}
-                <div class="review p-4 border rounded-lg shadow-md bg-white">
-                    <div class="flex items-center mb-2">
-                        <div class="font-bold text-blue-600">{{this.User.username}}</div>
-                        <div class="ml-2 text-sm text-gray-500">Rating: {{this.rating}}</div>
-                    </div>
-                    <p class="text-gray-700">{{this.comment}}</p>
-                </div>
-                {{/each}}
-            </div>
-            <div id="pagination-controls" class="flex justify-between mt-4">
-                <button id="prev-page" class="p-2 border rounded" disabled>Previous</button>
-                <div class="flex items-center">
-                    <span id="current-page">1</span>/<span id="total-pages">{{totalPages}}</span>
-                </div>
-                <button id="next-page" class="p-2 border rounded">Next</button>
-            </div>
-        </div>
         <script src="/scripts/single.js"></script>
-        <script src="/scripts/fetchUserId.js"></script>
     </body>
 </section>
 
