@@ -8,7 +8,7 @@ const sessionMiddleware = session({
   saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
-    collectionName: 'sessionss'
+    collectionName: 'sessionsss'
   }),
   cookie: { secure: false } // Set to true if using HTTPS
 });
