@@ -1,4 +1,3 @@
-
 <section class="">
   <div class="container max-w-full">
     <div class="row">
@@ -27,7 +26,7 @@
               >Or Sign In With Email</span
             >
           </div>
-          <form action="/users/login" method="POST">
+          <form id="loginForm" action="/users/login" method="POST">
             <div class="form-group">
               <label for="email" class="form-label">Email Address</label>
               <input
@@ -54,10 +53,11 @@
             {{#if success}}
             <div class="alert alert-success text-green-500">{{success}}</div>
             {{/if}}
+            <div id="bannedMessage" class="alert alert-danger text-red-500" style="display: none;">Your account has been banned.</div>
             <a href="/users/forgot-password" class="forgot-password-link block text-left my-4">Forgot Password</a>
-            <input
+            <input id="loginBtn"
               class="btn btn-primary mt-3 block w-full"
-              type="submit"
+              type="button"
               value="Log In"
             />
             <p class="mt-6 text-center">
@@ -117,4 +117,5 @@
       </div>
     </div>
   </div>
+  <script src="/scripts/login.js" defer></script>
 </section>

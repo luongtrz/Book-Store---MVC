@@ -23,15 +23,16 @@
       <thead>
         <tr class="bg-gray-100 text-gray-600 text-left">
           <th class="py-4 px-10">Book</th>
-          <th class="py-4 px-6">Price</th>
-          <th class="py-4 px-6">Amount</th>
-          <th class="py-4 px-6">Total</th>
-          <th class="py-4 px-6">Date</th>
-          <th class="py-4 px-6">Status</th>
+          <th class="py-4 px-2">Price</th>
+          <th class="py-4 px-2">Amount</th>
+          <th class="py-4 px-2">Total</th>
+          <th class="py-4 px-2">Date</th>
+          <th class="py-4 px-2">Status</th>
+          <th class="py-4 px-2">Payment Status</th>
+          <th class="py-4 px-2">Payment method</th>
         </tr>
       </thead>
 
-      <!-- Nội dung của bảng -->
       <tbody>
         {{#each orderItems}}
         <tr class="border-t">
@@ -47,33 +48,43 @@
           </td>
 
           <!-- Cột Price -->
-          <td class="py-4 px-6 text-gray-600">
+          <td class="py-4 px-2 text-gray-600">
             <span class="text-primary font-medium">{{this.Book.price}} ₫</span>
           </td>
 
           <!-- Cột Amount -->
-          <td class="py-4 px-6 text-gray-600">
+          <td class="py-4 px-2 text-gray-600">
             <span class="text-primary font-medium">{{this.amount}}</span>
           </td>
 
           <!-- Cột Total -->
-          <td class="py-4 px-6 text-gray-600">
+          <td class="py-4 px-2 text-gray-600">
             <span class="text-primary font-medium">{{this.total}} ₫</span>
           </td>
 
           <!-- Cột Date -->
-          <td class="py-4 px-6 text-gray-600">
+          <td class="py-4 px-2 text-gray-600">
             <span class="text-primary font-medium">{{this.date_order}}</span>
           </td>
 
           <!-- Cột Status -->
-          <td class="py-4 px-6 text-gray-600">
+          <td class="py-4 px-2 text-gray-600">
             <span class="text-primary font-medium">{{this.status}}</span>
+          </td>
+
+          <!-- Cột Payment Status -->
+          <td class="py-4 px-2 text-gray-600">
+            <span class="text-primary font-medium">{{this.payment_status}}</span>
+          </td>
+
+          <!-- Cột Payment Method -->
+          <td class="py-4 px-2 text-gray-600">
+            <span class="text-primary font-medium">{{this.payment_method}}</span>
+          </td>
         </tr>
         {{/each}}
       </tbody>
     </table>
-
   </div>
 
   <script>

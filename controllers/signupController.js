@@ -7,11 +7,6 @@ exports.getSignup = (req, res) => {
 exports.postSignup = async (req, res) => {
     const { fullName, email, password } = req.body;
     try {
-        let user = await userServices.findUserByEmail(email);
-        if (user) {
-            return res.status(400).render('signup', {error: 'Email đã tồn tại' });
-        }
-
         user = await userServices.createUser(fullName, email, password);
         res.render('signup', {success: 'Đăng kí thành công! Hãy đăng nhập để tiếp tục!' });
     } catch (error) {
