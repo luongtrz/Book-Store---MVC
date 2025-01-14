@@ -4,13 +4,20 @@
       {
         "src": "index.js",
         "use": "@vercel/node"
+      },
+      {
+        "src": "public/**/*",
+        "use": "@vercel/static"
       }
     ],
     "routes": [
       {
+        "src": "/script/(.*)",
+        "dest": "/public/scripts/$1"
+      },
+      {
         "src": "/(.*)",
         "dest": "/index.js"
       }
-    ],
-    "buildCommand": "npm run build"
+    ]
   }
