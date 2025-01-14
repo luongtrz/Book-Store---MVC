@@ -164,6 +164,21 @@ const isUserBanned = async (email) => {
     }
 };
 
+const activateUser = async (mail) => {
+    try {
+        
+        const user = await User.findOne({ where: { email: mail } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        user.activated_status = TRUE;
+        await user.save();
+        return user;
+    } catch (error) {
+        console.error('Error activating user:', error);
+        throw error;
+    }
+};
 const changeUserPassword = async (userId, oldPassword, newPassword) => {
     try {
         const user = await User.findByPk(userId);
@@ -180,6 +195,7 @@ const changeUserPassword = async (userId, oldPassword, newPassword) => {
     } catch (error) {
         console.error('Error changing password:', error);
         throw new Error('Error changing password');
+
     }
 };
 
@@ -207,6 +223,7 @@ module.exports = {
     updateUserPassword,
     updateAvatar,
     isUserBanned,
+    activateUser,
     changeUserPassword,
     checkEmailExists
 };

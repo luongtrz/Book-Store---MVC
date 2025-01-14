@@ -32,8 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
     togglePaymentDetails();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('JavaScript is working!');
+document.querySelectorAll('input[name="payment"]').forEach((input) => {
+    input.addEventListener('change', (event) => {
+        document.getElementById('selected-payment-method').value = event.target.value;
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -10,12 +10,24 @@ exports.getPaymentPage = async (req, res) => {
     res.status(500).send('Error fetching cart items');
   }
 };
+
 exports.submitPayment = async (req, res) => {
   try {
-    const paymentResult = await paymentService.processPayment(req.user.id);
+    const selectedPaymentMethod = req.body.selectedPaymentMethod;
 
-    // Redirect user to the ZaloPay payment URL
-    res.redirect(paymentResult.order_url);
+    if (selectedPaymentMethod === 'zalopay') {
+      const paymentResult = await paymentService.processPayment(req.user.id);
+      res.redirect(paymentResult.order_url);
+    } else if (selectedPaymentMethod === 'COD') {
+      const result = await paymentService.processCODPayment(req.user.id);
+      if (result.status === 'success') {
+        res.render('orderSuccess', { message: 'Đã đặt hàng thành công' });
+      } else {
+        res.render('orderFailure', { message: 'Đặt hàng không thành công' });
+      }
+    } else {
+      res.status(400).send('Invalid payment method');
+    }
   } catch (error) {
     console.error('Error processing payment:', error);
     res.status(500).send('Error processing payment');
