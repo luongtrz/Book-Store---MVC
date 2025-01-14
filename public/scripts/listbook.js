@@ -34,8 +34,14 @@ async function fetchBooks(page = 1, sortField = '', sortOrder = '') {
   const genre = document.getElementById('genre-filter').value;
   const author = document.getElementById('author-filter').value;
   const purchaseCount = document.getElementById('sold-filter').value;
-  const price = document.getElementById('price-filter').value;
+  const priceMin = document.getElementById('price-min').value;
+  const priceMax = document.getElementById('price-max').value;
   const searchText = document.getElementById('search-text').value;
+
+  if ((priceMin && !priceMax) || (!priceMin && priceMax)) {
+    alert('Please enter both minimum and maximum price.');
+    return;
+  }
 
   const loadingIndicator = document.getElementById('loading-indicator');
   if (loadingIndicator) loadingIndicator.style.display = 'block';
@@ -50,7 +56,7 @@ async function fetchBooks(page = 1, sortField = '', sortOrder = '') {
         genre,
         author,
         purchaseCount,
-        price,
+        price: `${priceMin}-${priceMax}`,
         searchText,
         page,
         limit: ITEMS_PER_PAGE,

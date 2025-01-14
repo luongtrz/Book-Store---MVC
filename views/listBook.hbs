@@ -87,15 +87,19 @@
   </ul>
 
   <ul class="filter-list" id="prices">
-    <li class="nav-item">
-      <select id="price-filter" class="form-control px-2">
-        <option value="">Giá (VND)</option>
-        <option value="0-100000">0 - 100000</option>
-        <option value="100000-200000">100.000 - 200.000</option>
-        <option value="200000-300000">200.000 - 300.000</option>
-        <option value="300000-400000">300.000 - 400.000</option>
-
-      </select>
+    <li class="nav-item flex justify-center items-center space-x-2">
+      <input 
+        type="number" 
+        id="price-min" 
+        class="form-control px-2 py-1 border rounded" 
+        placeholder="Giá tối thiểu (VND)"
+      >
+      <input 
+        type="number" 
+        id="price-max" 
+        class="form-control px-2 py-1 border rounded" 
+        placeholder="Giá tối đa (VND)"
+      >
     </li>
   </ul>
 
