@@ -24,7 +24,7 @@ exports.login = async (req, res, next) => {
         return res.status(400).render('login', { title: 'Sign In Page', error: 'Invalid email or password' });
       }
       if (user.activated_status === false || user.activated_status === null) {
-            return res.status(400).render('login', { title: 'Sign In Page', error: 'Please activate your account' });
+        return res.status(400).render('login', { title: 'Sign In Page', error: 'Please activate your account' });
         }
       try {
         req.logIn(user, (err) => {
@@ -57,22 +57,23 @@ exports.googleAuthCallback = (req, res, next) => {
     try {
         const user = await userServices.findUserByEmail(email);
         
-        if (!user) {
-            return res.status(400).render('forgotPassword', { error: 'Email does not exist please register and activate account' });
+    if (!user) {
+        return res.status(400).render('forgotPassword', { error: 'Email does not exist please register and activate account' });
+    }
+    const isBanned = await userServices.isUserBanned(user.email);
+    if (isBanned) {
+    return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned.' });
+    }
+    req.logIn(user, (err) => {
+    if (err) {
+        return next(err);
 
-      const isBanned = await userServices.isUserBanned(user.email);
-      if (isBanned) {
-        return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned.' });
-      }
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-
-        }
-        req.session.userEmail = user.email;
-        return res.redirect('/');
+    }
+    req.session.userEmail = user.email;
+    return res.redirect('/');
       });
-    } catch (error) {
+    } 
+    catch (error) {
       res.status(500).json({ error: 'Server error' });
     }
   })(req, res, next);
@@ -176,6 +177,7 @@ exports.postResetPassword = async (req, res) => {
   if (!token || !verify(token)) {
       return res.render('resetPassword', { expired: true });
   }
+};
 
 exports.checkBannedUser = async (req, res) => {
   console.log('Checking if user is banned by checkbanndeduser');
@@ -196,4 +198,25 @@ exports.checkEmailExists = async (email) => {
   } catch (error) {
     throw new Error('Error checking email existence');
   }
+};
+
+exports.getForgotPassword = (req, res) => {
+    res.render('forgotPassword', { title: 'Forgot Password' });
+};
+
+exports.postForgotPassword = async (req, res) => {
+    const email = req.body.email;
+    try {
+        const user = await userServices.findUserByEmail(email);
+        if (!user) {
+            return res.status(400).render('forgotPassword', { error: 'Email not found' });
+        }
+        const host = req.header('host');
+        const resetLink = `${req.protocol}://${host}/users/reset?token=${sign(email)}&email=${email}`;
+        await sendForgotPasswordEmail(user, host, resetLink);
+        res.render('forgotPassword', { success: 'Reset password link sent to your email' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send('Server error');
+    }
 };
