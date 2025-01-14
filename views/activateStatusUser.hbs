@@ -5,8 +5,15 @@
         <div class="mx-auto w-full max-w-[480px]">
           
           <h1 class="mb-4 text-center text-4xl">Activate Account</h1>
-          
           <form action="/users/activate" method="POST" id="formActivate">
+              <input type="hidden" name="email" value="{{email}}">
+              <input type="hidden" name="token" value="{{token}}">
+              <button class="btn btn-primary mt-8 block w-full" type="submit">
+                Activate
+              </button>
+          </form>
+
+          {{!-- <form action="/users/activate" method="POST" id="formActivate">
             
                <div class="bg-red-100 items-center justify-center h-screen">
                     <div class="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -14,7 +21,7 @@
                          <a href="/users/login" class="text-blue-500 underline">Go to Log In</a>
                     </div>
                </div>
-          </form>
+          </form> --}}
           
         </div>
       </div>
@@ -68,7 +75,8 @@
       </div>
     </div>
   </div>
-  <script src=""></script>
+  <script>
+  </script>
 
 </section>
 

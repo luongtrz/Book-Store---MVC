@@ -103,6 +103,7 @@ exports.getActivateAccount = (req, res) => {
         }
        const host = req.header('host');
        const activateLink = `${req.protocol}://${host}/users/activate?token=${sign(email)}&email=${email}`;
+       
        await sendActivateEmail(user, host, activateLink);
        res.render('activateAccount', { success: 'Activate account link sent to your email' });
    } catch (error) {
@@ -118,28 +119,45 @@ exports.getActivateAccount = (req, res) => {
     if (!token || !verify(token)) {
         return res.render('activateStatusUser', { expired: true });
     }
+    // const user = userServices.findUserByEmail(email);
+    // if (!user) {
+    //     return res.status(400).render('activateStatusUser', { error: 'User not found' });
+    // }
+    // user.activated_status = true;
+    // await user.save();
+
     return res.render('activateStatusUser', { email, token });
 };
 exports.postActivate = async (req, res) => {
     const email = req.body.email;
     const token = req.body.token;
+
     try {
         if (!token || !verify(token)) {
             return res.render('activateStatusUser', { expired: true });
         }
-        const user = await User.findOne({ where: { email } });
+
+        const user = await userServices.findUserByEmail(email);
         if (!user) {
             return res.status(400).render('activateStatusUser', { error: 'User not found' });
         }
+
+        if (user.activated_status) {
+            return res.status(400).render('activateStatusUser', { error: 'Account already activated' });
+        }
+
         console.log('Activating account for user1:', user.activated_status);
-        await userServices.activateUser(user.id);
+        user.activated_status = true; // Đặt trạng thái kích hoạt
+        await user.save(); // Lưu vào DB
         console.log('Activating account for user2:', user.activated_status);
+
         res.render('activateStatusUser', { success: 'Account activated successfully' });
     } catch (error) {
         console.error('Error activating account:', error);
         res.status(500).send('Server error');
     }
 };
+
 exports.getResetPassword = (req, res) => {
     const email = req.query.email;
     const token = req.query.token;

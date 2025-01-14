@@ -161,16 +161,19 @@ const isUserBanned = async (userId) => {
     }
 };
 
-const activateUser = async (userId) => {
+const activateUser = async (mail) => {
     try {
-        const user = await User.findByPk(userId);
+        
+        const user = await User.findOne({ where: { email: mail } });
         if (!user) {
             throw new Error('User not found');
         }
-        user.activated_status = true;
+        user.activated_status = TRUE;
         await user.save();
+        return user;
     } catch (error) {
-        throw new Error('Error activating user');
+        console.error('Error activating user:', error);
+        throw error;
     }
 };
 
