@@ -65,6 +65,7 @@ exports.googleAuthCallback = (req, res, next) => {
 
         }
         req.session.userEmail = user.email;
+        console.log('User logged in:', user.email);
         return res.redirect('/');
           });
         } 
