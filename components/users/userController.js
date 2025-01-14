@@ -83,15 +83,15 @@ exports.changePassword = async (req, res) => {
     const { oldPassword, newPassword } = req.body;
     try {
         await userServices.changeUserPassword(req.user.id, oldPassword, newPassword);
-        res.render('resetPassword', { success: 'Password changed successfully!' });
+        res.render('changePassword', { success: 'Password changed successfully!' });
     } catch (error) {
         console.error('Error changing password:', error);
-        res.render('resetPassword', { error: error.message });
+        res.render('changePassword', { error: error.message });
     }
 };
 
 exports.getChangePassword = (req, res) => {
-    res.render('resetPassword', { title: 'Change Password' });
+    res.render('changePassword', { title: 'Change Password' });
 };
 
 exports.checkEmailExists = async (req, res) => {
