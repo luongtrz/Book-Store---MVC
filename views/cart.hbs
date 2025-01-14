@@ -1,0 +1,103 @@
+<section class="page-hero py-16 bg-cover bg-center">
+  <div class="">
+    <div class="text-center">
+      <ul class="breadcrumb inline-flex h-8 items-center justify-center space-x-2 rounded-3xl bg-theme-light px-4 py-2">
+        <li class="leading-none text-dark">
+          <a class="inline-flex items-center text-primary" href="#">
+            <svg class="mr-1.5" width="15" height="15" viewBox="0 0 16 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M13.1769 15.0588H10.3533V9.41178H5.64744V15.0588H2.82391V6.58825H1.88274V16H14.118V6.58825H13.1769V15.0588ZM6.58862 15.0588V10.353H9.41215V15.0588H6.58862ZM15.8084 6.09225L15.2512 6.85178L8.00038 1.52472L0.749559 6.8499L0.192383 6.09131L8.00038 0.357666L15.8084 6.09225Z"
+                fill="black" />
+            </svg>
+            <span class="text-sm leading-none">Home</span>
+          </a>
+        </li>
+        <li class="leading-none text-dark">
+          <span class="text-sm leading-none">/ Cart</span>
+        </li>
+      </ul>
+    </div>
+    <table class="w-full bg-white shadow-md mt-8 px-10">
+      <!-- Header của bảng -->
+      <thead>
+        <tr class="bg-gray-100 text-gray-600 text-left">
+          <th class="py-4 px-10">Book</th>
+          <th class="py-4 px-6">Price</th>
+          <th class="py-4 px-6">Amount</th>
+          <th class="py-4 px-6">Total</th>
+          <th class="py-4 px-6">Delete</th>
+        </tr>
+      </thead>
+
+      <!-- Nội dung của bảng -->
+      <tbody>
+        {{#each cartItems}}
+        <tr class="border-t">
+          <!-- Cột Book -->
+          <td class="py-4 px-6">
+            <div class="flex items-center space-x-4">
+              <img src="{{this.Book.image}}" alt="{{this.Book.title}}"
+                class="w-20 h-20 object-cover rounded-lg shadow-md">
+              <div>
+                <h3 class="text-lg font-medium">{{this.Book.title}}</h3>
+              </div>
+            </div>
+          </td>
+
+          <!-- Cột Price -->
+          <td class="py-4 px-4 text-gray-600">
+            <span class="text-primary font-medium">{{this.Book.price}} ₫</span>
+          </td>
+
+          <!-- Cột Amount -->
+          <td class="py-4 px-4">
+            <div class="flex items-center">
+              <button class="minus-btn text-primary font-medium px-2" data-book-id="{{this.Book.id}}">-</button>
+              <input type="number" name="amount" value="{{this.amount}}" min="1"
+                class="text-center border rounded w-16 h-10">
+              <button class="plus-btn text-primary font-medium px-2" data-book-id="{{this.Book.id}}">+</button>
+            </div>
+          </td>
+
+          <!-- Cột Total -->
+          <td class="py-4 px-4 text-gray-600">
+            <span class="text-primary font-medium">{{this.total}} ₫</span>
+          </td>
+
+          <td class="py-4 px-4">
+            <button class="delete-btn text-red-500" data-book-id="{{this.Book.id}}">Delete</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+
+    <header class="bg-white shadow-md mt-8">
+      <div class="container mx-auto py-4 justify-between items-center">
+        <nav class="w-full">
+          <div class="flex items-center justify-between space-x-4">
+            <span class="text-lg font-medium" id="total-payment">Total Payment ({{cartItems.length}} Products):
+              {{cartTotal}} VND</span>
+            <div class="justify-center items-center flex">
+              <div class="checkout-notification"></div>
+              <a href="/list"
+                class="justify-end bg-red-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark mx-4">Shopping
+                more book</a>
+              <a class="checkout-button justify-end bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark"
+                href="#">
+                Thanh Toán
+              </a>
+
+
+
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+  <script src="/scripts/cartNotification.js"></script>
+  <script src="/scripts/cart.js"></script>
+</section>

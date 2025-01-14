@@ -29,5 +29,3 @@ Thumbs.db
 dist/
 build/
 
-# Tailwind CSS
-public/css/tailwind.css

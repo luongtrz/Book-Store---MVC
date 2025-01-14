@@ -1,0 +1,16 @@
+.container-product {
+
+    width: 500px;
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .container-inforbook{
+    text-align: center;
+    justify-content: center;
+    width: 100px;
+    margin-left: 20px;
+    padding: 0;
+    box-sizing: border-box;
+  }
