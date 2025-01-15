@@ -5,7 +5,7 @@ const MongoStore = require('connect-mongo');
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET ||'luongtrz',
   resave: false,
-  saveUninitialized: flase,
+  saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
     collectionName: 'sessionsss'
