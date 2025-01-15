@@ -1,7 +1,6 @@
 require('dotenv').config();
 require('pg');
 const express = require('express');
-const helmet = require('helmet');
 const path = require('path');
 const passport = require('./config/passportConfig');
 const applyCorsMiddleware = require('./middlewares/corsMiddleware');
@@ -11,7 +10,7 @@ const homeRoutes = require('./components/_mainview/mainViewRoute');
 const bookRoutes = require('./components/books/bookRoutes');
 const userRoutes = require('./components/users/userRoutes');
 //const connectDB = require('./config/database');
-const configureViewEngine = require('./config/viewEngine');
+const configureViewEngine = require('./config/viewEngine'); 
 const sequelize = require('./config/postgreDB');
 
 const db = require('./models/model.index');

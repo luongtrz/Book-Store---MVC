@@ -11,6 +11,7 @@ const paymentRoute = require('../payments/paymentRoute');
 router.get('/login', authController.getLogin);
 
 router.post('/login', authController.login);
+
 router.post('/check-banned', authController.checkBannedUser);
 
 router.get('/auth/google', authController.googleAuth);
@@ -36,8 +37,8 @@ router.post('/activate', authController.postActivate);
 router.get('/profile', ensureAuthenticated, userController.profileUser);
 router.post('/profile', ensureAuthenticated, userController.postProfileUser);
 router.get('/review-user', ensureAuthenticated, userController.reviewUser);
-router.post('/change-password', ensureAuthenticated, userController.changePassword);
 
+router.post('/change-password', ensureAuthenticated, userController.changePassword);
 router.get('/change-password', ensureAuthenticated, userController.getChangePassword);
 
 router.post('/check-email', userController.checkEmailExists);

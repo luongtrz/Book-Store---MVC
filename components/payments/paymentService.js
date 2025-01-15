@@ -6,13 +6,14 @@ const qs = require('qs');
 
 // Cấu hình cho ZaloPay
 const config = {
-  app_id: process.env.ZALOPAY_APP_ID,
-  key1: process.env.ZALOPAY_KEY1,
-  key2: process.env.ZALOPAY_KEY2,
-  endpoint: process.env.ZALOPAY_ENDPOINT,
-  query_endpoint: process.env.ZALOPAY_ENDPOINT2,
-  cancel_endpoint: process.env.ZALOPAY_CANCEL_ENDPOINT,
+  app_id: "2553", // Thay giá trị từ .env vào đây
+  key1: "PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL", // Thay giá trị từ .env vào đây
+  key2: "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz", // Thay giá trị từ .env vào đây
+  endpoint: "https://sb-openapi.zalopay.vn/v2/create", // URL từ .env
+  query_endpoint: "https://sb-openapi.zalopay.vn/v2/query", // URL từ .env
+  cancel_endpoint: "https://sb-openapi.zalopay.vn/v2/cancel", // URL từ .env
 };
+
 exports.getCartItems = async (userId) => {
   try {
     const cartItems = await Cart.findAll({
@@ -105,7 +106,7 @@ exports.processPayment = async (userId) => {
         price: item.Book.price,
         quantity: item.amount,
       }))),
-      embed_data: JSON.stringify({ redirecturl: 'http://localhost:5000/list' }),
+      embed_data: JSON.stringify({ redirecturl: 'https://book-store-mvc-sandy.vercel.app/list' }),
       amount: totalAmount,
       description: `Bookstore - Payment for order #${transID}`,
       bank_code: "",

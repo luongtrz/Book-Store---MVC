@@ -2,10 +2,18 @@
 
 const Mailjet = require('node-mailjet');
 
+// Cấu hình cứng các giá trị
+const mailjetConfig = {
+    publicKey: "f6427e28f5ddcf579c4c536dc8d32179", // Giá trị từ MJ_APIKEY_PUBLIC
+    privateKey: "112d5281f80f5306556b51aa91cebc1f", // Giá trị từ MJ_APIKEY_PRIVATE
+    senderEmail: "vungoca396@gmail.com",
+    senderName: "BookShop",
+};
+
 function sendForgotPasswordEmail(user, host, resetLink) {
     const mailjet = Mailjet.apiConnect(
-        process.env.MJ_APIKEY_PUBLIC, // Ensure these environment variables are correctly set
-        process.env.MJ_APIKEY_PRIVATE
+        mailjetConfig.publicKey, // Sử dụng giá trị cứng
+        mailjetConfig.privateKey // Sử dụng giá trị cứng
     );
     const request = mailjet
         .post('send', { version: 'v3.1' })
@@ -13,8 +21,8 @@ function sendForgotPasswordEmail(user, host, resetLink) {
             Messages: [
                 {
                     From: {
-                        Email: "vungoca396@gmail.com",
-                        Name: "BookShop",
+                        Email: mailjetConfig.senderEmail,
+                        Name: mailjetConfig.senderName,
                     },
                     To: [
                         {
@@ -51,8 +59,8 @@ function sendForgotPasswordEmail(user, host, resetLink) {
 
 function sendActivateEmail(user, host, activateLink) {
     const mailjet = Mailjet.apiConnect(
-        process.env.MJ_APIKEY_PUBLIC, // Ensure these environment variables are correctly set
-        process.env.MJ_APIKEY_PRIVATE
+        mailjetConfig.publicKey, // Sử dụng giá trị cứng
+        mailjetConfig.privateKey // Sử dụng giá trị cứng
     );
     const request = mailjet
         .post('send', { version: 'v3.1' })
@@ -60,8 +68,8 @@ function sendActivateEmail(user, host, activateLink) {
             Messages: [
                 {
                     From: {
-                        Email: "vungoca396@gmail.com",
-                        Name: "BookShop",
+                        Email: mailjetConfig.senderEmail,
+                        Name: mailjetConfig.senderName,
                     },
                     To: [
                         {
@@ -95,4 +103,5 @@ function sendActivateEmail(user, host, activateLink) {
             throw error;
         });
 }
+
 module.exports = { sendForgotPasswordEmail, sendActivateEmail };
