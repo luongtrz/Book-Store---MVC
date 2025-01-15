@@ -1,7 +1,6 @@
 require('dotenv').config();
 require('pg');
 const express = require('express');
-const helmet = require('helmet');
 const path = require('path');
 const passport = require('./config/passportConfig');
 const applyCorsMiddleware = require('./middlewares/corsMiddleware');
