@@ -41,6 +41,7 @@ const updateCart = async (bookId, amount) => {
         });
         let updatedCart = await response.json();
         updateCartUI(updatedCart.newCart);
+        fetchCartItemCount();
     } catch (error) {
         console.error('Error:', error);
     }
