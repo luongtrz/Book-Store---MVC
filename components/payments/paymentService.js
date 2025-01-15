@@ -92,6 +92,17 @@ exports.processPayment = async (userId) => {
 
     const totalAmount = cartItems.reduce((sum, item) => sum + item.total, 0);
 
+    const environment = process.env.NODE_ENV || 'development';
+    let redirectUrl;
+    if (environment === 'development') {
+      redirectUrl = process.env.REDIRECT_URL_DEV;
+    } else if (environment === 'staging') {
+      redirectUrl = process.env.REDIRECT_URL_STAGING;
+    } else {
+      redirectUrl = process.env.REDIRECT_URL_PROD;
+    }
+    console.log('Redirect URL:', redirectUrl);
+
     // Generate order data
     const transID = Math.floor(Math.random() * 1000000);
     const appTransId = `${moment().format('YYMMDD')}_${transID}`;
@@ -106,8 +117,7 @@ exports.processPayment = async (userId) => {
         price: item.Book.price,
         quantity: item.amount,
       }))),
-      // embed_data: JSON.stringify({ redirecturl: 'https://book-store-mvc-sandy.vercel.app/list' }),
-      embed_data: JSON.stringify({ redirecturl: 'https://book-store-mvc-rho.vercel.app/list' }),
+      embed_data: JSON.stringify({ redirecturl: redirectUrl }),
       amount: totalAmount,
       description: `Bookstore - Payment for order #${transID}`,
       bank_code: "",
@@ -119,6 +129,7 @@ exports.processPayment = async (userId) => {
     order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
 
     // Send payment request to ZaloPay
+    console.log('config endpoint:', config.endpoint);
     const response = await axios.post(config.endpoint, null, { params: order });
 
     if (response.data.return_code !== 1) {
@@ -165,7 +176,7 @@ exports.processPayment = async (userId) => {
   }
 };
 
-                                        
+
 exports.cancelPayment = async (appTransId) => {
   try {
     const postData = {
@@ -204,16 +215,16 @@ exports.cancelPayment = async (appTransId) => {
 };
 
 exports.getUserDetails = async (userId) => {
-    try {
-      const user = await User.findByPk(userId);
-      const contact = await Contact.findOne({ where: { user_id: userId } });
-  
-      return { user, contact };
-    } catch (error) {
-      console.error('Error fetching user details:', error);
-      throw new Error('Error fetching user details');
-    }
-  };
+  try {
+    const user = await User.findByPk(userId);
+    const contact = await Contact.findOne({ where: { user_id: userId } });
+
+    return { user, contact };
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    throw new Error('Error fetching user details');
+  }
+};
 
 exports.processCODPayment = async (userId) => {
   try {
