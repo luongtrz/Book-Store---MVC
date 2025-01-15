@@ -20,7 +20,7 @@ exports.login = async (req, res, next) => {
       if (!user) {
         return res.status(400).render('login', { title: 'Sign In Page', error: 'Invalid email or password' });
       }
-      if (user.activated_status === false || user.activated_status === null) {
+      if (user.dataValues.activated_status === false || user.dataValues.activated_status === null) {
         return res.status(400).render('login', { title: 'Sign In Page', error: 'Please activate your account' });
       }
       try {
@@ -70,6 +70,11 @@ exports.googleAuthCallback = (req, res, next) => {
         if (!forgot1 || !forgot2) {
             return res.status(400).render('forgotPassword', { error: 'Email does not exist please register and activate account' });
         }
+
+        if (user.dataValues.activated_status === false || user.dataValues.activated_status === null) {
+          return res.status(400).render('login', { title: 'Sign In Page', error: 'Please activate your account' });
+        }
+        
         const isBanned = await userServices.isUserBanned(user.dataValues.email);
         if (isBanned) {
         return res.status(403).render('login', { title: 'Sign In Page', error: 'Your account has been banned.' });
