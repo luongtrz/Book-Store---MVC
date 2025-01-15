@@ -11,7 +11,7 @@ const homeRoutes = require('./components/_mainview/mainViewRoute');
 const bookRoutes = require('./components/books/bookRoutes');
 const userRoutes = require('./components/users/userRoutes');
 //const connectDB = require('./config/database');
-const configureViewEngine = require('./config/viewEngine');
+const configureViewEngine = require('./config/viewEngine'); 
 const sequelize = require('./config/postgreDB');
 
 const db = require('./models/model.index');
